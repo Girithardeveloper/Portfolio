@@ -6,13 +6,13 @@ import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:portfolio/Helper/colorConstants.dart';
 import 'package:portfolio/Helper/fontConstants.dart';
 
+import '../Model/projectModel.dart';
 import '../globalWidgets/responsiveSizeWidget.dart';
 import '../globalWidgets/textWidget.dart';
 
 class HomeView extends StatelessWidget {
    HomeView({super.key});
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   HomeController homeController = Get.put(HomeController());
 
@@ -28,7 +28,6 @@ class HomeView extends StatelessWidget {
     bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
     return  Scaffold(
-      // key: _scaffoldKey,
       backgroundColor: ColorConstants.whiteColor,
       appBar: AppBar(
         toolbarHeight: ResponsiveSize.getSize(context, screenSize.height*0.08),
@@ -41,11 +40,17 @@ class HomeView extends StatelessWidget {
         ),
         actions: isTabletOrMobile
             ? [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white,size: 40,),
-            onPressed: () {
-              // _scaffoldKey.currentState?.openDrawer();
-            },
+
+
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu, color: Colors.white,size: 40,),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            }
           ),
           SizedBox(width: ResponsiveSize.getSize(context, screenSize.width * 0.02),),
 
@@ -147,18 +152,28 @@ class HomeView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                    decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
-                                    child:Text("Download CV",style: TextStyle(fontSize:ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
+                                  InkWell(
+                                    onTap: (){
+                                      homeController.resumeDriveLink();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                      decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
+                                      child:Text("Download CV",style: TextStyle(fontSize:ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
 
+                                    ),
                                   ),
                                   SizedBox(width: 5,),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                    decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
-                                    child:Text("Contact Info",style: TextStyle(fontSize: ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
+                                  InkWell(
+                                    onTap: (){
+                                      HomeController.openEmailApp(toMail: "girithardev@gmail.com");
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                      decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
+                                      child:Text("Contact Info",style: TextStyle(fontSize: ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
 
+                                    ),
                                   ),
                                 ],
                               ),
@@ -172,17 +187,28 @@ class HomeView extends StatelessWidget {
                                     spacing: 0,
                                     alignment: WrapAlignment.center,
                                     children: [
-                                      Lottie.asset(
-                                        'images/lotties/linkedin.json',
-                                        width:ResponsiveSize.getSize(context, 50),
-                                        height: ResponsiveSize.getSize(context, 50),
-                                        fit: BoxFit.fill,
+                                      InkWell(
+                                        onTap: (){
+                                          homeController.linkedInLink();
+
+                                        },
+                                        child: Lottie.asset(
+                                          'images/lotties/linkedin.json',
+                                          width:ResponsiveSize.getSize(context, 50),
+                                          height: ResponsiveSize.getSize(context, 50),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                      Lottie.asset(
-                                        'images/lotties/github.json',
-                                        width: ResponsiveSize.getSize(context, 50),
-                                        height: ResponsiveSize.getSize(context, 50),
-                                        fit: BoxFit.fill,
+                                      InkWell(
+                                        onTap: (){
+                                          homeController.gitHubLink();
+                                        },
+                                        child: Lottie.asset(
+                                          'images/lotties/github.json',
+                                          width: ResponsiveSize.getSize(context, 50),
+                                          height: ResponsiveSize.getSize(context, 50),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -195,7 +221,7 @@ class HomeView extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                           horizontal: getHorizontalPadding(constraints.maxWidth),
                           vertical: 170,  // Keep vertical spacing consistent
-                        ),                         child: Row(
+                        ),                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -227,18 +253,28 @@ class HomeView extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                      decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
-                                       child:Text("Download CV",style: TextStyle(fontSize:ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
+                                    InkWell(
+                                      onTap: (){
+                                        homeController.resumeDriveLink();
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                        decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
+                                        child:Text("Download CV",style: TextStyle(fontSize:ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
 
+                                      ),
                                     ),
                                     SizedBox(width: 5,),
-                                    Container(
-                                      padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
-                                      decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
-                                       child:Text("Contact Info",style: TextStyle(fontSize: ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
+                                    InkWell(
+                                      onTap: (){
+                                        HomeController.openEmailApp(toMail: "girithardev@gmail.com");
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                                        decoration: BoxDecoration(color: ColorConstants.primaryColor,borderRadius: BorderRadius.circular(10),border: Border.all(color: ColorConstants.lightGrey)),
+                                        child:Text("Contact Info",style: TextStyle(fontSize: ResponsiveSize.getSize(context, 16),fontFamily: FontConstants.fontFamily,color: ColorConstants.whiteColor,fontWeight: FontWeight.normal),),
 
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -249,20 +285,30 @@ class HomeView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Wrap(
-                                      spacing: 10,
+                                      spacing: 0,
                                       alignment: WrapAlignment.center,
                                       children: [
-                                        Lottie.asset(
-                                          'images/lotties/linkedin.json',
-                                          width:ResponsiveSize.getSize(context, 50),
-                                          height: ResponsiveSize.getSize(context, 50),
-                                          fit: BoxFit.cover,
+                                        InkWell(
+                                          onTap: (){
+                                            homeController.linkedInLink();
+                                          },
+                                          child: Lottie.asset(
+                                            'images/lotties/linkedin.json',
+                                            width:ResponsiveSize.getSize(context, 50),
+                                            height: ResponsiveSize.getSize(context, 50),
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                        Lottie.asset(
-                                          'images/lotties/github.json',
-                                          width: ResponsiveSize.getSize(context, 50),
-                                          height: ResponsiveSize.getSize(context, 50),
-                                          fit: BoxFit.cover,
+                                        InkWell(
+                                          onTap: (){
+                                            homeController.gitHubLink();
+                                          },
+                                          child: Lottie.asset(
+                                            'images/lotties/github.json',
+                                            width: ResponsiveSize.getSize(context, 50),
+                                            height: ResponsiveSize.getSize(context, 50),
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -277,8 +323,10 @@ class HomeView extends StatelessWidget {
 
                       // **Second Segment (Appears on Scroll)**
                       _buildSecondSegment(isTabletOrMobile,context,screenSize),
+                      SizedBox(height: screenSize.height * 0.2),
                       _buildThirdSegment(isTabletOrMobile,),
-
+                      SizedBox(height: screenSize.height * 0.2),
+                      _buildProjectsGrid(),
 
                     ],
                   ),
@@ -316,154 +364,324 @@ class HomeView extends StatelessWidget {
        crossAxisAlignment: CrossAxisAlignment.center,
        children: [
          // 🌟 About Me Section
-         ReusableTextWidget(text: 'Get To Know More',color: Colors.grey.shade600,),
+         ReusableTextWidget(text: 'Get To Know More',color: Colors.grey.shade600,fontSize: ResponsiveSize.getSize(context, 20),),
          SizedBox(height: 10,),
-         ReusableTextWidget(text: "About Me", fontSize: ResponsiveSize.getSize(context, 30), fontWeight: FontWeight.w700),
-         SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.15),),
-         Row(
+         ReusableTextWidget(text: "About Me", fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+         SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.10),),
+         isMobile?Column(
            mainAxisAlignment: MainAxisAlignment.start,
            crossAxisAlignment: CrossAxisAlignment.center,
            children: [
-             Expanded(
-               child: Container(
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(10),
-                   color: ColorConstants.primaryColor,
-                   border: Border.all(
-                     width: 0.5,
-                     color: Colors.black,
-                   ),
-
+             Container(
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(10),
+                 color: ColorConstants.primaryColor,
+                 border: Border.all(
+                   width: 0.5,
+                   color: Colors.black,
                  ),
-                 child: Container(
-                     margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
 
-                     // margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.01), right: ResponsiveSize.getSize(context, screenSize.width * 0.01), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
-                   decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       color: ColorConstants.whiteColor,
-                       border: Border.all(
-                         width: 0.5,
-                         color: Colors.black,
-                       ),
-
-                   ),
-                     child: Padding(
-                       padding: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
-                       child: ClipRRect(
-                         borderRadius: BorderRadius.circular(10),
-                           child: Image.asset(AssetConstants.profileImage)),
-                     )),
-               )
-             ),
-             SizedBox(width: screenSize.width * 0.04),
-             Expanded(
-               child: Container(
-                 decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(10),
-                     border: Border.all(
-                       width: 0.5,
-                       color: Colors.black,
-                     )
-                 ),
-                 child: Padding(
-                   padding: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.04), right: ResponsiveSize.getSize(context, screenSize.width * 0.04), top: ResponsiveSize.getSize(context, screenSize.height * 0.02), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),),
-                   child: Column(
-                     children: [
-                       Image.asset(
-                         AssetConstants.experienceLogo,
-                         height: ResponsiveSize.getSize(context, 50),
-                         width:ResponsiveSize.getSize(context, 50),
-                       ),
-                       ReusableTextWidget(
-                         text: 'Experience',
-                         fontWeight: FontWeight.bold,
-                         fontSize: ResponsiveSize.getSize(context, 18),
-                         color: Colors.black,
-                       ),
-                       ReusableTextWidget(
-                         text: '3.2+ years',
-                         fontSize:ResponsiveSize.getSize(context, 15),
-                         color: Colors.grey.shade700,
-                       ),
-                       ReusableTextWidget(
-                         text: 'Flutter Application Development',
-                         fontSize: ResponsiveSize.getSize(context, 15),
-                         color: Colors.grey.shade700,
-                         maxLines: 2,
-                         textAlign: TextAlign.center,
-                       ),
-                     ],
-                   ),
-                 ),
                ),
-             ),
-             SizedBox(width: 10,),
-
-             Expanded(
                child: Container(
+                   margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
+
+                   // margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.01), right: ResponsiveSize.getSize(context, screenSize.width * 0.01), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
                  decoration: BoxDecoration(
                      borderRadius: BorderRadius.circular(10),
+                     color: ColorConstants.whiteColor,
                      border: Border.all(
                        width: 0.5,
                        color: Colors.black,
-                     )
+                     ),
+
                  ),
-                 child: Padding(
-                   padding: EdgeInsets.only(left: ResponsiveSize.getSize(context, screenSize.width * 0.04), right: ResponsiveSize.getSize(context, screenSize.width * 0.04), top: ResponsiveSize.getSize(context, screenSize.height * 0.02), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),),
-                   child: Column(
-                     children: [
-                       Image.asset(
-                         AssetConstants.educationLogo,
-                         height:  ResponsiveSize.getSize(context, 50),
-                         width: ResponsiveSize.getSize(context, 50),
-                       ),
-                       ReusableTextWidget(
-                         text: 'Education',
-                         fontWeight: FontWeight.bold,
-                         fontSize:ResponsiveSize.getSize(context, 18),
-                         color: Colors.black,
-                         textAlign: TextAlign.center,
-                       ),
-                       ReusableTextWidget(
-                         text: 'BCA Degree',
-                         fontSize: ResponsiveSize.getSize(context, 15),
-                         color: Colors.grey.shade700,
-                         textAlign: TextAlign.center,
+                   child: Padding(
+                     padding: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
+                     child: ClipRRect(
+                       borderRadius: BorderRadius.circular(10),
+                         child: Image.asset(AssetConstants.profileImageOne,height: ResponsiveSize.getSize(context, screenSize.height * 0.45),fit: BoxFit.fill,)),
+                   )),
+             ),
+             SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
 
+                 Expanded(
+                   child: Container(
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(10),
+                         border: Border.all(
+                           width: 0.5,
+                           color: Colors.black,
+                         )
+                     ),
+                     child: Padding(
+                       padding: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.04), right: ResponsiveSize.getSize(context, screenSize.width * 0.04), top: ResponsiveSize.getSize(context, screenSize.height * 0.02), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),),
+                       child: Column(
+                         children: [
+                           Image.asset(
+                             AssetConstants.experienceLogo,
+                             height: ResponsiveSize.getSize(context, 50),
+                             width:ResponsiveSize.getSize(context, 50),
+                           ),
+                           ReusableTextWidget(
+                             text: 'Experience',
+                             fontWeight: FontWeight.bold,
+                             fontSize: ResponsiveSize.getSize(context, 18),
+                             color: Colors.black,
+                           ),
+                           ReusableTextWidget(
+                             text: '3.2+ years',
+                             fontSize:ResponsiveSize.getSize(context, 15),
+                             color: Colors.grey.shade700,
+                           ),
+                           ReusableTextWidget(
+                             text: 'Flutter Application Development',
+                             fontSize: ResponsiveSize.getSize(context, 15),
+                             color: Colors.grey.shade700,
+                             maxLines: 2,
+                             textAlign: TextAlign.center,
+                           ),
+                         ],
                        ),
-                       ReusableTextWidget(
-                         text: 'Flutter Application Development',
-                         fontSize:ResponsiveSize.getSize(context, 15),
-                         color: Colors.grey.shade700,
-                         textAlign: TextAlign.center,
-                         maxLines: 2,
-
-                       ),
-                     ],
+                     ),
                    ),
                  ),
+                 SizedBox(width: 10,),
+
+                 Expanded(
+                   child: Container(
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(10),
+                         border: Border.all(
+                           width: 0.5,
+                           color: Colors.black,
+                         )
+                     ),
+                     child: Padding(
+                       padding: EdgeInsets.only(left: ResponsiveSize.getSize(context, screenSize.width * 0.04), right: ResponsiveSize.getSize(context, screenSize.width * 0.04), top: ResponsiveSize.getSize(context, screenSize.height * 0.02), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),),
+                       child: Column(
+                         children: [
+                           Image.asset(
+                             AssetConstants.educationLogo,
+                             height:  ResponsiveSize.getSize(context, 50),
+                             width: ResponsiveSize.getSize(context, 50),
+                           ),
+                           ReusableTextWidget(
+                             text: 'Education',
+                             fontWeight: FontWeight.bold,
+                             fontSize:ResponsiveSize.getSize(context, 18),
+                             color: Colors.black,
+                             textAlign: TextAlign.center,
+                           ),
+                           ReusableTextWidget(
+                             text: 'BCA Degree',
+                             fontSize: ResponsiveSize.getSize(context, 15),
+                             color: Colors.grey.shade700,
+                             textAlign: TextAlign.center,
+
+                           ),
+                           ReusableTextWidget(
+                             text: 'Flutter Application Development',
+                             fontSize:ResponsiveSize.getSize(context, 15),
+                             color: Colors.grey.shade700,
+                             textAlign: TextAlign.center,
+                             maxLines: 2,
+
+                           ),
+                         ],
+                       ),
+                     ),
+                   ),
+                 )
+
+               ],
+
+             ),
+             SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 20),
+               child: ReusableTextWidget(
+                 text:
+                 """I am a Flutter developer passionate about building high-performance, cross-platform apps with Dart and Flutter. I also have experience with FastAPI in Python for efficient backend solutions.My skills in Figma help me craft intuitive UI/UX designs, while my knowledge of manual testing ensures product quality. I am deeply interested in product development, from ideation to execution, aiming to create impactful user experiences. Always eager to learn and innovate—let’s build something amazing! 🚀""",
+                 fontSize: isMobile ? 16 : 18,
+                 color: Colors.grey.shade700,
+                 textAlign: TextAlign.center,
+                 maxLines: 10,
                ),
              ),
            ],
+         ):Row(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.center,
+           children: [
+             Container(
+               width:  ResponsiveSize.getSize(context, screenSize.width * 0.20),
+               // margin: EdgeInsets.only(right:  ResponsiveSize.getSize(context, screenSize.width * 0.12),   ),
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(10),
+                 color: ColorConstants.primaryColor,
+                 border: Border.all(
+                   width: 0.5,
+                   color: Colors.black,
+                 ),
 
+               ),
+
+               child: Container(
+                   margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(10),
+                     color: ColorConstants.whiteColor,
+                     border: Border.all(
+                       width: 0.5,
+                       color: Colors.black,
+                     ),
+
+                   ),
+                   child: Padding(
+                     padding: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.005), right: ResponsiveSize.getSize(context, screenSize.width * 0.005), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
+                     child: ClipRRect(
+                         borderRadius: BorderRadius.circular(10),
+                         child: Image.asset(AssetConstants.profileImageOne,height: ResponsiveSize.getSize(context, screenSize.height * 0.45),fit: BoxFit.fill,)),
+                   )),
+             ),
+             SizedBox(width: ResponsiveSize.getSize(context, screenSize.width * 0.04),),
+             Expanded(
+               // width: ResponsiveSize.getSize(context, screenSize.width * 0.4), // Adjust height as needed
+               child: Column(
+                 mainAxisAlignment: MainAxisAlignment.start,
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: [
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Expanded(
+                         child: Container(
+                           decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             border: Border.all(
+                               width: 0.5,
+                               color: Colors.black,
+                             ),
+                           ),
+                           child: Padding(
+                             padding: EdgeInsets.only(
+                               left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+                               right: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+                               top: ResponsiveSize.getSize(context, screenSize.height * 0.02),
+                               bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),
+                             ),
+                             child: Column(
+                               mainAxisSize: MainAxisSize.min, // Ensures Column takes only needed space
+                               children: [
+                                 Image.asset(
+                                   AssetConstants.experienceLogo,
+                                   height: ResponsiveSize.getSize(context, 50),
+                                   width: ResponsiveSize.getSize(context, 50),
+                                 ),
+                                 ReusableTextWidget(
+                                   text: 'Experience',
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: ResponsiveSize.getSize(context, 18),
+                                   color: Colors.black,
+                                 ),
+                                 ReusableTextWidget(
+                                   text: '3.2+ years',
+                                   fontSize: ResponsiveSize.getSize(context, 15),
+                                   color: Colors.grey.shade700,
+                                 ),
+                                 ReusableTextWidget(
+                                   text: 'Flutter Application Development',
+                                   fontSize: ResponsiveSize.getSize(context, 15),
+                                   color: Colors.grey.shade700,
+                                   maxLines: 2,
+                                   textAlign: TextAlign.center,
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                       ),
+                       SizedBox(width: ResponsiveSize.getSize(context, screenSize.width * 0.02),),
+                       Expanded(
+                         child: Container(
+                           decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             border: Border.all(
+                               width: 0.5,
+                               color: Colors.black,
+                             ),
+                           ),
+                           child: Padding(
+                             padding: EdgeInsets.only(
+                               left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+                               right: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+                               top: ResponsiveSize.getSize(context, screenSize.height * 0.02),
+                               bottom: ResponsiveSize.getSize(context, screenSize.height * 0.02),
+                             ),
+                             child: Column(
+                               mainAxisSize: MainAxisSize.min, // Ensures Column takes only needed space
+                               children: [
+                                 Image.asset(
+                                   AssetConstants.educationLogo,
+                                   height: ResponsiveSize.getSize(context, 50),
+                                   width: ResponsiveSize.getSize(context, 50),
+                                 ),
+                                 ReusableTextWidget(
+                                   text: 'Education',
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: ResponsiveSize.getSize(context, 18),
+                                   color: Colors.black,
+                                   textAlign: TextAlign.center,
+                                 ),
+                                 ReusableTextWidget(
+                                   text: 'BCA Degree',
+                                   fontSize: ResponsiveSize.getSize(context, 15),
+                                   color: Colors.grey.shade700,
+                                   textAlign: TextAlign.center,
+                                 ),
+                                 ReusableTextWidget(
+                                   text: 'Flutter Application Development',
+                                   fontSize: ResponsiveSize.getSize(context, 15),
+                                   color: Colors.grey.shade700,
+                                   textAlign: TextAlign.center,
+                                   maxLines: 2,
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                       ),
+                     ],
+                   ),
+                   SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                     child: ReusableTextWidget(
+                       text:
+                       """I am a Flutter developer passionate about building high-performance, cross-platform apps with Dart and Flutter. I also have experience with FastAPI in Python for efficient backend solutions.My skills in Figma help me craft intuitive UI/UX designs, while my knowledge of manual testing ensures product quality. I am deeply interested in product development, from ideation to execution, aiming to create impactful user experiences. Always eager to learn and innovate—let’s build something amazing! 🚀""",
+                       fontSize: isMobile ? 16 : 18,
+                       color: Colors.grey.shade700,
+                       textAlign: TextAlign.center,
+                       maxLines: 10,
+                     ),
+                   ),
+                 ],
+               ),
+             ),
+
+
+
+           ],
          ),
 
-         SizedBox(height: ResponsiveSize.getSize(context, screenSize.height * 0.08),),
-         Padding(
-           padding: const EdgeInsets.symmetric(horizontal: 20),
-           child: ReusableTextWidget(
-             text:
-             """I am a Flutter developer passionate about building high-performance, cross-platform apps with Dart and Flutter. I also have experience with FastAPI in Python for efficient backend solutions.My skills in Figma help me craft intuitive UI/UX designs, while my knowledge of manual testing ensures product quality. I am deeply interested in product development, from ideation to execution, aiming to create impactful user experiences. Always eager to learn and innovate—let’s build something amazing! 🚀""",
-             fontSize: isMobile ? 16 : 18,
-             color: Colors.grey.shade700,
-             textAlign: TextAlign.center,
-             maxLines: 10,
-           ),
-         ),
 
+         SizedBox(height: 50,)
 
-         SizedBox(height: 50),
        ],
      );
    }
@@ -477,26 +695,26 @@ class HomeView extends StatelessWidget {
            crossAxisAlignment: CrossAxisAlignment.center,
            children: [
              // Title
-             ReusableTextWidget(text: 'Explore My', color: Colors.grey.shade600),
+             ReusableTextWidget(text: 'Explore My', color: Colors.grey.shade600,fontSize: ResponsiveSize.getSize(context, 20),),
              SizedBox(height: 10),
              ReusableTextWidget(
-                 text: "Experience", fontSize: 30, fontWeight: FontWeight.w700),
-             SizedBox(height: 100),
+                 text: "Experience", fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+             SizedBox(height: ResponsiveSize.getSize(context, 50),),
 
              // Responsive Row/Column Layout
              isWideScreen
                  ? Row(
                children: [
-                 Expanded(child: _buildSkillContainer("Languages and Frameworks", homeController.languagesAndFrameworks, isMobile),),
+                 Expanded(child: _buildSkillContainer("Languages and Frameworks", homeController.languagesAndFrameworks, isMobile,context),),
                  SizedBox(width: 20),
-                 Expanded(child:  _buildSkillContainer("Tools, IDEs, and Others", homeController.toolsAndIDEs, isMobile)),
+                 Expanded(child:  _buildSkillContainer("Tools, IDEs, and Others", homeController.toolsAndIDEs, isMobile,context)),
                ],
              )
                  : Column(
                children: [
-                 _buildSkillContainer("Languages and Frameworks", homeController.languagesAndFrameworks, isMobile),
+                 _buildSkillContainer("Languages and Frameworks", homeController.languagesAndFrameworks, isMobile,context),
                  SizedBox(height: 20),
-                 _buildSkillContainer("Tools, IDEs, and Database", homeController.toolsAndIDEs, isMobile),
+                 _buildSkillContainer("Tools, IDEs, and Database", homeController.toolsAndIDEs, isMobile,context),
                ],
              ),
            ],
@@ -507,8 +725,8 @@ class HomeView extends StatelessWidget {
 
 
 
-// **Skill Container**
-  Widget _buildSkillContainer(String title, List<Map<String, String>> skillList, bool isMobile) {
+/// **Skill Container**
+  Widget _buildSkillContainer(String title, List<Map<String, String>> skillList, bool isMobile,context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -521,7 +739,7 @@ class HomeView extends StatelessWidget {
             ReusableTextWidget(
               text: title,
               fontWeight: FontWeight.bold,
-              fontSize: isMobile ? 18 : 25,
+              fontSize:ResponsiveSize.getSize(context, 22),
               color: Colors.grey.shade600,
             ),
             SizedBox(height: 40),
@@ -574,6 +792,83 @@ class HomeView extends StatelessWidget {
    }
 
 
+   Widget _buildProjectsGrid() {
+     return LayoutBuilder(
+       builder: (context, constraints) {
+         double width = constraints.maxWidth;
+         int crossAxisCount = width < 600 ? 1 : width < 1000 ? 2 : 3; // Adjust grid columns
+
+         return Column(
+           children: [
+             ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600,fontSize: ResponsiveSize.getSize(context, 20),),
+             SizedBox(height: 10),
+             ReusableTextWidget(
+                 text: "Projects", fontSize:ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+             SizedBox(height:  ResponsiveSize.getSize(context, 50),),
+             GridView.builder(
+               shrinkWrap: true,
+               physics: NeverScrollableScrollPhysics(), // Prevents nested scrolling
+               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                 crossAxisCount: crossAxisCount,
+                 crossAxisSpacing: 20,
+                 mainAxisSpacing: 20,
+                 childAspectRatio: 1.2, // Adjust for proper card proportions
+               ),
+               itemCount: homeController.projects.length,
+               itemBuilder: (context, index) {
+                 return _buildProjectCard( homeController.projects[index],context);
+               },
+             ),
+           ],
+         );
+       },
+     );
+   }
+
+   Widget _buildProjectCard(Project project,context) {
+     return Card(
+       color: Colors.white,
+       elevation: 0,
+       shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(10),
+           side: BorderSide(
+               width: 0.2,
+               color: Colors.black
+           )
+       ),
+       child: Padding(
+         padding: const EdgeInsets.all(12.0),
+         child: Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: [
+             Expanded(
+               child: ClipRRect(
+                 borderRadius: BorderRadius.circular(10),
+                 child: Image.asset(
+                   project.imagePath,
+                   fit: BoxFit.fitWidth, // Shows the full image without cropping
+                   width: double.infinity,
+                   height: 250,
+                 ),
+               ),
+             ),
+             SizedBox(height: 10),
+             ReusableTextWidget(
+               text: project.title,
+               fontSize: ResponsiveSize.getSize(context, 18),
+               fontWeight: FontWeight.bold,
+             ),
+             SizedBox(height: 10,),
+             ReusableTextWidget(
+               text: project.description,
+               maxLines: 5,
+               fontSize: ResponsiveSize.getSize(context, 15),
+             ),
+           ],
+         ),
+       ),
+     );
+   }
 
 
 }
@@ -599,7 +894,7 @@ class SkillWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 5),
               child: Image.asset(
-                'assets/images/tick.jpg',
+                AssetConstants.verifiedLogo,
                 height: 25,
                 width: 25,
               ),
@@ -611,13 +906,13 @@ class SkillWidget extends StatelessWidget {
                 children: [
                   ReusableTextWidget(
                     text: skillName,
-                    fontSize: 18, // Slightly reduced for better responsiveness
+                    fontSize:ResponsiveSize.getSize(context, 20), // Slightly reduced for better responsiveness
                     fontWeight: FontWeight.bold,
                     // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
                   ),
                   ReusableTextWidget(
                     text: experienceLevel,
-                    fontSize: 14,
+                    fontSize:ResponsiveSize.getSize(context, 16) ,
                     // overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -629,3 +924,5 @@ class SkillWidget extends StatelessWidget {
     );
   }
 }
+
+
