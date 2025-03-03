@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,23 +11,23 @@ import '../../Model/projectModel.dart';
 class HomeController extends GetxController{
 
   final List<Map<String, String>> languagesAndFrameworks = [
-    {'name': 'C', 'level': 'Intermediate'},
-    {'name': 'Dart', 'level': 'Experienced'},
-    {'name': 'Kotlin', 'level': 'Beginner'},
-    {'name': 'SQL', 'level': 'Intermediate'},
-    {'name': 'Flutter', 'level': 'Advanced'},
-    {'name': 'Flutter Flow', 'level': 'Advanced'},
-    {'name': 'Golang', 'level': 'Beginner'},
+    {'name': 'C', 'level': 'Intermediate','image':AssetConstants.cLogo},
+    {'name': 'Dart', 'level': 'Experienced','image':AssetConstants.dartLogo},
+    {'name': 'Kotlin', 'level': 'Beginner','image':AssetConstants.kotlinLogo},
+    {'name': 'SQL', 'level': 'Intermediate','image':AssetConstants.sqlLogo},
+    {'name': 'Flutter', 'level': 'Advanced','image':AssetConstants.flutterLogo},
+    {'name': 'Flutter Flow', 'level': 'Advanced','image':AssetConstants.flutterFlowLogo},
+    {'name': 'Golang', 'level': 'Beginner','image':AssetConstants.golangLogo},
   ];
 
   final List<Map<String, String>> toolsAndIDEs = [
-    {'name': 'Android Studio', 'level': 'Experienced'},
-    {'name': 'Git', 'level': 'Advanced'},
-    {'name': 'Postman', 'level': 'Intermediate'},
-    {'name': 'Firebase', 'level': 'Intermediate'},
-    {'name': 'Cloudinary', 'level': 'Intermediate'},
-    {'name': 'Figma', 'level': 'Intermediate'},
-    {'name': 'Jira', 'level': 'Intermediate'},
+    {'name': 'Android Studio', 'level': 'Experienced','image':AssetConstants.androidStudioLogo},
+    {'name': 'Git', 'level': 'Advanced','image':AssetConstants.gitLogo},
+    {'name': 'Postman', 'level': 'Intermediate','image':AssetConstants.postmanLogo},
+    {'name': 'Firebase', 'level': 'Intermediate','image':AssetConstants.firebaseLogo},
+    {'name': 'Cloudinary', 'level': 'Intermediate','image':AssetConstants.cloudinaryLogo},
+    {'name': 'Figma', 'level': 'Intermediate','image':AssetConstants.figmaLogo},
+    {'name': 'Jira', 'level': 'Intermediate','image':AssetConstants.jiraLogo},
 
   ];
 
@@ -35,6 +38,10 @@ class HomeController extends GetxController{
     Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary),
     // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
   ];
+
+  final ScrollController scrollController = ScrollController();
+
+  late Timer _timer;
 
 
   void resumeDriveLink() async {
@@ -85,6 +92,55 @@ class HomeController extends GetxController{
           'subject': subject??""
         }
     ).toString());
+  }
+
+/// Scroll Appbar Menu
+  void scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    _startAutoScroll();
+    super.onInit();
+  }
+
+  void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+      if (scrollController.hasClients) {
+        double maxScroll = scrollController.position.maxScrollExtent;
+
+        if (maxScroll > 0) { // Ensure there is content to scroll
+          double currentScroll = scrollController.offset;
+          double nextScroll = currentScroll + 200.0;
+
+          if (nextScroll >= maxScroll) {
+            scrollController.animateTo(0,
+                duration: Duration(seconds: 1), curve: Curves.easeInOut);
+          } else {
+            scrollController.animateTo(nextScroll,
+                duration: Duration(seconds: 1), curve: Curves.easeInOut);
+          }
+        }
+      }
+    });
+  }
+
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    scrollController.dispose();
+    super.dispose();
   }
 
 
