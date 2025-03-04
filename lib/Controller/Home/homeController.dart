@@ -24,6 +24,7 @@ class HomeController extends GetxController{
     {'name': 'Android Studio', 'level': 'Experienced','image':AssetConstants.androidStudioLogo},
     {'name': 'Git', 'level': 'Advanced','image':AssetConstants.gitLogo},
     {'name': 'Postman', 'level': 'Intermediate','image':AssetConstants.postmanLogo},
+    {'name': 'Slack', 'level': 'Experienced','image':AssetConstants.slackLogo},
     {'name': 'Firebase', 'level': 'Intermediate','image':AssetConstants.firebaseLogo},
     {'name': 'Cloudinary', 'level': 'Intermediate','image':AssetConstants.cloudinaryLogo},
     {'name': 'Figma', 'level': 'Intermediate','image':AssetConstants.figmaLogo},
