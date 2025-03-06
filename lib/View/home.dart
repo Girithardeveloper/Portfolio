@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -5,6 +6,7 @@ import 'package:portfolio/Controller/Home/homeController.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:portfolio/Helper/colorConstants.dart';
 import 'package:portfolio/Helper/fontConstants.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Model/projectModel.dart';
@@ -21,6 +23,9 @@ class HomeView extends StatelessWidget {
   final GlobalKey projectsKey = GlobalKey();
   final GlobalKey toolsKey = GlobalKey();
   final GlobalKey blogKey = GlobalKey();
+  final GlobalKey contactKey = GlobalKey();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +105,7 @@ class HomeView extends StatelessWidget {
                     child: _menuItem("Tools", screenSize, context)),
                 InkWell(
                     onTap: () {
-                      HomeController.openEmailApp(
-                          toMail: "girithardev@gmail.com");
+                      homeController.scrollToSection(contactKey);
                     },
                     child: _menuItem("Contact", screenSize, context)),
                 SizedBox(
@@ -130,7 +134,7 @@ class HomeView extends StatelessWidget {
                   _drawerItem("Projects", context, projectsKey),
                   _drawerItem("Blog", context, blogKey),
                   _drawerItem("Tools", context, toolsKey),
-                  _drawerItem("Contact", context, ''),
+                  _drawerItem("Contact", context, contactKey),
                 ],
               ),
             )
@@ -554,31 +558,35 @@ class HomeView extends StatelessWidget {
                     child: _buildSecondSegment(
                         isTabletOrMobile, context, screenSize),
                   ),
-                  SizedBox(height: screenSize.height * 0.2),
+                  SizedBox(height: screenSize.height * 0.1),
                   _buildThirdSegment(
                     isTabletOrMobile,
                   ),
-                  SizedBox(height: screenSize.height * 0.2),
+                  SizedBox(height: screenSize.height * 0.1),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: getHorizontalPadding(constraints.maxWidth),
                     ),
                     child: _buildToolsSegment(isTabletOrMobile, screenSize),
                   ),
-                  SizedBox(height: screenSize.height * 0.2),
+                  SizedBox(height: screenSize.height * 0.1),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: getHorizontalPadding(constraints.maxWidth),
                     ),
-                    child: _buildProjectsGrid(),
+                    child: _buildProjectsCarousel(isTabletOrMobile,context),
                   ),
-                  SizedBox(height: screenSize.height * 0.2),
+                  SizedBox(height: screenSize.height * 0.1),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: getHorizontalPadding(constraints.maxWidth),
                     ),
                     child: _buildBloGGrid(),
                   ),
+                  SizedBox(height: screenSize.height * 0.2),
+                  SizedBox(
+                    height: 600,
+                      child: _buildContact(isTabletOrMobile,screenSize,context))
                 ],
               ),
             ),
@@ -587,12 +595,12 @@ class HomeView extends StatelessWidget {
       }),
       floatingActionButton: Container(
         width: ResponsiveSize.getSize(
-            context, 80),
+            context, 90),
         height: ResponsiveSize.getSize(
-            context, 80),
+            context, 90),
         margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
-            context, 60),right: ResponsiveSize.getSize(
-            context, 60) ),
+            context, 50),right: ResponsiveSize.getSize(
+            context, 50) ),
         child: FloatingActionButton(
           elevation: 0,
           shape: CircleBorder(),
@@ -617,7 +625,15 @@ class HomeView extends StatelessWidget {
               );
             }
           },
-          child: Image.asset(AssetConstants.whatsappLogo,),
+          child: Lottie.asset(
+            'images/lotties/whatsapp.json',
+            width: ResponsiveSize.getSize(
+                context, 80),
+            height: ResponsiveSize.getSize(
+                context, 80),
+            fit: BoxFit.fill,
+          ),
+          // Image.asset(AssetConstants.whatsappLogo,),
         ),
       ),
     );
@@ -1306,7 +1322,169 @@ class HomeView extends StatelessWidget {
     return 150; // Large screens
   }
 
-  Widget _buildProjectsGrid() {
+  // Widget _buildProjectsGrid() {
+  //   return LayoutBuilder(
+  //     builder: (context, constraints) {
+  //       double width = constraints.maxWidth;
+  //       int crossAxisCount = width < 600
+  //           ? 1
+  //           : width < 1000
+  //               ? 2
+  //               : 3; // Adjust grid columns
+  //
+  //       return Container(
+  //         margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
+  //         key: projectsKey,
+  //         child: Column(
+  //           children: [
+  //             ReusableTextWidget(
+  //               text: 'Browse My',
+  //               color: Colors.grey.shade600,
+  //               fontSize: ResponsiveSize.getSize(context, 20),
+  //             ),
+  //             SizedBox(height: 10),
+  //             ReusableTextWidget(
+  //                 text: "Projects",
+  //                 fontSize: ResponsiveSize.getSize(context, 24),
+  //                 fontWeight: FontWeight.w700),
+  //             SizedBox(
+  //               height: ResponsiveSize.getSize(context, 50),
+  //             ),
+  //             GridView.builder(
+  //               shrinkWrap: true,
+  //               physics:
+  //                   NeverScrollableScrollPhysics(), // Prevents nested scrolling
+  //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //                 crossAxisCount: crossAxisCount,
+  //                 crossAxisSpacing: 20,
+  //                 mainAxisSpacing: 20,
+  //                 mainAxisExtent: ResponsiveSize.getSize(context, 550),
+  //                 childAspectRatio: 1.2, // Adjust for proper card proportions
+  //               ),
+  //               itemCount: homeController.projects.length,
+  //               itemBuilder: (context, index) {
+  //                 return _buildProjectCard(
+  //                     homeController.projects[index], context);
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget _buildProjectsCarousel(bool isMobile,context) {
+    return Container(
+      key: projectsKey,
+      margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
+      child:GetBuilder<HomeController>(
+        builder: (controller) {
+          return Column(
+            children: [
+              ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600, fontSize: ResponsiveSize.getSize(context, 20),),
+              SizedBox(height: ResponsiveSize.getSize(context, 10)),
+
+              ReusableTextWidget(
+                  text: "Projects",  fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+              SizedBox(height: ResponsiveSize.getSize(context, 50)),
+
+              CarouselSlider(
+                carouselController: homeController.carouselController,
+                options: CarouselOptions(
+                  height: isMobile ? 300 : 500, // Adjust as needed
+                  onPageChanged: (index, reason) {
+                    homeController.currentIndex = index;
+                    homeController.update();
+                  },
+                  enlargeCenterPage: true, // Makes the current item bigger
+                  autoPlay: true, // Enables auto sliding
+                  autoPlayInterval: Duration(seconds: 3), // Time for auto slide
+                  viewportFraction: 0.5, // Controls how much of the next/prev items are shown
+                ),
+                items:  homeController.projects.map((project) {
+                  return _buildProjectCard(project);
+                }).toList(),
+              ),
+
+              SizedBox(height: ResponsiveSize.getSize(context, 60)),
+
+
+              // SmoothPageIndicator for carousel dots
+              AnimatedSmoothIndicator(
+                activeIndex: homeController.currentIndex,
+                count: homeController.projects.length,
+                effect: ExpandingDotsEffect(
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  activeDotColor: ColorConstants.primaryColor, // Customize as needed
+                ),
+                onDotClicked: (index) {
+                  homeController.carouselController.animateToPage(index,);
+
+                },
+              ),
+
+            ],
+          );
+        }
+      ),
+    );
+  }
+
+
+  Widget _buildProjectCard(Project project) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: project.backgroundColor,
+        // boxShadow: [
+        //   BoxShadow(color: project.backgroundColor, blurRadius: 5, spreadRadius: 2),
+        // ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                project.imagePath,
+                fit: BoxFit.contain,
+
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              left: 10,
+              child: ReusableTextWidget(
+                text: project.title,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildBloGGrid() {
     return LayoutBuilder(
       builder: (context, constraints) {
         double width = constraints.maxWidth;
@@ -1318,17 +1496,17 @@ class HomeView extends StatelessWidget {
 
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: projectsKey,
+          key: blogKey,
           child: Column(
             children: [
               ReusableTextWidget(
-                text: 'Browse My',
+                text: 'Explore My',
                 color: Colors.grey.shade600,
                 fontSize: ResponsiveSize.getSize(context, 20),
               ),
               SizedBox(height: 10),
               ReusableTextWidget(
-                  text: "Projects",
+                  text: "Blogs",
                   fontSize: ResponsiveSize.getSize(context, 24),
                   fontWeight: FontWeight.w700),
               SizedBox(
@@ -1342,13 +1520,12 @@ class HomeView extends StatelessWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
-                  mainAxisExtent: ResponsiveSize.getSize(context, 550),
                   childAspectRatio: 1.2, // Adjust for proper card proportions
                 ),
                 itemCount: homeController.projects.length,
                 itemBuilder: (context, index) {
-                  return _buildProjectCard(
-                      homeController.projects[index], context);
+                  return _buildBlocCard(
+                      homeController.projects[index],context);
                 },
               ),
             ],
@@ -1358,7 +1535,9 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildProjectCard(Project project, context) {
+
+
+  Widget _buildBlocCard(Project project, context) {
     return Card(
       color: Colors.white,
       elevation: 0,
@@ -1401,54 +1580,364 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildBloGGrid() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        int crossAxisCount = width < 600
-            ? 1
-            : width < 1000
-                ? 2
-                : 3; // Adjust grid columns
 
-        return Container(
-          margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: blogKey,
-          child: Column(
-            children: [
-              ReusableTextWidget(
-                text: 'Explore My',
-                color: Colors.grey.shade600,
-                fontSize: ResponsiveSize.getSize(context, 20),
-              ),
-              SizedBox(height: 10),
-              ReusableTextWidget(
-                  text: "Blogs",
-                  fontSize: ResponsiveSize.getSize(context, 24),
-                  fontWeight: FontWeight.w700),
-              SizedBox(
-                height: ResponsiveSize.getSize(context, 50),
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                physics:
-                    NeverScrollableScrollPhysics(), // Prevents nested scrolling
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 1.2, // Adjust for proper card proportions
+  ///Contact Info
+
+  Widget _buildContact(bool isMobile,Size screenSize,context) {
+    return Container(
+      width: screenSize.width,
+      decoration: BoxDecoration(color: ColorConstants.primaryColor,),
+      key:contactKey,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isWide = constraints.maxWidth > 600;
+          double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
+          double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
+          return Center(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width:  constraints.maxWidth * 1,
+                height: formHeight, // Set height dynamically
+                child: Padding(
+                  padding:  EdgeInsets.only(left:  padding, right: padding),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ReusableTextWidget(
+                          text: 'Contact with me to sizzle your project',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          color: ColorConstants.whiteColor,
+                        ),
+                        const SizedBox(height: 10),
+                        ReusableTextWidget(
+                          text: "Feel free to contact me if you have any questions. "
+                              "I'm available for new projects or just for chatting.",
+                          textAlign: TextAlign.center,
+                          fontSize: 16,
+                          maxLines: 3,
+                          color: ColorConstants.whiteColor,
+
+
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Responsive Name & Email Fields
+                        isWide
+                            ? Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                style: TextStyle(color: ColorConstants.whiteColor,),
+                                decoration: const InputDecoration(
+                                  labelText: "Name",
+                                  labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                  focusedBorder:OutlineInputBorder(
+                                    borderSide:  BorderSide(
+                                      color: ColorConstants.whiteColor,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:  BorderSide(
+                                      color: ColorConstants.whiteColor,
+                                    ),
+                                  ),
+                                  border: OutlineInputBorder(),
+                                  focusColor: ColorConstants.whiteColor,
+                                  hoverColor: ColorConstants.whiteColor,
+                                ),
+                                validator: (value) =>
+                                value!.isEmpty ? "Enter your name" : null,
+                              ),
+                            ),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: TextFormField(
+                                style: TextStyle(color: ColorConstants.whiteColor,),
+
+                                decoration: const InputDecoration(
+                                  labelText: "Email",
+                                  labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                  border: OutlineInputBorder(),
+                                  focusedBorder:OutlineInputBorder(
+                                    borderSide:  BorderSide(
+                                      color: ColorConstants.whiteColor,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:  BorderSide(
+                                      color: ColorConstants.whiteColor,
+                                    ),
+                                  ),
+                                  focusColor: ColorConstants.whiteColor,
+                                  hoverColor: ColorConstants.whiteColor,
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) =>
+                                value!.isEmpty ? "Enter a valid email" : null,
+                              ),
+                            ),
+                          ],
+                        )
+                            : Column(
+                          children: [
+                            TextFormField(
+                              style: TextStyle(color: ColorConstants.whiteColor,),
+                              decoration: const InputDecoration(
+                                labelText: "Name",
+                                labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                border: OutlineInputBorder(),
+                                focusedBorder:OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.whiteColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.whiteColor,
+                                  ),
+                                ),
+                                focusColor: ColorConstants.whiteColor,
+                                hoverColor: ColorConstants.whiteColor,
+                              ),
+                              validator: (value) =>
+                              value!.isEmpty ? "Enter your name" : null,
+                            ),
+                            const SizedBox(height: 15),
+                            TextFormField(
+                              style: TextStyle(color: ColorConstants.whiteColor,),
+                              decoration: const InputDecoration(
+                                labelText: "Email",
+                                labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                border: OutlineInputBorder(),
+                                focusedBorder:OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.whiteColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.whiteColor,
+                                  ),
+                                ),
+                                focusColor: ColorConstants.whiteColor,
+                                hoverColor: ColorConstants.whiteColor,
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) =>
+                              value!.isEmpty ? "Enter a valid email" : null,
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 15),
+                        TextFormField(
+                          style: TextStyle(color: ColorConstants.whiteColor,),
+                          decoration: const InputDecoration(
+                            labelText: "Description...",
+                            labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                            border: OutlineInputBorder(),
+                            focusedBorder:OutlineInputBorder(
+                              borderSide:  BorderSide(
+                                color: ColorConstants.whiteColor,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:  BorderSide(
+                                color: ColorConstants.whiteColor,
+                              ),
+                            ),
+                            focusColor: ColorConstants.whiteColor,
+                            hoverColor: ColorConstants.whiteColor,
+
+                          ),
+                          maxLines: 4,
+                          validator: (value) =>
+                          value!.isEmpty ? "Enter work details" : null,
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorConstants.whiteColor,
+                              foregroundColor: ColorConstants.primaryColor,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Handle form submission
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Form Submitted")),
+                                );
+                              }
+                            },
+                            child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold),),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                itemCount: homeController.projects.length,
-                itemBuilder: (context, index) {
-                  return _buildProjectCard(
-                      homeController.projects[index], context);
-                },
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
+    );
+
+
+
+  }
+
+
+}
+
+
+class ContactFormScreen extends StatelessWidget {
+  ContactFormScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        color: Colors.grey,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            bool isWide = constraints.maxWidth > 600;
+            double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
+            double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
+            return Center(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width:  constraints.maxWidth * 1,
+                  height: formHeight, // Set height dynamically
+                  child: Padding(
+                    padding:  EdgeInsets.only(left:  padding, right: padding),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ReusableTextWidget(
+                            text: 'Contact with me to sizzle your project',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 10),
+                          ReusableTextWidget(
+                            text: "Feel free to contact me if you have any questions. "
+                                "I'm available for new projects or just for chatting.",
+                            textAlign: TextAlign.center,
+                            fontSize: 16,
+                            maxLines: 3,
+
+                          ),
+                          const SizedBox(height: 20),
+
+                          // Responsive Name & Email Fields
+                          isWide
+                              ? Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: "Name",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) =>
+                                  value!.isEmpty ? "Enter your name" : null,
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              Expanded(
+                                child: TextFormField(
+                                  decoration: const InputDecoration(
+                                    labelText: "Email",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) =>
+                                  value!.isEmpty ? "Enter a valid email" : null,
+                                ),
+                              ),
+                            ],
+                          )
+                              : Column(
+                            children: [
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Name",
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) =>
+                                value!.isEmpty ? "Enter your name" : null,
+                              ),
+                              const SizedBox(height: 15),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Email",
+                                  border: OutlineInputBorder(),
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) =>
+                                value!.isEmpty ? "Enter a valid email" : null,
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: "Description...",
+                              border: OutlineInputBorder(),
+                            ),
+                            maxLines: 4,
+                            validator: (value) =>
+                            value!.isEmpty ? "Enter work details" : null,
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 15),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  // Handle form submission
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text("Form Submitted")),
+                                  );
+                                }
+                              },
+                              child: const Text("Submit"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

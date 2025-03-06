@@ -1,6 +1,6 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,6 +9,12 @@ import '../../Helper/appDescriptionConstants.dart';
 import '../../Model/projectModel.dart';
 
 class HomeController extends GetxController{
+
+
+  int currentIndex = 0;
+
+  final CarouselSliderController carouselController = CarouselSliderController();
+
 
   final List<Map<String, String>> languagesAndFrameworks = [
     {'name': 'C', 'level': 'Intermediate','image':AssetConstants.cLogo},
@@ -34,9 +40,9 @@ class HomeController extends GetxController{
 
 
   final List<Project> projects = [
-    Project(imagePath: AssetConstants.nearleDealsProjectImage, title: 'Nearle Deals', description: TextConst.aboutNearleDeals),
-    Project(imagePath: AssetConstants.nearleXpressProjectImage, title: 'Nearle Xpress', description: TextConst.aboutNearleXpress),
-    Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary),
+    Project(imagePath: AssetConstants.nearleDealsProjectImage, title: 'Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f) ),
+    Project(imagePath: AssetConstants.nearleXpressProjectImage, title: 'Nearle Xpress', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f) ),
+    Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad)),
     // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
   ];
 
