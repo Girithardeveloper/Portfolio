@@ -6,6 +6,7 @@ import 'Controller/orientationController/orientationController.dart';
 import 'globalWidgets/responsiveSizeWidget.dart';
 
 void main() {
+  Get.testMode = true;
   runApp(MyApp());
 }
 

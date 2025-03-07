@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../Helper/appDescriptionConstants.dart';
 import '../../Model/projectModel.dart';
 
@@ -35,6 +34,10 @@ class HomeController extends GetxController{
     {'name': 'Cloudinary', 'level': 'Intermediate','image':AssetConstants.cloudinaryLogo},
     {'name': 'Figma', 'level': 'Intermediate','image':AssetConstants.figmaLogo},
     {'name': 'Jira', 'level': 'Intermediate','image':AssetConstants.jiraLogo},
+    {'name': 'Bitbucket', 'level': 'Intermediate','image':AssetConstants.bitbucketLogo},
+    {'name': 'Canva', 'level': 'Intermediate','image':AssetConstants.canvaLogo},
+    {'name': 'Github', 'level': 'Intermediate','image':AssetConstants.githubLogo},
+    {'name': 'SourceTree', 'level': 'Intermediate','image':AssetConstants.sourceTreeLogo},
 
   ];
 
@@ -45,6 +48,12 @@ class HomeController extends GetxController{
     Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad)),
     // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
   ];
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+
 
   final ScrollController scrollController = ScrollController();
 
@@ -113,6 +122,36 @@ class HomeController extends GetxController{
     }
   }
 
+  /// Email Contact Info
+  Future<void> sendEmail(String name, String email, String description) async {
+    // // final smtpServer = SmtpServer('smtp.mailtrap.io',
+    // //     username: 'girithardev@gmail.com',
+    // //     password: 'Girithardev@5456');
+    // final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456'); // Use your email and password
+    //
+    // final message = Message()
+    //   ..from = Address('girithardev@gmail.com', 'Girithar')
+    //   ..recipients.add(email) // Recipient email
+    //   ..subject = 'Portfolio Contact Form Submission – $name'
+    //   ..text = '''
+    // Name: $name
+    // Email: $email
+    // Description: $description
+    // ''';
+    //
+    // try {
+    //   final sendReport = await send(message, smtpServer);
+    //   if (kDebugMode) {
+    //     print('Message sent: $sendReport');
+    //   }
+    // } catch (e) {
+    //   if (kDebugMode) {
+    //     print('Message not sent. Error: $e');
+    //   }
+    // }
+  }
+
+
 
   @override
   void onInit() {
@@ -121,21 +160,31 @@ class HomeController extends GetxController{
     super.onInit();
   }
 
+
   void _startAutoScroll() {
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
+      if (!Get.isRegistered<HomeController>()) {
+        timer.cancel();
+        return;
+      }
+
       if (scrollController.hasClients) {
         double maxScroll = scrollController.position.maxScrollExtent;
-
-        if (maxScroll > 0) { // Ensure there is content to scroll
+        if (maxScroll > 0) {
           double currentScroll = scrollController.offset;
           double nextScroll = currentScroll + 200.0;
 
           if (nextScroll >= maxScroll) {
-            scrollController.animateTo(0,
-                duration: Duration(seconds: 1), curve: Curves.easeInOut);
+            if (scrollController.hasClients && scrollController.positions.isNotEmpty) {
+              scrollController.animateTo(
+                  0, duration: Duration(seconds: 1), curve: Curves.easeInOut);
+            }
           } else {
-            scrollController.animateTo(nextScroll,
-                duration: Duration(seconds: 1), curve: Curves.easeInOut);
+            if (scrollController.hasClients && scrollController.positions.isNotEmpty) {
+              scrollController.animateTo(
+                  nextScroll, duration: Duration(seconds: 1), curve: Curves.easeInOut);
+            }
+
           }
         }
       }
@@ -145,10 +194,15 @@ class HomeController extends GetxController{
 
   @override
   void dispose() {
-    _timer.cancel();
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
     scrollController.dispose();
     super.dispose();
   }
+
+
+
 
 
 

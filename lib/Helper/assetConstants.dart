@@ -20,8 +20,13 @@ class AssetConstants{
   static const String flutterLogo = 'assets/images/flutter.png';
   static const String dartLogo = 'assets/images/dart.png';
   static const String kotlinLogo = 'assets/images/kotlin.png';
+  static const String bitbucketLogo = 'assets/images/bitbucket.png';
+  static const String canvaLogo = 'assets/images/Canva-logo.png';
+  static const String githubLogo = 'assets/images/github.png';
+  static const String sourceTreeLogo = 'assets/images/sourceTree.png';
   static const String whatsappLogo = 'assets/images/whatsapp.png';
   static const String nearleDealsProjectImage = 'assets/images/Nearle Deals.png';
   static const String nearleXpressProjectImage = 'assets/images/Nearle Xpress.png';
   static const String LegendaryProjectImage = 'assets/images/Legendary.png';
+  static const String GiritharLogoImage = 'assets/images/Girithar logo.png';
 }

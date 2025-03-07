@@ -19,6 +19,9 @@ dependencies:
   url_launcher: ^6.3.1
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.1
+  animated_text_kit: ^4.2.3
+  flutter_mailer: ^3.0.0
+
 
 
 dev_dependencies:
@@ -39,3 +42,6 @@ flutter:
     - family: Helvetica
       fonts:
         - asset: assets/font/Helvetica.ttf
+    - family: Airbeat
+      fonts:
+        - asset: assets/font/airbeat-eaw0j.ttf

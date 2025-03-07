@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,21 +44,29 @@ class HomeView extends StatelessWidget {
         toolbarHeight:
             ResponsiveSize.getSize(context, screenSize.height * 0.08),
         backgroundColor: ColorConstants.primaryColor,
-        leading: isTabletOrMobile ? Container() : null,
-        flexibleSpace: Padding(
-          padding: EdgeInsets.only(
-              left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
-              right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
-              top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
-          child: Text(
-            "Portfolio",
-            style: TextStyle(
-              fontSize: ResponsiveSize.getSize(context, 30),
-              fontFamily: FontConstants.fontFamily,
-              color: ColorConstants.whiteColor,
-            ),
-          ),
-        ),
+        leading: isTabletOrMobile ? Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,): null,
+        title: isTabletOrMobile
+            ?Container():Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+        // flexibleSpace: Padding(
+        //   padding: EdgeInsets.only(
+        //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+        //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
+        //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
+        //   child: Row(
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
+        //     ],
+        //   )
+        //   // Text(
+        //   //   "Portfolio",
+        //   //   style: TextStyle(
+        //   //     fontSize: ResponsiveSize.getSize(context, 30),
+        //   //     fontFamily: FontConstants.fontFamily,
+        //   //     color: ColorConstants.whiteColor,
+        //   //   ),
+        //   // ),
+        // ),
         actions: isTabletOrMobile
             ? [
                 Builder(builder: (context) {
@@ -97,7 +106,7 @@ class HomeView extends StatelessWidget {
                     onTap: () {
                       homeController.scrollToSection(blogKey);
                     },
-                    child: _menuItem("Blog", screenSize, context)),
+                    child: _menuItem("Blogs", screenSize, context)),
                 InkWell(
                     onTap: () {
                       homeController.scrollToSection(toolsKey);
@@ -116,26 +125,47 @@ class HomeView extends StatelessWidget {
       ),
       drawer: isTabletOrMobile
           ? Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  DrawerHeader(
-                    decoration:
-                        BoxDecoration(color: ColorConstants.primaryColor),
-                    child: Text(
-                      "Menu",
-                      style: TextStyle(
-                          fontSize: ResponsiveSize.getSize(context, 24),
-                          color: Colors.white),
+        backgroundColor: ColorConstants.whiteColor,
+              child: Padding(
+                padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          "GIRITHAR K",
+                          textStyle: TextStyle(
+                              fontSize:ResponsiveSize.getSize(
+                                  context, 26),
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Airbeat'
+
+                          ),
+                          textAlign: TextAlign.center,
+                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                        ),
+                      ],
+                      isRepeatingAnimation: false,
                     ),
-                  ),
-                  _drawerItem("About", context, aboutKey),
-                  _drawerItem("Experience", context, experienceKey),
-                  _drawerItem("Projects", context, projectsKey),
-                  _drawerItem("Blog", context, blogKey),
-                  _drawerItem("Tools", context, toolsKey),
-                  _drawerItem("Contact", context, contactKey),
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    _drawerItem("About", context, aboutKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Experience", context, experienceKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Projects", context, projectsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Blogs", context, blogKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Tools", context, toolsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Contact", context, contactKey),
+                  ],
+                ),
               ),
             )
           : null,
@@ -197,37 +227,64 @@ class HomeView extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(top: 15),
-                                    child: Text(
-                                      "Hello I'm",
-                                      style: TextStyle(
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 18),
-                                          fontFamily: FontConstants.fontFamily,
-                                          color: ColorConstants.darkGreyColor),
+                                    child: AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Hello, I'm",
+                                          textStyle: TextStyle(
+                                              fontSize:ResponsiveSize.getSize(
+                                                  context, 18),
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
                                     ),
                                   ),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    "Girithar K",
-                                    style: TextStyle(
-                                        fontSize:
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "Girithar K",
+                                        textStyle: TextStyle(
+                                            fontSize:
                                             ResponsiveSize.getSize(context, 26),
-                                        fontFamily: FontConstants.fontFamily,
-                                        color: ColorConstants.primaryColor),
+                                            color: ColorConstants.primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
                                   ),
+
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    "Flutter Developer",
-                                    style: TextStyle(
-                                        fontSize:
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "Software Developer",
+                                        textStyle: TextStyle(
+                                            fontSize:
                                             ResponsiveSize.getSize(context, 26),
-                                        fontFamily: FontConstants.fontFamily,
-                                        color: ColorConstants.darkGreyColor,
-                                        fontWeight: FontWeight.bold),
+                                            color: ColorConstants.darkGreyColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -383,40 +440,66 @@ class HomeView extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(top: 15),
-                                      child: Text(
-                                        "Hello I'm",
-                                        style: TextStyle(
-                                            fontSize: ResponsiveSize.getSize(
-                                                context, 18),
-                                            fontFamily:
-                                                FontConstants.fontFamily,
-                                            color:
-                                                ColorConstants.darkGreyColor),
-                                      ),
+                                      child:  AnimatedTextKit(
+                                        animatedTexts: [
+                                          TyperAnimatedText(
+                                            "Hello, I'm",
+                                            textStyle: TextStyle(
+                                                fontSize:ResponsiveSize.getSize(
+                                                    context, 18),
+                                                color: ColorConstants.darkGreyColor,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: FontConstants.fontFamily
+
+                                            ),
+                                            speed: Duration(milliseconds: 60), // Adjust typing speed
+                                          ),
+                                        ],
+                                        isRepeatingAnimation: false,
+                                      )
                                     ),
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      "Girithar K",
-                                      style: TextStyle(
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 26),
-                                          fontFamily: FontConstants.fontFamily,
-                                          color: ColorConstants.primaryColor),
+                                    AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Girithar K",
+                                          textStyle: TextStyle(
+                                              fontSize:
+                                              ResponsiveSize.getSize(context, 26),
+                                              color: ColorConstants.primaryColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
                                     ),
+
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      "Flutter Developer",
-                                      style: TextStyle(
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 26),
-                                          fontFamily: FontConstants.fontFamily,
-                                          color: ColorConstants.darkGreyColor,
-                                          fontWeight: FontWeight.bold),
+                                    AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Software Developer",
+                                          textStyle: TextStyle(
+                                              fontSize:
+                                              ResponsiveSize.getSize(context, 26),
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
                                     ),
+
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -653,16 +736,19 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _drawerItem(String title, context, scrollNavigationKey) {
-    return ListTile(
-      title: Text(title,
-          style: TextStyle(
-            fontSize: ResponsiveSize.getSize(context, 24),
-            fontFamily: FontConstants.fontFamily,
-          )),
-      onTap: () {
-        Navigator.pop(context);
-        homeController.scrollToSection(scrollNavigationKey);
-      },
+    return   Builder(builder: (context) {
+        return ListTile(
+          title: Text(title,
+              style: TextStyle(
+                fontSize: ResponsiveSize.getSize(context, 24),
+                fontFamily: FontConstants.fontFamily,
+              )),
+          onTap: () {
+        Scaffold.of(context).closeDrawer();
+            homeController.scrollToSection(scrollNavigationKey);
+          },
+        );
+      }
     );
   }
 
@@ -1633,6 +1719,7 @@ class HomeView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextFormField(
+                                controller: homeController.nameController,
                                 style: TextStyle(color: ColorConstants.whiteColor,),
                                 decoration: const InputDecoration(
                                   labelText: "Name",
@@ -1658,8 +1745,8 @@ class HomeView extends StatelessWidget {
                             const SizedBox(width: 15),
                             Expanded(
                               child: TextFormField(
+                                controller: homeController.emailController,
                                 style: TextStyle(color: ColorConstants.whiteColor,),
-
                                 decoration: const InputDecoration(
                                   labelText: "Email",
                                   labelStyle: TextStyle(color: ColorConstants.whiteColor,),
@@ -1687,6 +1774,7 @@ class HomeView extends StatelessWidget {
                             : Column(
                           children: [
                             TextFormField(
+                              controller: homeController.nameController,
                               style: TextStyle(color: ColorConstants.whiteColor,),
                               decoration: const InputDecoration(
                                 labelText: "Name",
@@ -1710,6 +1798,7 @@ class HomeView extends StatelessWidget {
                             ),
                             const SizedBox(height: 15),
                             TextFormField(
+                              controller: homeController.emailController,
                               style: TextStyle(color: ColorConstants.whiteColor,),
                               decoration: const InputDecoration(
                                 labelText: "Email",
@@ -1737,6 +1826,7 @@ class HomeView extends StatelessWidget {
 
                         const SizedBox(height: 15),
                         TextFormField(
+                          controller: homeController.descriptionController,
                           style: TextStyle(color: ColorConstants.whiteColor,),
                           decoration: const InputDecoration(
                             labelText: "Description...",
@@ -1772,9 +1862,10 @@ class HomeView extends StatelessWidget {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
+                                homeController.sendEmail(homeController.nameController.text,homeController.emailController.text,homeController.descriptionController.text);
                                 // Handle form submission
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Form Submitted")),
+                                  const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.whiteColor,),
                                 );
                               }
                             },
