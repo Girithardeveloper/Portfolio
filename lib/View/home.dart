@@ -381,7 +381,7 @@ class HomeView extends StatelessWidget {
                                               homeController.linkedInLink();
                                             },
                                             child: Lottie.asset(
-                                              'images/lotties/linkedin.json',
+                                              'assets/images/lotties/linkedin.json',
                                               width: ResponsiveSize.getSize(
                                                   context, 50),
                                               height: ResponsiveSize.getSize(
@@ -394,7 +394,7 @@ class HomeView extends StatelessWidget {
                                               homeController.gitHubLink();
                                             },
                                             child: Lottie.asset(
-                                              'images/lotties/github.json',
+                                              'assets/images/lotties/github.json',
                                               width: ResponsiveSize.getSize(
                                                   context, 50),
                                               height: ResponsiveSize.getSize(
@@ -600,7 +600,7 @@ class HomeView extends StatelessWidget {
                                                 homeController.linkedInLink();
                                               },
                                               child: Lottie.asset(
-                                                'images/lotties/linkedin.json',
+                                                'assets/images/lotties/linkedin.json',
                                                 width: ResponsiveSize.getSize(
                                                     context, 50),
                                                 height: ResponsiveSize.getSize(
@@ -613,7 +613,7 @@ class HomeView extends StatelessWidget {
                                                 homeController.gitHubLink();
                                               },
                                               child: Lottie.asset(
-                                                'images/lotties/github.json',
+                                                'assets/images/lotties/github.json',
                                                 width: ResponsiveSize.getSize(
                                                     context, 50),
                                                 height: ResponsiveSize.getSize(
@@ -709,7 +709,7 @@ class HomeView extends StatelessWidget {
             }
           },
           child: Lottie.asset(
-            'images/lotties/whatsapp.json',
+            'assets/images/lotties/whatsapp.json',
             width: ResponsiveSize.getSize(
                 context, 80),
             height: ResponsiveSize.getSize(
