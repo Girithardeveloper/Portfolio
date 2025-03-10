@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:portfolio/Helper/logger.dart';
@@ -47,9 +49,16 @@ class HomeController extends GetxController{
 
 
   final List<Project> projects = [
-    Project(imagePath: AssetConstants.nearleDealsProjectImage, title: 'Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f) ),
-    Project(imagePath: AssetConstants.nearleXpressProjectImage, title: 'Nearle Xpress', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f) ),
-    Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad)),
+    Project(imagePath: AssetConstants.nearleDealsProjectImage, title: 'Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f),blogUrl: '' ),
+    Project(imagePath: AssetConstants.nearleXpressProjectImage, title: 'Nearle Xpress', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f) ,blogUrl: '' ),
+    Project(imagePath: AssetConstants.LegendaryProjectImage, title: 'Legendary', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad),blogUrl: '' ),
+    // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
+  ];
+
+  final List<Project> blogs = [
+    Project(imagePath: AssetConstants.nearleDealsLogo, title: 'Revolutionizing Local Shopping: My Journey with Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/revolutionizing-local-shopping-my.html'  ),
+    Project(imagePath: AssetConstants.nearleXpressLogo, title: 'Nearle Express: Transforming Food Delivery', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/nearle-express-transforming-food.html'  ),
+    Project(imagePath: AssetConstants.legendaryLogo, title: 'Legendary: Simplifying Workforce Management', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/legendary-simplifying-workforce.html' ),
     // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
   ];
 
@@ -57,7 +66,8 @@ class HomeController extends GetxController{
   TextEditingController emailController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-
+// creating smtp server for gmail
+//   final gmailSmtp = gmail(dotenv.env["GMAIL_MAIL"]!, dotenv.env["GMAIL_PASSWORD"]!);
 
   final ScrollController scrollController = ScrollController();
 
@@ -127,30 +137,70 @@ class HomeController extends GetxController{
   }
 
   /// Email Contact Info
+  // Future<void> sendEmail(String name, String email, String description) async {
+  //   final smtpServer = SmtpServer('smtp.mailtrap.io',
+  //       username: 'girithardev@gmail.com',
+  //       password: 'Girithardev@5456');
+  //   // final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456'); // Use your email and password
+  //
+  //   final message = Message()
+  //     ..from = Address('girithardev@gmail.com', 'Girithar')
+  //     ..recipients.add(email) // Recipient email
+  //     ..subject = 'Portfolio Contact Form Submission – $name'
+  //     ..text = '''
+  //   Name: $name
+  //   Email: $email
+  //   Description: $description
+  //   ''';
+  //
+  //   try {
+  //     final sendReport = await send(message, smtpServer);
+  //       logger.i('Message sent: $sendReport');
+  //   } catch (e) {
+  //     logger.i('Message not sent. Error: $e');
+  //   }
+  // }
+
+
   Future<void> sendEmail(String name, String email, String description) async {
-    // final smtpServer = SmtpServer('smtp.mailtrap.io',
-    //     username: 'girithardev@gmail.com',
-    //     password: 'Girithardev@5456');
-    final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456'); // Use your email and password
+    final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456');
 
     final message = Message()
-      ..from = Address('girithardev@gmail.com', 'Girithar')
-      ..recipients.add(email) // Recipient email
+      ..from = Address('girithardev@gmail.com', 'Girithardev@5456')
+      ..recipients.add(email)
       ..subject = 'Portfolio Contact Form Submission – $name'
       ..text = '''
-    Name: $name
-    Email: $email
-    Description: $description
+Name: $name
+Email: $email
+Description: $description
     ''';
 
     try {
       final sendReport = await send(message, smtpServer);
-        logger.i('Message sent: $sendReport');
+      logger.i('Message sent: $sendReport');
     } catch (e) {
-      logger.i('Message not sent. Error: $e');
+      logger.i('Error sending email: $e');
     }
   }
 
+// // send mail to the user using smtp
+//   sendEmail(String name, String email, String description) async {
+//   // sendMailFromGmail(String sender, sub, text) async {
+//     final message = Message()
+//       ..from = Address(dotenv.env["GMAIL_MAIL"]!, 'Custom Support Stuff')
+//       ..recipients.add(email)
+//       ..subject = 'Portfolio Contact Form Submission – $name'
+//       ..text = description;
+//     try {
+//       final sendReport = await send(message, gmailSmtp);
+//       logger.i('Message sent: $sendReport');
+//     } on MailerException catch (e) {
+//       logger.i('Message not sent.');
+//       for (var p in e.problems) {
+//         logger.i('Problem: ${p.code}: ${p.msg}');
+//       }
+//     }
+//   }
 
 
   @override

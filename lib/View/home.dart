@@ -7,6 +7,7 @@ import 'package:portfolio/Controller/Home/homeController.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:portfolio/Helper/colorConstants.dart';
 import 'package:portfolio/Helper/fontConstants.dart';
+import 'package:portfolio/Helper/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -46,7 +47,7 @@ class HomeView extends StatelessWidget {
         backgroundColor: ColorConstants.primaryColor,
         leading: isTabletOrMobile ? Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,): null,
         title: isTabletOrMobile
-            ?Container():Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+            ?Container():Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.fill:BoxFit.contain,),
         // flexibleSpace: Padding(
         //   padding: EdgeInsets.only(
         //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
@@ -1592,7 +1593,7 @@ class HomeView extends StatelessWidget {
               ),
               SizedBox(height: 10),
               ReusableTextWidget(
-                  text: "Blogs",
+                  text: "Project Case Studies",
                   fontSize: ResponsiveSize.getSize(context, 24),
                   fontWeight: FontWeight.w700),
               SizedBox(
@@ -1608,10 +1609,10 @@ class HomeView extends StatelessWidget {
                   mainAxisSpacing: 20,
                   childAspectRatio: 1.2, // Adjust for proper card proportions
                 ),
-                itemCount: homeController.projects.length,
+                itemCount: homeController.blogs.length,
                 itemBuilder: (context, index) {
                   return _buildBlocCard(
-                      homeController.projects[index],context);
+                      homeController.blogs[index],context);
                 },
               ),
             ],
@@ -1632,35 +1633,61 @@ class HomeView extends StatelessWidget {
           side: BorderSide(width: 0.2, color: Colors.black)),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  project.imagePath,
-                  fit: BoxFit.fill, // Shows the full image without cropping
-                  width: double.infinity,
-                  height: 250,
+        child: InkWell(
+          onTap: ()async{
+            final Uri blogUrl = Uri.parse(
+              project.blogUrl,
+            );
+
+            try {
+              if (await canLaunchUrl(blogUrl)) {
+            await launchUrl(blogUrl);
+            } else {}
+            } catch (e) {
+              logger.i('catchErrorBlog $e');
+            // Handle any errors gracefully
+
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      project.imagePath,
+                      fit: BoxFit.contain, // Shows the full image without cropping
+                      width: 400,
+                      height: 200,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            ReusableTextWidget(
-              text: project.title,
-              fontSize: ResponsiveSize.getSize(context, 18),
-              fontWeight: FontWeight.bold,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            ReusableTextWidget(
-              text: project.description,
-              maxLines: 5,
-              fontSize: ResponsiveSize.getSize(context, 15),
-            ),
-          ],
+              SizedBox(height: 10),
+              ReusableTextWidget(
+                text: project.title,
+                fontSize: ResponsiveSize.getSize(context, 18),
+                fontWeight: FontWeight.bold,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ReusableTextWidget(
+                text: project.description,
+                maxLines: 5,
+                fontSize: ResponsiveSize.getSize(context, 15),
+              ),
+              SizedBox(width: 5,),
+              ReusableTextWidget(
+                text: 'Read more....',
+                fontSize: ResponsiveSize.getSize(context, 15),
+                color: ColorConstants.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1872,6 +1899,13 @@ class HomeView extends StatelessWidget {
                             child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold),),
                           ),
                         ),
+                        Spacer(),
+                        ReusableTextWidget(
+                          text: '© Copyrights. All Rights Reserved.',
+                          fontSize: ResponsiveSize.getSize(context, 15),
+                          color: ColorConstants.whiteColor,
+                          fontWeight: FontWeight.bold,
+                        )
                       ],
                     ),
                   ),

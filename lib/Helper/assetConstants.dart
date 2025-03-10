@@ -28,5 +28,8 @@ class AssetConstants{
   static const String nearleDealsProjectImage = 'assets/images/Nearle Deals.png';
   static const String nearleXpressProjectImage = 'assets/images/Nearle Xpress.png';
   static const String LegendaryProjectImage = 'assets/images/Legendary.png';
+  static const String nearleDealsLogo = 'assets/images/Nearledealslogo.png';
+  static const String nearleXpressLogo = 'assets/images/Nearlexpresslogo.png';
+  static const String legendaryLogo = 'assets/images/Legendarylogo.png';
   static const String GiritharLogoImage = 'assets/images/Girithar logo.png';
 }
