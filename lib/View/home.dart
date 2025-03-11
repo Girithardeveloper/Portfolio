@@ -10,7 +10,7 @@ import 'package:portfolio/Helper/fontConstants.dart';
 import 'package:portfolio/Helper/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:visibility_detector/visibility_detector.dart';
 import '../Model/projectModel.dart';
 import '../globalWidgets/responsiveSizeWidget.dart';
 import '../globalWidgets/textWidget.dart';
@@ -20,12 +20,7 @@ class HomeView extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
 
-  final GlobalKey aboutKey = GlobalKey();
-  final GlobalKey experienceKey = GlobalKey();
-  final GlobalKey projectsKey = GlobalKey();
-  final GlobalKey toolsKey = GlobalKey();
-  final GlobalKey blogKey = GlobalKey();
-  final GlobalKey contactKey = GlobalKey();
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -39,384 +34,179 @@ class HomeView extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
-    return Scaffold(
-      backgroundColor: ColorConstants.whiteColor,
-      appBar: AppBar(
-        toolbarHeight:
-            ResponsiveSize.getSize(context, screenSize.height * 0.08),
-        backgroundColor: ColorConstants.primaryColor,
-        leading: isTabletOrMobile ? Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,): null,
-        title: isTabletOrMobile
-            ?Container():Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.fill:BoxFit.contain,),
-        // flexibleSpace: Padding(
-        //   padding: EdgeInsets.only(
-        //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
-        //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
-        //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
-        //   child: Row(
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: [
-        //       Image.asset(AssetConstants.GiritharLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
-        //     ],
-        //   )
-        //   // Text(
-        //   //   "Portfolio",
-        //   //   style: TextStyle(
-        //   //     fontSize: ResponsiveSize.getSize(context, 30),
-        //   //     fontFamily: FontConstants.fontFamily,
-        //   //     color: ColorConstants.whiteColor,
-        //   //   ),
-        //   // ),
-        // ),
-        actions: isTabletOrMobile
-            ? [
-                Builder(builder: (context) {
-                  return IconButton(
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  );
-                }),
-                SizedBox(
-                  width:
-                      ResponsiveSize.getSize(context, screenSize.width * 0.02),
-                ),
-              ] // Hide actions in AppBar, show them in Drawer
-            : [
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(aboutKey);
-                    },
-                    child: _menuItem("About", screenSize, context)),
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(experienceKey);
-                    },
-                    child: _menuItem("Experience", screenSize, context)),
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(projectsKey);
-                    },
-                    child: _menuItem("Projects", screenSize, context)),
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(blogKey);
-                    },
-                    child: _menuItem("Blogs", screenSize, context)),
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(toolsKey);
-                    },
-                    child: _menuItem("Tools", screenSize, context)),
-                InkWell(
-                    onTap: () {
-                      homeController.scrollToSection(contactKey);
-                    },
-                    child: _menuItem("Contact", screenSize, context)),
-                SizedBox(
-                  width:
-                      ResponsiveSize.getSize(context, screenSize.width * 0.02),
-                ),
-              ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
+
+        ),
       ),
-      drawer: isTabletOrMobile
-          ? Drawer(
-        backgroundColor: ColorConstants.whiteColor,
-              child: Padding(
-                padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    AnimatedTextKit(
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          "GIRITHAR K",
-                          textStyle: TextStyle(
-                              fontSize:ResponsiveSize.getSize(
-                                  context, 26),
-                              color: ColorConstants.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Airbeat'
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          forceMaterialTransparency: true,
 
-                          ),
-                          textAlign: TextAlign.center,
-                          speed: Duration(milliseconds: 60), // Adjust typing speed
-                        ),
-                      ],
-                      isRepeatingAnimation: false,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
+          elevation: 0,
+          toolbarHeight:
+              ResponsiveSize.getSize(context, screenSize.height * 0.08),
+          backgroundColor: ColorConstants.primaryColor.withAlpha(0),
+          leading: isTabletOrMobile ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+          ): null,
+          title: isTabletOrMobile
+              ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
+          // flexibleSpace: Padding(
+          //   padding: EdgeInsets.only(
+          //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+          //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
+          //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
+          //   child: Row(
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
+          //     ],
+          //   )
+          //   // Text(
+          //   //   "Portfolio",
+          //   //   style: TextStyle(
+          //   //     fontSize: ResponsiveSize.getSize(context, 30),
+          //   //     fontFamily: FontConstants.fontFamily,
+          //   //     color: ColorConstants.whiteColor,
+          //   //   ),
+          //   // ),
+          // ),
+          actions: isTabletOrMobile
+              ? [
+                  Builder(builder: (context) {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.menu,
+                        color: ColorConstants.primaryColor,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    );
+                  }),
+                  SizedBox(
+                    width:
+                        ResponsiveSize.getSize(context, screenSize.width * 0.02),
+                  ),
+                ] // Hide actions in AppBar, show them in Drawer
+              : [
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.aboutKey, "About"),
+              child: _menuItem("About", screenSize, context, "About"),
+            ),
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.experienceKey, "Experience"),
+              child: _menuItem("Experience", screenSize, context, "Experience"),
+            ),
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.projectsKey, "Projects"),
+              child: _menuItem("Projects", screenSize, context, "Projects"),
+            ),
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.blogKey, "Blogs"),
+              child: _menuItem("Blogs", screenSize, context, "Blogs"),
+            ),
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.toolsKey, "Tools"),
+              child: _menuItem("Tools", screenSize, context, "Tools"),
+            ),
+            InkWell(
+              onTap: () => homeController.scrollToSection(homeController.contactKey, "Contact"),
+              child: _menuItem("Contact", screenSize, context, "Contact"),
+            ),
+                  SizedBox(
+                    width:
+                        ResponsiveSize.getSize(context, screenSize.width * 0.02),
+                  ),
+                ],
+        ),
+        drawer: isTabletOrMobile
+            ? Drawer(
+          backgroundColor: ColorConstants.whiteColor,
+                child: Padding(
+                  padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      AnimatedTextKit(
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            "GIRITHAR K",
+                            textStyle: TextStyle(
+                                fontSize:ResponsiveSize.getSize(
+                                    context, 26),
+                                color: ColorConstants.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Airbeat'
 
-                    _drawerItem("About", context, aboutKey),
-                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Experience", context, experienceKey),
-                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Projects", context, projectsKey),
-                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Blogs", context, blogKey),
-                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Tools", context, toolsKey),
-                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Contact", context, contactKey),
-                  ],
-                ),
-              ),
-            )
-          : null,
-      body: LayoutBuilder(builder: (context, constraints) {
-        return NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            double scrollPosition = scrollNotification.metrics.extentBefore;
-
-            // Show Second Segment
-            if (scrollPosition > constraints.maxHeight * 0.5) {
-              showSecondSegment.value = true;
-            } else {
-              showSecondSegment.value = false;
-            }
-
-            // Show Third Segment
-            if (scrollPosition > constraints.maxHeight * 0.9) {
-              showThirdSegment.value = true;
-            } else {
-              showThirdSegment.value = false;
-            }
-
-            return true;
-          },
-          child: SingleChildScrollView(
-            physics: ScrollPhysics(),
-            // padding: const EdgeInsets.all(16.0),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 200, // Keep vertical spacing consistent
-                    ),
-                    child: isTabletOrMobile
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: ColorConstants.primaryColor,
-                                radius: ResponsiveSize.getSize(context, 130),
-                                child: CircleAvatar(
-                                  backgroundColor: ColorConstants.whiteColor,
-                                  radius: ResponsiveSize.getSize(context, 120),
-                                  //isMobile ? 100 : 170, // Adjust for mobile
-                                  backgroundImage:
-                                      AssetImage(AssetConstants.profileImage),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: AnimatedTextKit(
-                                      animatedTexts: [
-                                        TyperAnimatedText(
-                                          "Hello, I'm",
-                                          textStyle: TextStyle(
-                                              fontSize:ResponsiveSize.getSize(
-                                                  context, 18),
-                                              color: ColorConstants.darkGreyColor,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: FontConstants.fontFamily
-
-                                          ),
-                                          speed: Duration(milliseconds: 60), // Adjust typing speed
-                                        ),
-                                      ],
-                                      isRepeatingAnimation: false,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  AnimatedTextKit(
-                                    animatedTexts: [
-                                      TyperAnimatedText(
-                                        "Girithar K",
-                                        textStyle: TextStyle(
-                                            fontSize:
-                                            ResponsiveSize.getSize(context, 26),
-                                            color: ColorConstants.primaryColor,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: FontConstants.fontFamily
-
-                                        ),
-                                        speed: Duration(milliseconds: 60), // Adjust typing speed
-                                      ),
-                                    ],
-                                    isRepeatingAnimation: false,
-                                  ),
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  AnimatedTextKit(
-                                    animatedTexts: [
-                                      TyperAnimatedText(
-                                        "Software Developer",
-                                        textStyle: TextStyle(
-                                            fontSize:
-                                            ResponsiveSize.getSize(context, 26),
-                                            color: ColorConstants.darkGreyColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: FontConstants.fontFamily
-
-                                        ),
-                                        speed: Duration(milliseconds: 60), // Adjust typing speed
-                                      ),
-                                    ],
-                                    isRepeatingAnimation: false,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          homeController.resumeDriveLink();
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  ColorConstants.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: ColorConstants
-                                                      .lightGrey)),
-                                          child: Text(
-                                            "Download CV",
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ResponsiveSize.getSize(
-                                                        context, 16),
-                                                fontFamily:
-                                                    FontConstants.fontFamily,
-                                                color:
-                                                    ColorConstants.whiteColor,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          HomeController.openEmailApp(
-                                              toMail: "girithardev@gmail.com");
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  ColorConstants.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: ColorConstants
-                                                      .lightGrey)),
-                                          child: Text(
-                                            "Contact Info",
-                                            style: TextStyle(
-                                                fontSize:
-                                                    ResponsiveSize.getSize(
-                                                        context, 16),
-                                                fontFamily:
-                                                    FontConstants.fontFamily,
-                                                color:
-                                                    ColorConstants.whiteColor,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Wrap(
-                                        spacing: 0,
-                                        alignment: WrapAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              homeController.linkedInLink();
-                                            },
-                                            child: Lottie.asset(
-                                              'assets/images/lotties/linkedin.json',
-                                              width: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              height: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              homeController.gitHubLink();
-                                            },
-                                            child: Lottie.asset(
-                                              'assets/images/lotties/github.json',
-                                              width: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              height: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          )
-                        : Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  getHorizontalPadding(constraints.maxWidth),
                             ),
-                            child: Row(
+                            textAlign: TextAlign.center,
+                            speed: Duration(milliseconds: 60), // Adjust typing speed
+                          ),
+                        ],
+                        isRepeatingAnimation: false,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      _drawerItem("About", context, homeController.aboutKey),
+                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                      _drawerItem("Experience", context,  homeController.experienceKey),
+                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                      _drawerItem("Projects", context,  homeController.projectsKey),
+                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                      _drawerItem("Blogs", context,  homeController.blogKey),
+                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                      _drawerItem("Tools", context,  homeController.toolsKey),
+                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                      _drawerItem("Contact", context,  homeController.contactKey),
+                    ],
+                  ),
+                ),
+              )
+            : null,
+        body: LayoutBuilder(builder: (context, constraints) {
+          return NotificationListener<ScrollNotification>(
+            onNotification: (scrollNotification) {
+              double scrollPosition = scrollNotification.metrics.extentBefore;
+
+              // Show Second Segment
+              if (scrollPosition > constraints.maxHeight * 0.5) {
+                showSecondSegment.value = true;
+              } else {
+                showSecondSegment.value = false;
+              }
+
+              // Show Third Segment
+              if (scrollPosition > constraints.maxHeight * 0.9) {
+                showThirdSegment.value = true;
+              } else {
+                showThirdSegment.value = false;
+              }
+
+              return true;
+            },
+            child: SingleChildScrollView(
+              physics: ScrollPhysics(),
+              // padding: const EdgeInsets.all(16.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 200, // Keep vertical spacing consistent
+                      ),
+                      child: isTabletOrMobile
+                          ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -425,15 +215,14 @@ class HomeView extends StatelessWidget {
                                   radius: ResponsiveSize.getSize(context, 130),
                                   child: CircleAvatar(
                                     backgroundColor: ColorConstants.whiteColor,
-                                    radius:
-                                        ResponsiveSize.getSize(context, 120),
+                                    radius: ResponsiveSize.getSize(context, 120),
                                     //isMobile ? 100 : 170, // Adjust for mobile
                                     backgroundImage:
                                         AssetImage(AssetConstants.profileImage),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: screenSize.width * 0.04,
+                                  width: 10,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -441,7 +230,7 @@ class HomeView extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(top: 15),
-                                      child:  AnimatedTextKit(
+                                      child: AnimatedTextKit(
                                         animatedTexts: [
                                           TyperAnimatedText(
                                             "Hello, I'm",
@@ -457,7 +246,7 @@ class HomeView extends StatelessWidget {
                                           ),
                                         ],
                                         isRepeatingAnimation: false,
-                                      )
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 10,
@@ -465,7 +254,7 @@ class HomeView extends StatelessWidget {
                                     AnimatedTextKit(
                                       animatedTexts: [
                                         TyperAnimatedText(
-                                          "Girithar K",
+                                          "GIRITHAR K",
                                           textStyle: TextStyle(
                                               fontSize:
                                               ResponsiveSize.getSize(context, 26),
@@ -500,13 +289,11 @@ class HomeView extends StatelessWidget {
                                       ],
                                       isRepeatingAnimation: false,
                                     ),
-
                                     SizedBox(
                                       height: 10,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -538,8 +325,7 @@ class HomeView extends StatelessWidget {
                                                       FontConstants.fontFamily,
                                                   color:
                                                       ColorConstants.whiteColor,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                                  fontWeight: FontWeight.normal),
                                             ),
                                           ),
                                         ),
@@ -549,8 +335,7 @@ class HomeView extends StatelessWidget {
                                         InkWell(
                                           onTap: () {
                                             HomeController.openEmailApp(
-                                                toMail:
-                                                    "girithardev@gmail.com");
+                                                toMail: "girithardev@gmail.com");
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -576,8 +361,7 @@ class HomeView extends StatelessWidget {
                                                       FontConstants.fontFamily,
                                                   color:
                                                       ColorConstants.whiteColor,
-                                                  fontWeight:
-                                                      FontWeight.normal),
+                                                  fontWeight: FontWeight.normal),
                                             ),
                                           ),
                                         ),
@@ -587,8 +371,7 @@ class HomeView extends StatelessWidget {
                                       height: 10,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
@@ -629,111 +412,344 @@ class HomeView extends StatelessWidget {
                                   ],
                                 )
                               ],
-                            ),
-                          ),
-                  ),
-                  SizedBox(height: screenSize.height * 0.3),
+                            )
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    getHorizontalPadding(constraints.maxWidth),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: ColorConstants.primaryColor,
+                                    radius: ResponsiveSize.getSize(context, 130),
+                                    child: CircleAvatar(
+                                      backgroundColor: ColorConstants.whiteColor,
+                                      radius:
+                                          ResponsiveSize.getSize(context, 120),
+                                      //isMobile ? 100 : 170, // Adjust for mobile
+                                      backgroundImage:
+                                          AssetImage(AssetConstants.profileImage),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: screenSize.width * 0.04,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child:  AnimatedTextKit(
+                                          animatedTexts: [
+                                            TyperAnimatedText(
+                                              "Hello, I'm",
+                                              textStyle: TextStyle(
+                                                  fontSize:ResponsiveSize.getSize(
+                                                      context, 18),
+                                                  color: ColorConstants.darkGreyColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: FontConstants.fontFamily
 
-                  // **Second Segment (Appears on Scroll)**
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getHorizontalPadding(constraints.maxWidth),
+                                              ),
+                                              speed: Duration(milliseconds: 60), // Adjust typing speed
+                                            ),
+                                          ],
+                                          isRepeatingAnimation: false,
+                                        )
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      AnimatedTextKit(
+                                        animatedTexts: [
+                                          TyperAnimatedText(
+                                            "GIRITHAR K",
+                                            textStyle: TextStyle(
+                                                fontSize:
+                                                ResponsiveSize.getSize(context, 26),
+                                                color: ColorConstants.primaryColor,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: FontConstants.fontFamily
+
+                                            ),
+                                            speed: Duration(milliseconds: 60), // Adjust typing speed
+                                          ),
+                                        ],
+                                        isRepeatingAnimation: false,
+                                      ),
+
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      AnimatedTextKit(
+                                        animatedTexts: [
+                                          TyperAnimatedText(
+                                            "Software Developer",
+                                            textStyle: TextStyle(
+                                                fontSize:
+                                                ResponsiveSize.getSize(context, 26),
+                                                color: ColorConstants.darkGreyColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: FontConstants.fontFamily
+
+                                            ),
+                                            speed: Duration(milliseconds: 60), // Adjust typing speed
+                                          ),
+                                        ],
+                                        isRepeatingAnimation: false,
+                                      ),
+
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              homeController.resumeDriveLink();
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                  top: 5,
+                                                  bottom: 5),
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      ColorConstants.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      color: ColorConstants
+                                                          .lightGrey)),
+                                              child: Text(
+                                                "Download CV",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        ResponsiveSize.getSize(
+                                                            context, 16),
+                                                    fontFamily:
+                                                        FontConstants.fontFamily,
+                                                    color:
+                                                        ColorConstants.whiteColor,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              HomeController.openEmailApp(
+                                                  toMail:
+                                                      "girithardev@gmail.com");
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10,
+                                                  right: 10,
+                                                  top: 5,
+                                                  bottom: 5),
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      ColorConstants.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                      color: ColorConstants
+                                                          .lightGrey)),
+                                              child: Text(
+                                                "Contact Info",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        ResponsiveSize.getSize(
+                                                            context, 16),
+                                                    fontFamily:
+                                                        FontConstants.fontFamily,
+                                                    color:
+                                                        ColorConstants.whiteColor,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Wrap(
+                                            spacing: 0,
+                                            alignment: WrapAlignment.center,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  homeController.linkedInLink();
+                                                },
+                                                child: Lottie.asset(
+                                                  'assets/images/lotties/linkedin.json',
+                                                  width: ResponsiveSize.getSize(
+                                                      context, 50),
+                                                  height: ResponsiveSize.getSize(
+                                                      context, 50),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  homeController.gitHubLink();
+                                                },
+                                                child: Lottie.asset(
+                                                  'assets/images/lotties/github.json',
+                                                  width: ResponsiveSize.getSize(
+                                                      context, 50),
+                                                  height: ResponsiveSize.getSize(
+                                                      context, 50),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                     ),
-                    child: _buildSecondSegment(
-                        isTabletOrMobile, context, screenSize),
-                  ),
-                  SizedBox(height: screenSize.height * 0.1),
-                  _buildThirdSegment(
-                    isTabletOrMobile,
-                  ),
-                  SizedBox(height: screenSize.height * 0.1),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getHorizontalPadding(constraints.maxWidth),
+                    SizedBox(height: screenSize.height * 0.2),
+
+                    // **Second Segment (Appears on Scroll)**
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                      ),
+                      child: _buildSecondSegment(
+                          isTabletOrMobile, context, screenSize),
                     ),
-                    child: _buildToolsSegment(isTabletOrMobile, screenSize),
-                  ),
-                  SizedBox(height: screenSize.height * 0.1),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getHorizontalPadding(constraints.maxWidth),
+                    SizedBox(height: screenSize.height * 0.2),
+                    _buildThirdSegment(
+                      isTabletOrMobile,
                     ),
-                    child: _buildProjectsCarousel(isTabletOrMobile,context),
-                  ),
-                  SizedBox(height: screenSize.height * 0.1),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: getHorizontalPadding(constraints.maxWidth),
+                    SizedBox(height: screenSize.height * 0.2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                      ),
+                      child: _buildToolsSegment(isTabletOrMobile, screenSize),
                     ),
-                    child: _buildBloGGrid(),
-                  ),
-                  SizedBox(height: screenSize.height * 0.2),
-                  SizedBox(
-                    height: 600,
-                      child: _buildContact(isTabletOrMobile,screenSize,context))
-                ],
+                    SizedBox(height: screenSize.height * 0.2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                      ),
+                      child: _buildProjectsCarousel(isTabletOrMobile,context),
+                    ),
+                    SizedBox(height: screenSize.height * 0.2),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                      ),
+                      child: _buildBloGGrid(),
+                    ),
+                    SizedBox(height: screenSize.height * 0.2),
+                    SizedBox(
+                      height: 650,
+                        child: _buildContact(isTabletOrMobile,screenSize,context))
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
-      floatingActionButton: Container(
-        width: ResponsiveSize.getSize(
-            context, 90),
-        height: ResponsiveSize.getSize(
-            context, 90),
-        margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
-            context, 50),right: ResponsiveSize.getSize(
-            context, 50) ),
-        child: FloatingActionButton(
-          elevation: 0,
-          shape: CircleBorder(),
-          backgroundColor: ColorConstants.whiteColor,
-          onPressed: () async {
-            // Create WhatsApp URL with the phone number and encoded message
-            final Uri whatsappUrl = Uri.parse(
-              "https://wa.me/+918838304677",
-            );
-
-            try {
-              // Check if the WhatsApp URL can be launched
-              if (await canLaunchUrl(whatsappUrl)) {
-                await launchUrl(whatsappUrl);
-              } else {}
-            } catch (e) {
-              // Handle any errors gracefully
-              Get.snackbar(
-                "Error",
-                "Could not share on WhatsApp: $e",
-                snackPosition: SnackPosition.BOTTOM,
+          );
+        }),
+        floatingActionButton: Container(
+          width: ResponsiveSize.getSize(
+              context, 90),
+          height: ResponsiveSize.getSize(
+              context, 90),
+          margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
+              context, 50),right: ResponsiveSize.getSize(
+              context, 50) ),
+          child: FloatingActionButton(
+            elevation: 0,
+            shape: CircleBorder(),
+            backgroundColor: ColorConstants.whiteColor,
+            onPressed: () async {
+              // Create WhatsApp URL with the phone number and encoded message
+              final Uri whatsappUrl = Uri.parse(
+                "https://wa.me/+918838304677",
               );
-            }
-          },
-          child: Lottie.asset(
-            'assets/images/lotties/whatsapp.json',
-            width: ResponsiveSize.getSize(
-                context, 80),
-            height: ResponsiveSize.getSize(
-                context, 80),
-            fit: BoxFit.fill,
+
+              try {
+                // Check if the WhatsApp URL can be launched
+                if (await canLaunchUrl(whatsappUrl)) {
+                  await launchUrl(whatsappUrl);
+                } else {}
+              } catch (e) {
+                // Handle any errors gracefully
+                Get.snackbar(
+                  "Error",
+                  "Could not share on WhatsApp: $e",
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              }
+            },
+            child: Lottie.asset(
+              'assets/images/lotties/whatsapp.json',
+              width: ResponsiveSize.getSize(
+                  context, 80),
+              height: ResponsiveSize.getSize(
+                  context, 80),
+              fit: BoxFit.fill,
+            ),
+            // Image.asset(AssetConstants.whatsappLogo,),
           ),
-          // Image.asset(AssetConstants.whatsappLogo,),
         ),
       ),
     );
   }
 
-  Widget _menuItem(String title, Size screenSize, context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.01),
-      child: Text(
-        title,
-        style: TextStyle(
-            fontSize: ResponsiveSize.getSize(context, 16),
-            fontFamily: FontConstants.fontFamily,
-            color: ColorConstants.whiteColor),
-      ),
-    );
+
+  Widget _menuItem(String title, Size screenSize, context, String sectionName) {
+    return Obx(() {
+      bool isSelected = homeController.selectedSection.value == sectionName;
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.01),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: isSelected ? ColorConstants.primaryColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: ResponsiveSize.getSize(context, 16),
+              fontFamily: FontConstants.fontFamily,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.white : ColorConstants.primaryColor,
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget _drawerItem(String title, context, scrollNavigationKey) {
@@ -746,7 +762,7 @@ class HomeView extends StatelessWidget {
               )),
           onTap: () {
         Scaffold.of(context).closeDrawer();
-            homeController.scrollToSection(scrollNavigationKey);
+            homeController.scrollToSection(scrollNavigationKey,title);
           },
         );
       }
@@ -755,441 +771,58 @@ class HomeView extends StatelessWidget {
 
   /// 🌟 Second Segment - About Me, Experience, Projects
   Widget _buildSecondSegment(bool isMobile, context, Size screenSize) {
-    return Container(
-      margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-      key: aboutKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // 🌟 About Me Section
-          ReusableTextWidget(
-            text: 'Get To Know More',
-            color: Colors.grey.shade600,
-            fontSize: ResponsiveSize.getSize(context, 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          ReusableTextWidget(
-              text: "About Me",
-              fontSize: ResponsiveSize.getSize(context, 24),
-              fontWeight: FontWeight.w700),
-          SizedBox(
-            height: ResponsiveSize.getSize(context, screenSize.height * 0.10),
-          ),
-          isMobile
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorConstants.primaryColor,
-                        border: Border.all(
-                          width: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-                      child: Container(
-                          margin: EdgeInsets.only(
-                            left: ResponsiveSize.getSize(
-                                context, screenSize.width * 0.005),
-                            right: ResponsiveSize.getSize(
-                                context, screenSize.width * 0.005),
-                            top: ResponsiveSize.getSize(
-                                context, screenSize.height * 0.01),
-                            bottom: ResponsiveSize.getSize(
-                                context, screenSize.height * 0.01),
-                          ),
-
-                          // margin: EdgeInsets.only(left:  ResponsiveSize.getSize(context, screenSize.width * 0.01), right: ResponsiveSize.getSize(context, screenSize.width * 0.01), top: ResponsiveSize.getSize(context, screenSize.height * 0.01), bottom: ResponsiveSize.getSize(context, screenSize.height * 0.01),),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorConstants.whiteColor,
-                            border: Border.all(
-                              width: 0.5,
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: ResponsiveSize.getSize(
-                                  context, screenSize.width * 0.005),
-                              right: ResponsiveSize.getSize(
-                                  context, screenSize.width * 0.005),
-                              top: ResponsiveSize.getSize(
-                                  context, screenSize.height * 0.01),
-                              bottom: ResponsiveSize.getSize(
-                                  context, screenSize.height * 0.01),
-                            ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  AssetConstants.profileImageOne,
-                                  height: ResponsiveSize.getSize(
-                                      context, screenSize.height * 0.45),
-                                  fit: BoxFit.fill,
-                                )),
-                          )),
-                    ),
-                    SizedBox(
-                      height: ResponsiveSize.getSize(
-                          context, screenSize.height * 0.08),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 0.5,
-                                  color: Colors.black,
-                                )),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: ResponsiveSize.getSize(
-                                    context, screenSize.width * 0.04),
-                                right: ResponsiveSize.getSize(
-                                    context, screenSize.width * 0.04),
-                                top: ResponsiveSize.getSize(
-                                    context, screenSize.height * 0.02),
-                                bottom: ResponsiveSize.getSize(
-                                    context, screenSize.height * 0.02),
-                              ),
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    AssetConstants.experienceLogo,
-                                    height: ResponsiveSize.getSize(context, 50),
-                                    width: ResponsiveSize.getSize(context, 50),
-                                  ),
-                                  ReusableTextWidget(
-                                    text: 'Experience',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 18),
-                                    color: Colors.black,
-                                  ),
-                                  ReusableTextWidget(
-                                    text: '3.2+ years',
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 15),
-                                    color: Colors.grey.shade700,
-                                  ),
-                                  ReusableTextWidget(
-                                    text: 'Flutter Application Development',
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 15),
-                                    color: Colors.grey.shade700,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  width: 0.5,
-                                  color: Colors.black,
-                                )),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: ResponsiveSize.getSize(
-                                    context, screenSize.width * 0.04),
-                                right: ResponsiveSize.getSize(
-                                    context, screenSize.width * 0.04),
-                                top: ResponsiveSize.getSize(
-                                    context, screenSize.height * 0.02),
-                                bottom: ResponsiveSize.getSize(
-                                    context, screenSize.height * 0.02),
-                              ),
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    AssetConstants.educationLogo,
-                                    height: ResponsiveSize.getSize(context, 50),
-                                    width: ResponsiveSize.getSize(context, 50),
-                                  ),
-                                  ReusableTextWidget(
-                                    text: 'Education',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 18),
-                                    color: Colors.black,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  ReusableTextWidget(
-                                    text: 'BCA Degree',
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 15),
-                                    color: Colors.grey.shade700,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  ReusableTextWidget(
-                                    text: 'Flutter Application Development',
-                                    fontSize:
-                                        ResponsiveSize.getSize(context, 15),
-                                    color: Colors.grey.shade700,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: ResponsiveSize.getSize(
-                          context, screenSize.height * 0.08),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ReusableTextWidget(
-                        text:
-                            """I am a Flutter developer passionate about building high-performance, cross-platform apps with Dart and Flutter. I also have experience with FastAPI in Python for efficient backend solutions.My skills in Figma help me craft intuitive UI/UX designs, while my knowledge of manual testing ensures product quality. I am deeply interested in product development, from ideation to execution, aiming to create impactful user experiences. Always eager to learn and innovate—let’s build something amazing! 🚀""",
-                        fontSize: isMobile ? 16 : 18,
-                        color: Colors.grey.shade700,
-                        textAlign: TextAlign.center,
-                        maxLines: 10,
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: ResponsiveSize.getSize(
-                          context, screenSize.width * 0.20),
-                      // margin: EdgeInsets.only(right:  ResponsiveSize.getSize(context, screenSize.width * 0.12),   ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: ColorConstants.primaryColor,
-                        border: Border.all(
-                          width: 0.5,
-                          color: Colors.black,
-                        ),
-                      ),
-
-                      child: Container(
-                          margin: EdgeInsets.only(
-                            left: ResponsiveSize.getSize(
-                                context, screenSize.width * 0.005),
-                            right: ResponsiveSize.getSize(
-                                context, screenSize.width * 0.005),
-                            top: ResponsiveSize.getSize(
-                                context, screenSize.height * 0.01),
-                            bottom: ResponsiveSize.getSize(
-                                context, screenSize.height * 0.01),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorConstants.whiteColor,
-                            border: Border.all(
-                              width: 0.5,
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: ResponsiveSize.getSize(
-                                  context, screenSize.width * 0.005),
-                              right: ResponsiveSize.getSize(
-                                  context, screenSize.width * 0.005),
-                              top: ResponsiveSize.getSize(
-                                  context, screenSize.height * 0.01),
-                              bottom: ResponsiveSize.getSize(
-                                  context, screenSize.height * 0.01),
-                            ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                  AssetConstants.profileImageOne,
-                                  height: ResponsiveSize.getSize(
-                                      context, screenSize.height * 0.45),
-                                  fit: BoxFit.fill,
-                                )),
-                          )),
-                    ),
-                    SizedBox(
-                      width: ResponsiveSize.getSize(
-                          context, screenSize.width * 0.04),
-                    ),
-                    Expanded(
-                      // width: ResponsiveSize.getSize(context, screenSize.width * 0.4), // Adjust height as needed
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      width: 0.5,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: ResponsiveSize.getSize(
-                                          context, screenSize.width * 0.04),
-                                      right: ResponsiveSize.getSize(
-                                          context, screenSize.width * 0.04),
-                                      top: ResponsiveSize.getSize(
-                                          context, screenSize.height * 0.02),
-                                      bottom: ResponsiveSize.getSize(
-                                          context, screenSize.height * 0.02),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize
-                                          .min, // Ensures Column takes only needed space
-                                      children: [
-                                        Image.asset(
-                                          AssetConstants.experienceLogo,
-                                          height: ResponsiveSize.getSize(
-                                              context, 50),
-                                          width: ResponsiveSize.getSize(
-                                              context, 50),
-                                        ),
-                                        ReusableTextWidget(
-                                          text: 'Experience',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 18),
-                                          color: Colors.black,
-                                        ),
-                                        ReusableTextWidget(
-                                          text: '3.2+ years',
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 15),
-                                          color: Colors.grey.shade700,
-                                        ),
-                                        ReusableTextWidget(
-                                          text:
-                                              'Flutter Application Development',
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 15),
-                                          color: Colors.grey.shade700,
-                                          maxLines: 2,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: ResponsiveSize.getSize(
-                                    context, screenSize.width * 0.02),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      width: 0.5,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: ResponsiveSize.getSize(
-                                          context, screenSize.width * 0.04),
-                                      right: ResponsiveSize.getSize(
-                                          context, screenSize.width * 0.04),
-                                      top: ResponsiveSize.getSize(
-                                          context, screenSize.height * 0.02),
-                                      bottom: ResponsiveSize.getSize(
-                                          context, screenSize.height * 0.02),
-                                    ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize
-                                          .min, // Ensures Column takes only needed space
-                                      children: [
-                                        Image.asset(
-                                          AssetConstants.educationLogo,
-                                          height: ResponsiveSize.getSize(
-                                              context, 50),
-                                          width: ResponsiveSize.getSize(
-                                              context, 50),
-                                        ),
-                                        ReusableTextWidget(
-                                          text: 'Education',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 18),
-                                          color: Colors.black,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        ReusableTextWidget(
-                                          text: 'BCA Degree',
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 15),
-                                          color: Colors.grey.shade700,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        ReusableTextWidget(
-                                          text:
-                                              'Flutter Application Development',
-                                          fontSize: ResponsiveSize.getSize(
-                                              context, 15),
-                                          color: Colors.grey.shade700,
-                                          textAlign: TextAlign.center,
-                                          maxLines: 2,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: ResponsiveSize.getSize(
-                                context, screenSize.height * 0.08),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ReusableTextWidget(
-                              text:
-                                  """I am a Flutter developer passionate about building high-performance, cross-platform apps with Dart and Flutter. I also have experience with FastAPI in Python for efficient backend solutions.My skills in Figma help me craft intuitive UI/UX designs, while my knowledge of manual testing ensures product quality. I am deeply interested in product development, from ideation to execution, aiming to create impactful user experiences. Always eager to learn and innovate—let’s build something amazing! 🚀""",
-                              fontSize: isMobile ? 16 : 18,
-                              color: Colors.grey.shade700,
-                              textAlign: TextAlign.center,
-                              maxLines: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    return VisibilityDetector(
+      key: Key('portfolio_section'),
+      onVisibilityChanged: (info) {
+        homeController.triggerAnimation(info.visibleFraction > 0.3);
+      },
+      child: SlideTransition(
+        position: homeController.slideFromBottom,
+        child: Container(
+          margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
+          key:  homeController.aboutKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // 🌟 About Me Section
+              ReusableTextWidget(
+                text: 'Get To Know More',
+                color: Colors.grey.shade600,
+                fontSize: ResponsiveSize.getSize(context, 20),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ReusableTextWidget(
+                  text: "About Me",
+                  fontSize: ResponsiveSize.getSize(context, 24),
+                  fontWeight: FontWeight.w700),
+              SizedBox(
+                height: ResponsiveSize.getSize(context, screenSize.height * 0.10),
+              ),
+              ResponsiveCardSection(),
+              SizedBox(
+                height: ResponsiveSize.getSize(
+                    context, screenSize.height * 0.08),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ReusableTextWidget(
+                  text:
+                  """My name is Girithar, and I am a Flutter Developer at Nearle Technologies Pvt Ltd. I have four years of experience in mobile application development within a Flutter environment. 
+My skill set includes live tracking, Flutter charts, reusable widgets, dynamic links, deep links, and Firebase integration, among others. Currently, my team is developing both an e-commerce application and a staff booking application using a cross-platform approach. Daily, I focus on fixing bugs and enhancing features in our existing projects. I also manage data fetching from the backend, integrating APIs into the front end. Additionally, I train junior developers according to our business practices. 
+\n As a startup, our responsibilities extend beyond development; we also handle design and testing before production. For development, we primarily use Android Studio, and for design, we utilize Figma. Our project management tool is Jira, while we rely on Bitbucket and Git for version control. For API testing, we use Postman, and for database management, we utilize HeidiSQL. 
+We also follow the Model-View-Controller (MVC) pattern for our project development. Thank you!""",
+                  fontSize: isMobile ? 16 : 18,
+                  color: Colors.grey.shade700,
+                  textAlign: TextAlign.start,
+                  maxLines: 10,
                 ),
-
-          SizedBox(
-            height: 50,
-          )
-        ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -1201,7 +834,7 @@ class HomeView extends StatelessWidget {
             constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: experienceKey,
+          key:  homeController.experienceKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -1260,7 +893,7 @@ class HomeView extends StatelessWidget {
             constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: toolsKey,
+          key:  homeController.toolsKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -1463,7 +1096,7 @@ class HomeView extends StatelessWidget {
 
   Widget _buildProjectsCarousel(bool isMobile,context) {
     return Container(
-      key: projectsKey,
+      key:  homeController.projectsKey,
       margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
       child:GetBuilder<HomeController>(
         builder: (controller) {
@@ -1583,7 +1216,7 @@ class HomeView extends StatelessWidget {
 
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: blogKey,
+          key:  homeController.blogKey,
           child: Column(
             children: [
               ReusableTextWidget(
@@ -1700,7 +1333,7 @@ class HomeView extends StatelessWidget {
     return Container(
       width: screenSize.width,
       decoration: BoxDecoration(color: ColorConstants.primaryColor,),
-      key:contactKey,
+      key: homeController.contactKey,
       child: LayoutBuilder(
         builder: (context, constraints) {
           bool isWide = constraints.maxWidth > 600;
@@ -1889,7 +1522,9 @@ class HomeView extends StatelessWidget {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
+
                                 homeController.sendEmail(homeController.nameController.text,homeController.emailController.text,homeController.descriptionController.text);
+                                // Toast.showToast('Form Submitted');
                                 // Handle form submission
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.whiteColor,),
@@ -2121,4 +1756,63 @@ class SkillWidget extends StatelessWidget {
       },
     );
   }
+}
+
+
+
+class ResponsiveCardSection extends StatelessWidget {
+   ResponsiveCardSection({super.key});
+
+  HomeController homeController = Get.put(HomeController());
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    int crossAxisCount = width > 900 ? 4 : (width > 600 ? 2 : 2);
+    double aspectRatio = width > 1400 ? 2.6 : (width > 900 ? 1.5 : (width > 600 ? 2.0 : 1.5));
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: aspectRatio,
+        ),
+        itemCount: homeController.cardData.length,
+        itemBuilder: (context, index) {
+          return _buildCard(homeController.cardData[index]['title']!,homeController.cardData[index]['subtitle']!);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCard(String title, String subtitle) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide( // Added border
+          color: Colors.grey.shade200, // Border color
+          width: 1, // Border width
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisSize: MainAxisSize.min,
+          children: [
+            ReusableTextWidget(text: title, fontSize: 24, fontWeight: FontWeight.bold, color: ColorConstants.primaryColor,fontFamily: FontConstants.fontFamily,),
+            SizedBox(height: 5),
+            ReusableTextWidget(text: subtitle, fontSize: 16, color: Colors.grey.shade600,)
+
+          ],
+        ),
+      ),
+    );
+  }
+
 }

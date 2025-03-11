@@ -32,4 +32,5 @@ class AssetConstants{
   static const String nearleXpressLogo = 'assets/images/Nearlexpresslogo.png';
   static const String legendaryLogo = 'assets/images/Legendarylogo.png';
   static const String GiritharLogoImage = 'assets/images/Girithar logo.png';
+  static const String GiritharDarkLogoImage = 'assets/images/Girithar logo dark.png';
 }

@@ -1,161 +1,170 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
-import 'package:mailer/smtp_server/hotmail.dart';
-import 'package:mailer/smtp_server/yandex.dart';
 
-class MailPage extends StatefulWidget {
-  const MailPage({super.key});
+import 'Helper/appDescriptionConstants.dart';
+import 'globalWidgets/textWidget.dart';
+
+class AnimatedPortfolioSection extends StatefulWidget {
+  final bool isMobile;
+  const AnimatedPortfolioSection({super.key, required this.isMobile});
 
   @override
-  State<MailPage> createState() => _MailPageState();
+  _AnimatedPortfolioSectionState createState() => _AnimatedPortfolioSectionState();
 }
 
-class _MailPageState extends State<MailPage> {
-  final TextEditingController _recipientController = TextEditingController();
-  final TextEditingController _subjectController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
+class _AnimatedPortfolioSectionState extends State<AnimatedPortfolioSection>
+    with TickerProviderStateMixin {
+  late AnimationController _sectionController;
+  late Animation<Offset> _slideFromBottom;
+  bool _isVisible = false;
 
-  // creating smtp server for gmail
-  final gmailSmtp = gmail(dotenv.env["GMAIL_MAIL"]!, dotenv.env["GMAIL_PASSWORD"]!);
+  @override
+  void initState() {
+    super.initState();
 
-  // outlook
-  final outlookSmtp =
-  hotmail(dotenv.env["OUTLOOK_EMAIL"]!, dotenv.env["OUTLOOK_PASSWORD"]!);
+    _sectionController = AnimationController(
+      duration: Duration(milliseconds: 800),
+      vsync: this,
+    );
 
-  // yandex mail
-  final yandexSmtp =
-  yandex(dotenv.env["YANDEX_EMAIL"]!, dotenv.env["YANDEX_PASSWORD"]!);
+    _slideFromBottom = Tween<Offset>(begin: Offset(0, 0.5), end: Offset(0, 0)).animate(
+      CurvedAnimation(parent: _sectionController, curve: Curves.easeOut),
+    );
+  }
 
-
-  // send mail to the user using smtp
-  sendMailFromGmail(String sender, sub, text) async {
-    final message = Message()
-      ..from = Address(dotenv.env["GMAIL_MAIL"]!, 'Custom Support Stuff')
-      ..recipients.add(sender)
-      ..subject = sub
-      ..text = text;
-
-    try {
-      final sendReport = await send(message, gmailSmtp);
-      print('Message sent: $sendReport');
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
+  void _triggerAnimation(bool visible) {
+    if (visible && !_isVisible) {
+      setState(() {
+        _isVisible = true;
+      });
+      _sectionController.forward();
     }
   }
 
-  sendMailFromOutlook(String sender, sub, text) async {
-    final message = Message()
-      ..from = Address(dotenv.env["OUTLOOK_EMAIL"]!, 'Custom Support Stuff')
-      ..recipients.add(sender)
-      ..subject = sub
-      ..text = text;
-
-    try {
-      final sendReport = await send(message, outlookSmtp);
-      print('Message sent: $sendReport');
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
-    }
+  @override
+  void dispose() {
+    _sectionController.dispose();
+    super.dispose();
   }
-
-  sendMailFromYandex(String sender, sub, text) async {
-    final message = Message()
-      ..from = Address(dotenv.env["YANDEX_EMAIL"]!, 'Custom Support Stuff')
-      ..recipients.add(sender)
-      ..subject = sub
-      ..text = text;
-
-    try {
-      final sendReport = await send(message, yandexSmtp);
-      print('Message sent: $sendReport');
-    } on MailerException catch (e) {
-      print('Message not sent.');
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Send mail to clients",
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-      ),
-      body: SingleChildScrollView(
+    return VisibilityDetector(
+      key: Key('portfolio_section'),
+      onVisibilityChanged: (info) {
+        _triggerAnimation(info.visibleFraction > 0.3);
+      },
+      child: SlideTransition(
+        position: _slideFromBottom,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextFormField(
-                    controller: _recipientController,
-                    decoration: InputDecoration(
-                        fillColor: Colors.purple.shade50,
-                        filled: true,
-                        label: const Text("Recipient Mail")),
-                    validator: (value) =>
-                    value!.isEmpty ? "Cannot be empty" : null),
-                const SizedBox(height: 10),
-                TextFormField(
-                    controller: _subjectController,
-                    decoration: InputDecoration(
-                        fillColor: Colors.purple.shade50,
-                        filled: true,
-                        label: const Text("Subject")),
-                    validator: (value) =>
-                    value!.isEmpty ? "Cannot be empty" : null),
-                const SizedBox(height: 10),
-                TextFormField(
-                    controller: _contentController,
-                    decoration: InputDecoration(
-                        fillColor: Colors.purple.shade50,
-                        filled: true,
-                        label: const Text("Content")),
-                    validator: (value) =>
-                    value!.isEmpty ? "Cannot be empty" : null),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    onPressed: () {
-                      if(formKey.currentState!.validate()){
-                        sendMailFromGmail(_recipientController.text, _subjectController.text, _contentController.text);
-                      }
-                    }, child: const Text("Send mail from gmail")),
-                const SizedBox(height: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      if(formKey.currentState!.validate()){
-                        sendMailFromOutlook(_recipientController.text, _subjectController.text, _contentController.text);
-                      }
-                    },
-                    child: const Text("Send mail from outlook")),
-                const SizedBox(height: 4),
-                ElevatedButton(
-                    onPressed: () {
-                      if(formKey.currentState!.validate()){
-                        sendMailFromYandex(_recipientController.text, _subjectController.text, _contentController.text);
-                      }
-                    }, child: const Text("Send mail from yandex")),
-              ],
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Get To Know More', style: TextStyle(color: Colors.grey.shade600)),
+              SizedBox(height: 10),
+              Text("About Me", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
+              SizedBox(height: 50),
+              ResponsiveCardSection(),
+              SizedBox(height: 30),
+              _aboutMe()
+            ],
           ),
         ),
       ),
     );
   }
+  Widget _aboutMe() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 20,
+      children: [
+        ReusableTextWidget(
+          text: TextConst.education,
+          maxLines: 20,
+          fontSize: 18,
+          color: Colors.grey.shade600,
+        ),
+        ReusableTextWidget(
+          text: TextConst.nearleExp,
+          maxLines: 20,
+          fontSize: 18,
+          color: Colors.grey.shade600,
+        ),
+        ReusableTextWidget(
+          text: TextConst.mallowExp,
+          maxLines: 20,
+          fontSize: 18,
+          color: Colors.grey.shade600,
+        ),
+        ReusableTextWidget(
+          text: TextConst.aboutExp,
+          maxLines: 20,
+          fontSize: 18,
+          color: Colors.grey.shade600,
+        ),
+      ],
+    );
+  }
 }
+
+class ResponsiveCardSection extends StatelessWidget {
+  const ResponsiveCardSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    int crossAxisCount = width > 900 ? 4 : (width > 600 ? 2 : 2);
+    double aspectRatio = width > 1400 ? 2.6 : (width > 900 ? 1.5 : (width > 600 ? 2.0 : 1.5));
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: aspectRatio,
+        ),
+        itemCount: _cardData.length,
+        itemBuilder: (context, index) {
+          return _buildCard(_cardData[index]['title']!, _cardData[index]['subtitle']!);
+        },
+      ),
+    );
+  }
+
+  Widget _buildCard(String title, String subtitle) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide( // Added border
+          color: Colors.grey.shade200, // Border color
+          width: 1, // Border width
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisSize: MainAxisSize.min,
+          children: [
+            ReusableTextWidget(text: title, fontSize: 24, fontWeight: FontWeight.bold, color: Colors.orange,),
+            SizedBox(height: 5),
+            ReusableTextWidget(text: subtitle, fontSize: 16, color: Colors.grey.shade600,)
+
+          ],
+        ),
+      ),
+    );
+  }
+
+}
+
+final List<Map<String, String>> _cardData = [
+  {'title': "B.E ECE", 'subtitle': "Education"},
+  {'title': "7.98", 'subtitle': "CGPA"},
+  {'title': "1.5+", 'subtitle': "Experience"},
+  {'title': "5+", 'subtitle': "Projects"},
+];

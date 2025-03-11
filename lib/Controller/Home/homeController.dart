@@ -1,24 +1,32 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter/foundation.dart';
+import 'package:emailjs/emailjs.dart' as emailjs;
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
 import 'package:portfolio/Helper/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Helper/appDescriptionConstants.dart';
 import '../../Model/projectModel.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 
 
   int currentIndex = 0;
 
+  late AnimationController sectionController;
+  late Animation<Offset> slideFromBottom;
+  bool isVisible = false;
+
   final CarouselSliderController carouselController = CarouselSliderController();
+
+
+  final List<Map<String, String>> cardData = [
+    {'title': "BCA", 'subtitle': "Education"},
+    {'title': "6.7", 'subtitle': "CGPA"},
+    {'title': "3.3+", 'subtitle': "Experience"},
+    {'title': "5+", 'subtitle': "Projects"},
+  ];
 
 
   final List<Map<String, String>> languagesAndFrameworks = [
@@ -71,7 +79,18 @@ class HomeController extends GetxController{
 
   final ScrollController scrollController = ScrollController();
 
+  final GlobalKey aboutKey = GlobalKey();
+  final GlobalKey experienceKey = GlobalKey();
+  final GlobalKey projectsKey = GlobalKey();
+  final GlobalKey toolsKey = GlobalKey();
+  final GlobalKey blogKey = GlobalKey();
+  final GlobalKey contactKey = GlobalKey();
+
   late Timer _timer;
+
+
+  var selectedSection = "".obs; // Observable to track selected section
+
 
 
   void resumeDriveLink() async {
@@ -124,83 +143,58 @@ class HomeController extends GetxController{
     ).toString());
   }
 
-/// Scroll Appbar Menu
-  void scrollToSection(GlobalKey key) {
-    final context = key.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
+
 
   /// Email Contact Info
-  // Future<void> sendEmail(String name, String email, String description) async {
-  //   final smtpServer = SmtpServer('smtp.mailtrap.io',
-  //       username: 'girithardev@gmail.com',
-  //       password: 'Girithardev@5456');
-  //   // final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456'); // Use your email and password
-  //
-  //   final message = Message()
-  //     ..from = Address('girithardev@gmail.com', 'Girithar')
-  //     ..recipients.add(email) // Recipient email
-  //     ..subject = 'Portfolio Contact Form Submission – $name'
-  //     ..text = '''
-  //   Name: $name
-  //   Email: $email
-  //   Description: $description
-  //   ''';
-  //
-  //   try {
-  //     final sendReport = await send(message, smtpServer);
-  //       logger.i('Message sent: $sendReport');
-  //   } catch (e) {
-  //     logger.i('Message not sent. Error: $e');
-  //   }
-  // }
-
-
-  Future<void> sendEmail(String name, String email, String description) async {
-    final smtpServer = gmail('girithardev@gmail.com', 'Girithardev@5456');
-
-    final message = Message()
-      ..from = Address('girithardev@gmail.com', 'Girithardev@5456')
-      ..recipients.add(email)
-      ..subject = 'Portfolio Contact Form Submission – $name'
-      ..text = '''
-Name: $name
-Email: $email
-Description: $description
-    ''';
-
+  void sendEmail(String name, String email, String description) async {
     try {
-      final sendReport = await send(message, smtpServer);
-      logger.i('Message sent: $sendReport');
-    } catch (e) {
-      logger.i('Error sending email: $e');
+      final response = await emailjs.send(
+        'service_esfbqo9',
+        'template_mxthphs',
+        {
+          'name':name,
+          'email': email,
+          'message': description,
+        },
+        const emailjs.Options(
+            publicKey: 'DFq07OOqhs5j3yovI',
+            privateKey: 'CJSPOcNPIrWxyMJ_05A-m',
+            limitRate: emailjs.LimitRate(
+              id: 'app',
+              throttle: 10000,
+            )),
+      );
+      if (response.status == 200) {
+        logger.i('✅ SUCCESS: Email Sent!');
+
+        // // ✅ Clear text fields after success
+        nameController.clear();
+        emailController.clear();
+        descriptionController.clear();
+      }
+      else{
+        logger.i('Failed: Email Sent!');
+      }
+    } catch (error) {
+      if (error is emailjs.EmailJSResponseStatus) {
+        logger.i('ERROR... $error');
+      }
+      logger.i(error.toString());
     }
   }
 
-// // send mail to the user using smtp
-//   sendEmail(String name, String email, String description) async {
-//   // sendMailFromGmail(String sender, sub, text) async {
-//     final message = Message()
-//       ..from = Address(dotenv.env["GMAIL_MAIL"]!, 'Custom Support Stuff')
-//       ..recipients.add(email)
-//       ..subject = 'Portfolio Contact Form Submission – $name'
-//       ..text = description;
-//     try {
-//       final sendReport = await send(message, gmailSmtp);
-//       logger.i('Message sent: $sendReport');
-//     } on MailerException catch (e) {
-//       logger.i('Message not sent.');
-//       for (var p in e.problems) {
-//         logger.i('Problem: ${p.code}: ${p.msg}');
-//       }
-//     }
-//   }
+
+  ///
+  void triggerAnimation(bool visible) {
+    if (visible && !isVisible) {
+        isVisible = true;
+      sectionController.forward();
+      update();
+    }
+  }
+
+
+
 
 
   @override
@@ -208,6 +202,15 @@ Description: $description
     // TODO: implement onInit
     _startAutoScroll();
     super.onInit();
+    scrollController.addListener(trackScrolling);
+    sectionController = AnimationController(
+      duration: Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    slideFromBottom = Tween<Offset>(begin: Offset(0, 0.5), end: Offset(0, 0)).animate(
+      CurvedAnimation(parent: sectionController, curve: Curves.easeOut),
+    );
   }
 
 
@@ -247,13 +250,60 @@ Description: $description
     if (_timer.isActive) {
       _timer.cancel();
     }
-    scrollController.dispose();
+    // scrollController.dispose();
+    sectionController.dispose();
     super.dispose();
   }
 
 
+  /// Function to scroll to a specific section
+  ///
+  void scrollToSection(GlobalKey key, String sectionName) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+      selectedSection.value = sectionName; // Update selected section
+    }
+  }
+
+  // Listen to scrolling and detect which section is in view
+  void trackScrolling() {
+    if (!scrollController.hasClients) return;
+    final offset = scrollController.offset;
+
+    // Detect which section is in view
+    if (isSectionInView(aboutKey)) {
+      selectedSection.value = "About";
+    } else if (isSectionInView(experienceKey)) {
+      selectedSection.value = "Experience";
+    } else if (isSectionInView(projectsKey)) {
+      selectedSection.value = "Projects";
+    } else if (isSectionInView(blogKey)) {
+      selectedSection.value = "Blogs";
+    } else if (isSectionInView(toolsKey)) {
+      selectedSection.value = "Tools";
+    } else if (isSectionInView(contactKey)) {
+      selectedSection.value = "Contact";
+    }
+  }
+
+  bool isSectionInView(GlobalKey key) {
+    final context = key.currentContext;
+    if (context == null) return false;
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    final position = box.localToGlobal(Offset.zero).dy;
+    return position >= 0 && position <= 200; // Adjust threshold
+  }
 
 
-
-
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
 }
+
