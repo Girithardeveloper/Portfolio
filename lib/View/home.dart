@@ -20,7 +20,12 @@ class HomeView extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
 
-
+  final GlobalKey aboutKey = GlobalKey();
+  final GlobalKey experienceKey = GlobalKey();
+  final GlobalKey projectsKey = GlobalKey();
+  final GlobalKey toolsKey = GlobalKey();
+  final GlobalKey blogKey = GlobalKey();
+  final GlobalKey contactKey = GlobalKey();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -41,172 +46,439 @@ class HomeView extends StatelessWidget {
 
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          forceMaterialTransparency: true,
+      child: GetBuilder<HomeController>(
+        builder: (controller) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              forceMaterialTransparency: true,
 
-          elevation: 0,
-          toolbarHeight:
+              elevation: 0,
+              toolbarHeight:
               ResponsiveSize.getSize(context, screenSize.height * 0.08),
-          backgroundColor: ColorConstants.primaryColor.withAlpha(0),
-          leading: isTabletOrMobile ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
-          ): null,
-          title: isTabletOrMobile
-              ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
-          // flexibleSpace: Padding(
-          //   padding: EdgeInsets.only(
-          //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
-          //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
-          //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
-          //   child: Row(
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: [
-          //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
-          //     ],
-          //   )
-          //   // Text(
-          //   //   "Portfolio",
-          //   //   style: TextStyle(
-          //   //     fontSize: ResponsiveSize.getSize(context, 30),
-          //   //     fontFamily: FontConstants.fontFamily,
-          //   //     color: ColorConstants.whiteColor,
-          //   //   ),
-          //   // ),
-          // ),
-          actions: isTabletOrMobile
-              ? [
-                  Builder(builder: (context) {
-                    return IconButton(
-                      icon: const Icon(
-                        Icons.menu,
-                        color: ColorConstants.primaryColor,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                    );
-                  }),
-                  SizedBox(
-                    width:
-                        ResponsiveSize.getSize(context, screenSize.width * 0.02),
-                  ),
-                ] // Hide actions in AppBar, show them in Drawer
-              : [
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.aboutKey, "About"),
-              child: _menuItem("About", screenSize, context, "About"),
-            ),
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.experienceKey, "Experience"),
-              child: _menuItem("Experience", screenSize, context, "Experience"),
-            ),
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.projectsKey, "Projects"),
-              child: _menuItem("Projects", screenSize, context, "Projects"),
-            ),
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.blogKey, "Blogs"),
-              child: _menuItem("Blogs", screenSize, context, "Blogs"),
-            ),
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.toolsKey, "Tools"),
-              child: _menuItem("Tools", screenSize, context, "Tools"),
-            ),
-            InkWell(
-              onTap: () => homeController.scrollToSection(homeController.contactKey, "Contact"),
-              child: _menuItem("Contact", screenSize, context, "Contact"),
-            ),
-                  SizedBox(
-                    width:
-                        ResponsiveSize.getSize(context, screenSize.width * 0.02),
-                  ),
-                ],
-        ),
-        drawer: isTabletOrMobile
-            ? Drawer(
-          backgroundColor: ColorConstants.whiteColor,
-                child: Padding(
-                  padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      AnimatedTextKit(
-                        animatedTexts: [
-                          TyperAnimatedText(
-                            "GIRITHAR K",
-                            textStyle: TextStyle(
-                                fontSize:ResponsiveSize.getSize(
-                                    context, 26),
-                                color: ColorConstants.primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Airbeat'
-
-                            ),
-                            textAlign: TextAlign.center,
-                            speed: Duration(milliseconds: 60), // Adjust typing speed
-                          ),
-                        ],
-                        isRepeatingAnimation: false,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      _drawerItem("About", context, homeController.aboutKey),
-                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                      _drawerItem("Experience", context,  homeController.experienceKey),
-                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                      _drawerItem("Projects", context,  homeController.projectsKey),
-                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                      _drawerItem("Blogs", context,  homeController.blogKey),
-                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                      _drawerItem("Tools", context,  homeController.toolsKey),
-                      Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                      _drawerItem("Contact", context,  homeController.contactKey),
-                    ],
-                  ),
+              backgroundColor: ColorConstants.primaryColor.withAlpha(0),
+              leading: isTabletOrMobile ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+              ): null,
+              title: isTabletOrMobile
+                  ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
+              // flexibleSpace: Padding(
+              //   padding: EdgeInsets.only(
+              //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+              //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
+              //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
+              //     ],
+              //   )
+              //   // Text(
+              //   //   "Portfolio",
+              //   //   style: TextStyle(
+              //   //     fontSize: ResponsiveSize.getSize(context, 30),
+              //   //     fontFamily: FontConstants.fontFamily,
+              //   //     color: ColorConstants.whiteColor,
+              //   //   ),
+              //   // ),
+              // ),
+              actions: isTabletOrMobile
+                  ? [
+                Builder(builder: (context) {
+                  return IconButton(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    icon: const Icon(
+                      Icons.menu,
+                      color: ColorConstants.primaryColor,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                }),
+                SizedBox(
+                  width:
+                  ResponsiveSize.getSize(context, screenSize.width * 0.02),
                 ),
-              )
-            : null,
-        body: LayoutBuilder(builder: (context, constraints) {
-          return NotificationListener<ScrollNotification>(
-            onNotification: (scrollNotification) {
-              double scrollPosition = scrollNotification.metrics.extentBefore;
+              ] // Hide actions in AppBar, show them in Drawer
+                  : [
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                hoverColor:  Colors.transparent,  // Remove the highlight shadow
+                onTap: () {
+                  homeController.selectedMenuIndex = 0;
+                  homeController.scrollToSection(aboutKey);
+                  homeController.update();
+                },
+              child: _menuItem("About", screenSize, context,0)),
 
-              // Show Second Segment
-              if (scrollPosition > constraints.maxHeight * 0.5) {
-                showSecondSegment.value = true;
-              } else {
-                showSecondSegment.value = false;
-              }
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 1;
+                      homeController.scrollToSection(experienceKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Experience", screenSize, context,1)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 2;
+                      homeController.scrollToSection(toolsKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Tools", screenSize, context,2)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 3;
+                      homeController.scrollToSection(projectsKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Projects", screenSize, context,3)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 4;
+                      homeController.scrollToSection(blogKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Blogs", screenSize, context,4)),
 
-              // Show Third Segment
-              if (scrollPosition > constraints.maxHeight * 0.9) {
-                showThirdSegment.value = true;
-              } else {
-                showThirdSegment.value = false;
-              }
-
-              return true;
-            },
-            child: SingleChildScrollView(
-              physics: ScrollPhysics(),
-              // padding: const EdgeInsets.all(16.0),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 5;
+                      homeController.scrollToSection(contactKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Contact", screenSize, context,5)),
+                SizedBox(
+                  width:
+                  ResponsiveSize.getSize(context, screenSize.width * 0.02),
+                ),
+              ],
+            ),
+            drawer: isTabletOrMobile
+                ? Drawer(
+              backgroundColor: ColorConstants.whiteColor,
+              child: Padding(
+                padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 200, // Keep vertical spacing consistent
-                      ),
-                      child: isTabletOrMobile
-                          ? Column(
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          "GIRITHAR K",
+                          textStyle: TextStyle(
+                              fontSize:ResponsiveSize.getSize(
+                                  context, 26),
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Airbeat'
+
+                          ),
+                          textAlign: TextAlign.center,
+                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                        ),
+                      ],
+                      isRepeatingAnimation: false,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    _drawerItem("About", context, aboutKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Experience", context, experienceKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Tools", context, toolsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Projects", context, projectsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Blogs", context, blogKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem("Contact", context, contactKey),
+                  ],
+                ),
+              ),
+            )
+                : null,
+            body: LayoutBuilder(builder: (context, constraints) {
+              return NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  double scrollPosition = scrollNotification.metrics.extentBefore;
+
+                  // Show Second Segment
+                  if (scrollPosition > constraints.maxHeight * 0.5) {
+                    showSecondSegment.value = true;
+                  } else {
+                    showSecondSegment.value = false;
+                  }
+
+                  // Show Third Segment
+                  if (scrollPosition > constraints.maxHeight * 0.9) {
+                    showThirdSegment.value = true;
+                  } else {
+                    showThirdSegment.value = false;
+                  }
+
+                  return true;
+                },
+                child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  // padding: const EdgeInsets.all(16.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 200, // Keep vertical spacing consistent
+                          ),
+                          child: isTabletOrMobile
+                              ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: ColorConstants.primaryColor,
+                                radius: ResponsiveSize.getSize(context, 130),
+                                child: CircleAvatar(
+                                  backgroundColor: ColorConstants.whiteColor,
+                                  radius: ResponsiveSize.getSize(context, 120),
+                                  //isMobile ? 100 : 170, // Adjust for mobile
+                                  backgroundImage:
+                                  AssetImage(AssetConstants.profileImage),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Hello, I'm",
+                                          textStyle: TextStyle(
+                                              fontSize:ResponsiveSize.getSize(
+                                                  context, 18),
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "GIRITHAR K",
+                                        textStyle: TextStyle(
+                                            fontSize:
+                                            ResponsiveSize.getSize(context, 26),
+                                            color: ColorConstants.primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
+                                  ),
+
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "Software Developer",
+                                        textStyle: TextStyle(
+                                            fontSize:
+                                            ResponsiveSize.getSize(context, 26),
+                                            color: ColorConstants.darkGreyColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          homeController.resumeDriveLink();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 5),
+                                          decoration: BoxDecoration(
+                                              color:
+                                              ColorConstants.primaryColor,
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .lightGrey)),
+                                          child: Text(
+                                            "Download CV",
+                                            style: TextStyle(
+                                                fontSize:
+                                                ResponsiveSize.getSize(
+                                                    context, 16),
+                                                fontFamily:
+                                                FontConstants.fontFamily,
+                                                color:
+                                                ColorConstants.whiteColor,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          HomeController.openEmailApp(
+                                              toMail: "girithardev@gmail.com");
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 5),
+                                          decoration: BoxDecoration(
+                                              color:
+                                              ColorConstants.primaryColor,
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .lightGrey)),
+                                          child: Text(
+                                            "Contact Info",
+                                            style: TextStyle(
+                                                fontSize:
+                                                ResponsiveSize.getSize(
+                                                    context, 16),
+                                                fontFamily:
+                                                FontConstants.fontFamily,
+                                                color:
+                                                ColorConstants.whiteColor,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      Wrap(
+                                        spacing: 0,
+                                        alignment: WrapAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                            splashColor: Colors.transparent,
+                                            hoverColor:  Colors.transparent,
+                                            onTap: () {
+                                              homeController.linkedInLink();
+                                            },
+                                            child: Lottie.asset(
+                                              'assets/images/lotties/linkedin.json',
+                                              width: ResponsiveSize.getSize(
+                                                  context, 50),
+                                              height: ResponsiveSize.getSize(
+                                                  context, 50),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                            splashColor: Colors.transparent,
+                                            hoverColor:  Colors.transparent,
+                                            onTap: () {
+                                              homeController.gitHubLink();
+                                            },
+                                            child: Lottie.asset(
+                                              'assets/images/lotties/github.json',
+                                              width: ResponsiveSize.getSize(
+                                                  context, 50),
+                                              height: ResponsiveSize.getSize(
+                                                  context, 50),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                              : Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                              getHorizontalPadding(constraints.maxWidth),
+                            ),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -215,38 +487,39 @@ class HomeView extends StatelessWidget {
                                   radius: ResponsiveSize.getSize(context, 130),
                                   child: CircleAvatar(
                                     backgroundColor: ColorConstants.whiteColor,
-                                    radius: ResponsiveSize.getSize(context, 120),
+                                    radius:
+                                    ResponsiveSize.getSize(context, 120),
                                     //isMobile ? 100 : 170, // Adjust for mobile
                                     backgroundImage:
-                                        AssetImage(AssetConstants.profileImage),
+                                    AssetImage(AssetConstants.profileImage),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: 10,
+                                  width: screenSize.width * 0.04,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 15),
-                                      child: AnimatedTextKit(
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            "Hello, I'm",
-                                            textStyle: TextStyle(
-                                                fontSize:ResponsiveSize.getSize(
-                                                    context, 18),
-                                                color: ColorConstants.darkGreyColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: FontConstants.fontFamily
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child:  AnimatedTextKit(
+                                          animatedTexts: [
+                                            TyperAnimatedText(
+                                              "Hello, I'm",
+                                              textStyle: TextStyle(
+                                                  fontSize:ResponsiveSize.getSize(
+                                                      context, 18),
+                                                  color: ColorConstants.darkGreyColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: FontConstants.fontFamily
 
+                                              ),
+                                              speed: Duration(milliseconds: 60), // Adjust typing speed
                                             ),
-                                            speed: Duration(milliseconds: 60), // Adjust typing speed
-                                          ),
-                                        ],
-                                        isRepeatingAnimation: false,
-                                      ),
+                                          ],
+                                          isRepeatingAnimation: false,
+                                        )
                                     ),
                                     SizedBox(
                                       height: 10,
@@ -289,15 +562,20 @@ class HomeView extends StatelessWidget {
                                       ],
                                       isRepeatingAnimation: false,
                                     ),
+
                                     SizedBox(
                                       height: 10,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      CrossAxisAlignment.center,
                                       children: [
                                         InkWell(
+                                          highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                          splashColor: Colors.transparent,
+                                          hoverColor:  Colors.transparent,
                                           onTap: () {
                                             homeController.resumeDriveLink();
                                           },
@@ -309,9 +587,9 @@ class HomeView extends StatelessWidget {
                                                 bottom: 5),
                                             decoration: BoxDecoration(
                                                 color:
-                                                    ColorConstants.primaryColor,
+                                                ColorConstants.primaryColor,
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                                 border: Border.all(
                                                     color: ColorConstants
                                                         .lightGrey)),
@@ -319,13 +597,14 @@ class HomeView extends StatelessWidget {
                                               "Download CV",
                                               style: TextStyle(
                                                   fontSize:
-                                                      ResponsiveSize.getSize(
-                                                          context, 16),
+                                                  ResponsiveSize.getSize(
+                                                      context, 16),
                                                   fontFamily:
-                                                      FontConstants.fontFamily,
+                                                  FontConstants.fontFamily,
                                                   color:
-                                                      ColorConstants.whiteColor,
-                                                  fontWeight: FontWeight.normal),
+                                                  ColorConstants.whiteColor,
+                                                  fontWeight:
+                                                  FontWeight.normal),
                                             ),
                                           ),
                                         ),
@@ -333,9 +612,13 @@ class HomeView extends StatelessWidget {
                                           width: 5,
                                         ),
                                         InkWell(
+                                          highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                          splashColor: Colors.transparent,
+                                          hoverColor:  Colors.transparent,
                                           onTap: () {
                                             HomeController.openEmailApp(
-                                                toMail: "girithardev@gmail.com");
+                                                toMail:
+                                                "girithardev@gmail.com");
                                           },
                                           child: Container(
                                             padding: EdgeInsets.only(
@@ -345,9 +628,9 @@ class HomeView extends StatelessWidget {
                                                 bottom: 5),
                                             decoration: BoxDecoration(
                                                 color:
-                                                    ColorConstants.primaryColor,
+                                                ColorConstants.primaryColor,
                                                 borderRadius:
-                                                    BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                                 border: Border.all(
                                                     color: ColorConstants
                                                         .lightGrey)),
@@ -355,13 +638,14 @@ class HomeView extends StatelessWidget {
                                               "Contact Info",
                                               style: TextStyle(
                                                   fontSize:
-                                                      ResponsiveSize.getSize(
-                                                          context, 16),
+                                                  ResponsiveSize.getSize(
+                                                      context, 16),
                                                   fontFamily:
-                                                      FontConstants.fontFamily,
+                                                  FontConstants.fontFamily,
                                                   color:
-                                                      ColorConstants.whiteColor,
-                                                  fontWeight: FontWeight.normal),
+                                                  ColorConstants.whiteColor,
+                                                  fontWeight:
+                                                  FontWeight.normal),
                                             ),
                                           ),
                                         ),
@@ -371,15 +655,19 @@ class HomeView extends StatelessWidget {
                                       height: 10,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                      CrossAxisAlignment.center,
                                       children: [
                                         Wrap(
                                           spacing: 0,
                                           alignment: WrapAlignment.center,
                                           children: [
                                             InkWell(
+                                              highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                              splashColor: Colors.transparent,
+                                              hoverColor:  Colors.transparent,
                                               onTap: () {
                                                 homeController.linkedInLink();
                                               },
@@ -393,6 +681,9 @@ class HomeView extends StatelessWidget {
                                               ),
                                             ),
                                             InkWell(
+                                              highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                              splashColor: Colors.transparent,
+                                              hoverColor:  Colors.transparent,
                                               onTap: () {
                                                 homeController.gitHubLink();
                                               },
@@ -412,360 +703,140 @@ class HomeView extends StatelessWidget {
                                   ],
                                 )
                               ],
-                            )
-                          : Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    getHorizontalPadding(constraints.maxWidth),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: ColorConstants.primaryColor,
-                                    radius: ResponsiveSize.getSize(context, 130),
-                                    child: CircleAvatar(
-                                      backgroundColor: ColorConstants.whiteColor,
-                                      radius:
-                                          ResponsiveSize.getSize(context, 120),
-                                      //isMobile ? 100 : 170, // Adjust for mobile
-                                      backgroundImage:
-                                          AssetImage(AssetConstants.profileImage),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: screenSize.width * 0.04,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child:  AnimatedTextKit(
-                                          animatedTexts: [
-                                            TyperAnimatedText(
-                                              "Hello, I'm",
-                                              textStyle: TextStyle(
-                                                  fontSize:ResponsiveSize.getSize(
-                                                      context, 18),
-                                                  color: ColorConstants.darkGreyColor,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: FontConstants.fontFamily
-
-                                              ),
-                                              speed: Duration(milliseconds: 60), // Adjust typing speed
-                                            ),
-                                          ],
-                                          isRepeatingAnimation: false,
-                                        )
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      AnimatedTextKit(
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            "GIRITHAR K",
-                                            textStyle: TextStyle(
-                                                fontSize:
-                                                ResponsiveSize.getSize(context, 26),
-                                                color: ColorConstants.primaryColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: FontConstants.fontFamily
-
-                                            ),
-                                            speed: Duration(milliseconds: 60), // Adjust typing speed
-                                          ),
-                                        ],
-                                        isRepeatingAnimation: false,
-                                      ),
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      AnimatedTextKit(
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            "Software Developer",
-                                            textStyle: TextStyle(
-                                                fontSize:
-                                                ResponsiveSize.getSize(context, 26),
-                                                color: ColorConstants.darkGreyColor,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: FontConstants.fontFamily
-
-                                            ),
-                                            speed: Duration(milliseconds: 60), // Adjust typing speed
-                                          ),
-                                        ],
-                                        isRepeatingAnimation: false,
-                                      ),
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              homeController.resumeDriveLink();
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                  top: 5,
-                                                  bottom: 5),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      ColorConstants.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: ColorConstants
-                                                          .lightGrey)),
-                                              child: Text(
-                                                "Download CV",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        ResponsiveSize.getSize(
-                                                            context, 16),
-                                                    fontFamily:
-                                                        FontConstants.fontFamily,
-                                                    color:
-                                                        ColorConstants.whiteColor,
-                                                    fontWeight:
-                                                        FontWeight.normal),
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              HomeController.openEmailApp(
-                                                  toMail:
-                                                      "girithardev@gmail.com");
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                  top: 5,
-                                                  bottom: 5),
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      ColorConstants.primaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                      color: ColorConstants
-                                                          .lightGrey)),
-                                              child: Text(
-                                                "Contact Info",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        ResponsiveSize.getSize(
-                                                            context, 16),
-                                                    fontFamily:
-                                                        FontConstants.fontFamily,
-                                                    color:
-                                                        ColorConstants.whiteColor,
-                                                    fontWeight:
-                                                        FontWeight.normal),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Wrap(
-                                            spacing: 0,
-                                            alignment: WrapAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  homeController.linkedInLink();
-                                                },
-                                                child: Lottie.asset(
-                                                  'assets/images/lotties/linkedin.json',
-                                                  width: ResponsiveSize.getSize(
-                                                      context, 50),
-                                                  height: ResponsiveSize.getSize(
-                                                      context, 50),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  homeController.gitHubLink();
-                                                },
-                                                child: Lottie.asset(
-                                                  'assets/images/lotties/github.json',
-                                                  width: ResponsiveSize.getSize(
-                                                      context, 50),
-                                                  height: ResponsiveSize.getSize(
-                                                      context, 50),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
                             ),
-                    ),
-                    SizedBox(height: screenSize.height * 0.2),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * 0.2),
 
-                    // **Second Segment (Appears on Scroll)**
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
-                      ),
-                      child: _buildSecondSegment(
-                          isTabletOrMobile, context, screenSize),
+                        // **Second Segment (Appears on Scroll)**
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildSecondSegment(
+                              isTabletOrMobile, context, screenSize),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        _buildThirdSegment(
+                          isTabletOrMobile,
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildToolsSegment(isTabletOrMobile, screenSize),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildProjectsCarousel(isTabletOrMobile,context),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildBloGGrid(),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        SizedBox(
+                            height: 650,
+                            child: _buildContact(isTabletOrMobile,screenSize,context))
+                      ],
                     ),
-                    SizedBox(height: screenSize.height * 0.2),
-                    _buildThirdSegment(
-                      isTabletOrMobile,
-                    ),
-                    SizedBox(height: screenSize.height * 0.2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
-                      ),
-                      child: _buildToolsSegment(isTabletOrMobile, screenSize),
-                    ),
-                    SizedBox(height: screenSize.height * 0.2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
-                      ),
-                      child: _buildProjectsCarousel(isTabletOrMobile,context),
-                    ),
-                    SizedBox(height: screenSize.height * 0.2),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
-                      ),
-                      child: _buildBloGGrid(),
-                    ),
-                    SizedBox(height: screenSize.height * 0.2),
-                    SizedBox(
-                      height: 650,
-                        child: _buildContact(isTabletOrMobile,screenSize,context))
-                  ],
+                  ),
                 ),
+              );
+            }),
+            floatingActionButton: Container(
+              width: ResponsiveSize.getSize(
+                  context, 90),
+              height: ResponsiveSize.getSize(
+                  context, 90),
+              margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
+                  context, 50),right: ResponsiveSize.getSize(
+                  context, 50) ),
+              child: FloatingActionButton(
+                elevation: 0,
+                shape: CircleBorder(),
+                backgroundColor: ColorConstants.whiteColor,
+                onPressed: () async {
+                  // Create WhatsApp URL with the phone number and encoded message
+                  final Uri whatsappUrl = Uri.parse(
+                    "https://wa.me/+918838304677",
+                  );
+
+                  try {
+                    // Check if the WhatsApp URL can be launched
+                    if (await canLaunchUrl(whatsappUrl)) {
+                      await launchUrl(whatsappUrl);
+                    } else {}
+                  } catch (e) {
+                    // Handle any errors gracefully
+                    Get.snackbar(
+                      "Error",
+                      "Could not share on WhatsApp: $e",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                  }
+                },
+                child: Lottie.asset(
+                  'assets/images/lotties/whatsapp.json',
+                  width: ResponsiveSize.getSize(
+                      context, 80),
+                  height: ResponsiveSize.getSize(
+                      context, 80),
+                  fit: BoxFit.fill,
+                ),
+                // Image.asset(AssetConstants.whatsappLogo,),
               ),
             ),
           );
-        }),
-        floatingActionButton: Container(
-          width: ResponsiveSize.getSize(
-              context, 90),
-          height: ResponsiveSize.getSize(
-              context, 90),
-          margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
-              context, 50),right: ResponsiveSize.getSize(
-              context, 50) ),
-          child: FloatingActionButton(
-            elevation: 0,
-            shape: CircleBorder(),
-            backgroundColor: ColorConstants.whiteColor,
-            onPressed: () async {
-              // Create WhatsApp URL with the phone number and encoded message
-              final Uri whatsappUrl = Uri.parse(
-                "https://wa.me/+918838304677",
-              );
+        }
+      ),
+    );
+  }
 
-              try {
-                // Check if the WhatsApp URL can be launched
-                if (await canLaunchUrl(whatsappUrl)) {
-                  await launchUrl(whatsappUrl);
-                } else {}
-              } catch (e) {
-                // Handle any errors gracefully
-                Get.snackbar(
-                  "Error",
-                  "Could not share on WhatsApp: $e",
-                  snackPosition: SnackPosition.BOTTOM,
-                );
-              }
-            },
-            child: Lottie.asset(
-              'assets/images/lotties/whatsapp.json',
-              width: ResponsiveSize.getSize(
-                  context, 80),
-              height: ResponsiveSize.getSize(
-                  context, 80),
-              fit: BoxFit.fill,
-            ),
-            // Image.asset(AssetConstants.whatsappLogo,),
-          ),
+  Widget _menuItem(String title, Size screenSize, context,int index) {
+    bool isSelected = homeController.selectedMenuIndex == index;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.01),
+      child: Container(
+        padding: EdgeInsets.only(top: 5,bottom: 5,left: 10,right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected?ColorConstants.whiteColor:Colors.transparent,
+
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+              fontSize: ResponsiveSize.getSize(context, 16),
+              fontFamily: FontConstants.fontFamily,
+              fontWeight: FontWeight.bold,
+              color: ColorConstants.primaryColor),
         ),
       ),
     );
   }
 
-
-  Widget _menuItem(String title, Size screenSize, context, String sectionName) {
-    return Obx(() {
-      bool isSelected = homeController.selectedSection.value == sectionName;
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.01),
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: isSelected ? ColorConstants.primaryColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: ResponsiveSize.getSize(context, 16),
-              fontFamily: FontConstants.fontFamily,
-              fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.white : ColorConstants.primaryColor,
-            ),
-          ),
-        ),
-      );
-    });
-  }
-
   Widget _drawerItem(String title, context, scrollNavigationKey) {
     return   Builder(builder: (context) {
-        return ListTile(
-          title: Text(title,
-              style: TextStyle(
-                fontSize: ResponsiveSize.getSize(context, 24),
-                fontFamily: FontConstants.fontFamily,
-              )),
-          onTap: () {
-        Scaffold.of(context).closeDrawer();
-            homeController.scrollToSection(scrollNavigationKey,title);
-          },
-        );
-      }
+      return ListTile(
+        title: Text(title,
+            style: TextStyle(
+              fontSize: ResponsiveSize.getSize(context, 24),
+              fontFamily: FontConstants.fontFamily,
+            )),
+        onTap: () {
+          Scaffold.of(context).closeDrawer();
+          homeController.scrollToSection(scrollNavigationKey);
+        },
+      );
+    }
     );
   }
 
@@ -780,7 +851,7 @@ class HomeView extends StatelessWidget {
         position: homeController.slideFromBottom,
         child: Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key:  homeController.aboutKey,
+          key: aboutKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -834,7 +905,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key:  homeController.experienceKey,
+          key: experienceKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -856,29 +927,29 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               // Responsive Row/Column Layout
               isWideScreen
                   ? Row(
-                      children: [
-                        Expanded(
-                          child: _buildSkillContainer(
-                              "Languages and Frameworks",
-                              homeController.languagesAndFrameworks,
-                              isMobile,
-                              context),
-                        ),
-                        // SizedBox(width: 20),
-                        // Expanded(child:  _buildSkillContainer("Tools, IDEs, and Others", homeController.toolsAndIDEs, isMobile,context)),
-                      ],
-                    )
+                children: [
+                  Expanded(
+                    child: _buildSkillContainer(
+                        "Languages and Frameworks",
+                        homeController.languagesAndFrameworks,
+                        isMobile,
+                        context),
+                  ),
+                  // SizedBox(width: 20),
+                  // Expanded(child:  _buildSkillContainer("Tools, IDEs, and Others", homeController.toolsAndIDEs, isMobile,context)),
+                ],
+              )
                   : Column(
-                      children: [
-                        _buildSkillContainer(
-                            "Languages and Frameworks",
-                            homeController.languagesAndFrameworks,
-                            isMobile,
-                            context),
-                        // SizedBox(height: 20),
-                        // _buildSkillContainer("Tools, IDEs, and Database", homeController.toolsAndIDEs, isMobile,context),
-                      ],
-                    ),
+                children: [
+                  _buildSkillContainer(
+                      "Languages and Frameworks",
+                      homeController.languagesAndFrameworks,
+                      isMobile,
+                      context),
+                  // SizedBox(height: 20),
+                  // _buildSkillContainer("Tools, IDEs, and Database", homeController.toolsAndIDEs, isMobile,context),
+                ],
+              ),
             ],
           ),
         );
@@ -893,7 +964,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key:  homeController.toolsKey,
+          key: toolsKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -953,7 +1024,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                               children: [
                                 ReusableTextWidget(
                                   text: homeController.toolsAndIDEs[index]
-                                          ['name'] ??
+                                  ['name'] ??
                                       '',
                                   fontSize: ResponsiveSize.getSize(context,
                                       20), // Slightly reduced for better responsiveness
@@ -962,7 +1033,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 ),
                                 ReusableTextWidget(
                                   text: homeController.toolsAndIDEs[index]
-                                          ['level'] ??
+                                  ['level'] ??
                                       '',
                                   fontSize: ResponsiveSize.getSize(context, 16),
                                   // overflow: TextOverflow.ellipsis,
@@ -1096,58 +1167,58 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
   Widget _buildProjectsCarousel(bool isMobile,context) {
     return Container(
-      key:  homeController.projectsKey,
+      key: projectsKey,
       margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
       child:GetBuilder<HomeController>(
-        builder: (controller) {
-          return Column(
-            children: [
-              ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600, fontSize: ResponsiveSize.getSize(context, 20),),
-              SizedBox(height: ResponsiveSize.getSize(context, 10)),
+          builder: (controller) {
+            return Column(
+              children: [
+                ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600, fontSize: ResponsiveSize.getSize(context, 20),),
+                SizedBox(height: ResponsiveSize.getSize(context, 10)),
 
-              ReusableTextWidget(
-                  text: "Projects",  fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
-              SizedBox(height: ResponsiveSize.getSize(context, 50)),
+                ReusableTextWidget(
+                    text: "Projects",  fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+                SizedBox(height: ResponsiveSize.getSize(context, 50)),
 
-              CarouselSlider(
-                carouselController: homeController.carouselController,
-                options: CarouselOptions(
-                  height: isMobile ? 300 : 500, // Adjust as needed
-                  onPageChanged: (index, reason) {
-                    homeController.currentIndex = index;
-                    homeController.update();
+                CarouselSlider(
+                  carouselController: homeController.carouselController,
+                  options: CarouselOptions(
+                    height: isMobile ? 300 : 500, // Adjust as needed
+                    onPageChanged: (index, reason) {
+                      homeController.currentIndex = index;
+                      homeController.update();
+                    },
+                    enlargeCenterPage: true, // Makes the current item bigger
+                    autoPlay: true, // Enables auto sliding
+                    autoPlayInterval: Duration(seconds: 3), // Time for auto slide
+                    viewportFraction: 0.5, // Controls how much of the next/prev items are shown
+                  ),
+                  items:  homeController.projects.map((project) {
+                    return _buildProjectCard(project);
+                  }).toList(),
+                ),
+
+                SizedBox(height: ResponsiveSize.getSize(context, 60)),
+
+
+                // SmoothPageIndicator for carousel dots
+                AnimatedSmoothIndicator(
+                  activeIndex: homeController.currentIndex,
+                  count: homeController.projects.length,
+                  effect: ExpandingDotsEffect(
+                    dotHeight: 8,
+                    dotWidth: 8,
+                    activeDotColor: ColorConstants.primaryColor, // Customize as needed
+                  ),
+                  onDotClicked: (index) {
+                    homeController.carouselController.animateToPage(index,);
+
                   },
-                  enlargeCenterPage: true, // Makes the current item bigger
-                  autoPlay: true, // Enables auto sliding
-                  autoPlayInterval: Duration(seconds: 3), // Time for auto slide
-                  viewportFraction: 0.5, // Controls how much of the next/prev items are shown
                 ),
-                items:  homeController.projects.map((project) {
-                  return _buildProjectCard(project);
-                }).toList(),
-              ),
 
-              SizedBox(height: ResponsiveSize.getSize(context, 60)),
-
-
-              // SmoothPageIndicator for carousel dots
-              AnimatedSmoothIndicator(
-                activeIndex: homeController.currentIndex,
-                count: homeController.projects.length,
-                effect: ExpandingDotsEffect(
-                  dotHeight: 8,
-                  dotWidth: 8,
-                  activeDotColor: ColorConstants.primaryColor, // Customize as needed
-                ),
-                onDotClicked: (index) {
-                  homeController.carouselController.animateToPage(index,);
-
-                },
-              ),
-
-            ],
-          );
-        }
+              ],
+            );
+          }
       ),
     );
   }
@@ -1211,12 +1282,12 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
         int crossAxisCount = width < 600
             ? 1
             : width < 1000
-                ? 2
-                : 3; // Adjust grid columns
+            ? 2
+            : 3; // Adjust grid columns
 
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key:  homeController.blogKey,
+          key: blogKey,
           child: Column(
             children: [
               ReusableTextWidget(
@@ -1235,7 +1306,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               GridView.builder(
                 shrinkWrap: true,
                 physics:
-                    NeverScrollableScrollPhysics(), // Prevents nested scrolling
+                NeverScrollableScrollPhysics(), // Prevents nested scrolling
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 20,
@@ -1267,6 +1338,9 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: InkWell(
+          highlightColor: Colors.transparent,  // Remove the highlight shadow
+          splashColor: Colors.transparent,
+          hoverColor:  Colors.transparent,
           onTap: ()async{
             final Uri blogUrl = Uri.parse(
               project.blogUrl,
@@ -1274,11 +1348,11 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
             try {
               if (await canLaunchUrl(blogUrl)) {
-            await launchUrl(blogUrl);
-            } else {}
+                await launchUrl(blogUrl);
+              } else {}
             } catch (e) {
               logger.i('catchErrorBlog $e');
-            // Handle any errors gracefully
+              // Handle any errors gracefully
 
             }
           },
@@ -1332,8 +1406,21 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
   Widget _buildContact(bool isMobile,Size screenSize,context) {
     return Container(
       width: screenSize.width,
-      decoration: BoxDecoration(color: ColorConstants.primaryColor,),
-      key: homeController.contactKey,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0XFFB1F0F7),Color(0XFFB1F0F7),], // Gradient colors
+
+          ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.transparent, // Light shadow
+            spreadRadius: 0,
+            blurRadius: 5,
+            offset: Offset(0, 3), // Moves shadow **only down**
+          ),
+        ],
+        ),
+      key:contactKey,
       child: LayoutBuilder(
         builder: (context, constraints) {
           bool isWide = constraints.maxWidth > 600;
@@ -1358,7 +1445,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                           fontWeight: FontWeight.bold,
                           maxLines: 2,
                           textAlign: TextAlign.center,
-                          color: ColorConstants.whiteColor,
+                          color: ColorConstants.primaryColor,
                         ),
                         const SizedBox(height: 10),
                         ReusableTextWidget(
@@ -1367,7 +1454,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                           textAlign: TextAlign.center,
                           fontSize: 16,
                           maxLines: 3,
-                          color: ColorConstants.whiteColor,
+                          color: ColorConstants.primaryColor,
 
 
                         ),
@@ -1380,23 +1467,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                             Expanded(
                               child: TextFormField(
                                 controller: homeController.nameController,
-                                style: TextStyle(color: ColorConstants.whiteColor,),
+                                style: TextStyle(color: ColorConstants.primaryColor,),
                                 decoration: const InputDecoration(
                                   labelText: "Name",
-                                  labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                  labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                   focusedBorder:OutlineInputBorder(
                                     borderSide:  BorderSide(
-                                      color: ColorConstants.whiteColor,
+                                      color: ColorConstants.primaryColor,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:  BorderSide(
-                                      color: ColorConstants.whiteColor,
+                                      color: ColorConstants.primaryColor,
                                     ),
                                   ),
                                   border: OutlineInputBorder(),
-                                  focusColor: ColorConstants.whiteColor,
-                                  hoverColor: ColorConstants.whiteColor,
+                                  focusColor: ColorConstants.primaryColor,
+                                  hoverColor: ColorConstants.primaryColor,
                                 ),
                                 validator: (value) =>
                                 value!.isEmpty ? "Enter your name" : null,
@@ -1406,23 +1493,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                             Expanded(
                               child: TextFormField(
                                 controller: homeController.emailController,
-                                style: TextStyle(color: ColorConstants.whiteColor,),
+                                style: TextStyle(color: ColorConstants.primaryColor,),
                                 decoration: const InputDecoration(
                                   labelText: "Email",
-                                  labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                  labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                   border: OutlineInputBorder(),
                                   focusedBorder:OutlineInputBorder(
                                     borderSide:  BorderSide(
-                                      color: ColorConstants.whiteColor,
+                                      color: ColorConstants.primaryColor,
                                     ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide:  BorderSide(
-                                      color: ColorConstants.whiteColor,
+                                      color: ColorConstants.primaryColor,
                                     ),
                                   ),
-                                  focusColor: ColorConstants.whiteColor,
-                                  hoverColor: ColorConstants.whiteColor,
+                                  focusColor: ColorConstants.primaryColor,
+                                  hoverColor: ColorConstants.primaryColor,
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) =>
@@ -1435,23 +1522,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                           children: [
                             TextFormField(
                               controller: homeController.nameController,
-                              style: TextStyle(color: ColorConstants.whiteColor,),
+                              style: TextStyle(color: ColorConstants.primaryColor,),
                               decoration: const InputDecoration(
                                 labelText: "Name",
-                                labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                 border: OutlineInputBorder(),
                                 focusedBorder:OutlineInputBorder(
                                   borderSide:  BorderSide(
-                                    color: ColorConstants.whiteColor,
+                                    color: ColorConstants.primaryColor,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:  BorderSide(
-                                    color: ColorConstants.whiteColor,
+                                    color: ColorConstants.primaryColor,
                                   ),
                                 ),
-                                focusColor: ColorConstants.whiteColor,
-                                hoverColor: ColorConstants.whiteColor,
+                                focusColor: ColorConstants.primaryColor,
+                                hoverColor: ColorConstants.primaryColor,
                               ),
                               validator: (value) =>
                               value!.isEmpty ? "Enter your name" : null,
@@ -1459,23 +1546,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                             const SizedBox(height: 15),
                             TextFormField(
                               controller: homeController.emailController,
-                              style: TextStyle(color: ColorConstants.whiteColor,),
+                              style: TextStyle(color: ColorConstants.primaryColor,),
                               decoration: const InputDecoration(
                                 labelText: "Email",
-                                labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                 border: OutlineInputBorder(),
                                 focusedBorder:OutlineInputBorder(
                                   borderSide:  BorderSide(
-                                    color: ColorConstants.whiteColor,
+                                    color: ColorConstants.primaryColor,
                                   ),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:  BorderSide(
-                                    color: ColorConstants.whiteColor,
+                                    color: ColorConstants.primaryColor,
                                   ),
                                 ),
-                                focusColor: ColorConstants.whiteColor,
-                                hoverColor: ColorConstants.whiteColor,
+                                focusColor: ColorConstants.primaryColor,
+                                hoverColor: ColorConstants.primaryColor,
                               ),
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) =>
@@ -1487,23 +1574,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                         const SizedBox(height: 15),
                         TextFormField(
                           controller: homeController.descriptionController,
-                          style: TextStyle(color: ColorConstants.whiteColor,),
+                          style: TextStyle(color: ColorConstants.primaryColor,),
                           decoration: const InputDecoration(
                             labelText: "Description...",
-                            labelStyle: TextStyle(color: ColorConstants.whiteColor,),
+                            labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                             border: OutlineInputBorder(),
                             focusedBorder:OutlineInputBorder(
                               borderSide:  BorderSide(
-                                color: ColorConstants.whiteColor,
+                                color: ColorConstants.primaryColor,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide:  BorderSide(
-                                color: ColorConstants.whiteColor,
+                                color: ColorConstants.primaryColor,
                               ),
                             ),
-                            focusColor: ColorConstants.whiteColor,
-                            hoverColor: ColorConstants.whiteColor,
+                            focusColor: ColorConstants.primaryColor,
+                            hoverColor: ColorConstants.primaryColor,
 
                           ),
                           maxLines: 4,
@@ -1516,7 +1603,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                           // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorConstants.whiteColor,
+                              backgroundColor: ColorConstants.primaryColor,
                               foregroundColor: ColorConstants.primaryColor,
                               padding: const EdgeInsets.symmetric(vertical: 15),
                             ),
@@ -1527,18 +1614,18 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 // Toast.showToast('Form Submitted');
                                 // Handle form submission
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.whiteColor,),
+                                  const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.primaryColor,),
                                 );
                               }
                             },
-                            child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold),),
+                            child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold,color: ColorConstants.whiteColor),),
                           ),
                         ),
                         Spacer(),
                         ReusableTextWidget(
                           text: '© Copyrights. All Rights Reserved.',
                           fontSize: ResponsiveSize.getSize(context, 15),
-                          color: ColorConstants.whiteColor,
+                          color: ColorConstants.primaryColor,
                           fontWeight: FontWeight.bold,
                         )
                       ],
@@ -1761,7 +1848,7 @@ class SkillWidget extends StatelessWidget {
 
 
 class ResponsiveCardSection extends StatelessWidget {
-   ResponsiveCardSection({super.key});
+  ResponsiveCardSection({super.key});
 
   HomeController homeController = Get.put(HomeController());
 
@@ -1816,3 +1903,4 @@ class ResponsiveCardSection extends StatelessWidget {
   }
 
 }
+

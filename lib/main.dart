@@ -43,3 +43,8 @@ class MyApp extends StatelessWidget {
 }
 
 
+/// Key Generate
+
+// keytool -genkey -v -keystore D:\Portfolio\portfolio-keystore.jks `
+// -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 `
+// -alias portfolio

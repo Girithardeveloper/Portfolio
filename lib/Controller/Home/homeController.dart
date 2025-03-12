@@ -14,11 +14,18 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 
   int currentIndex = 0;
 
+  int selectedMenuIndex = -1;
+
   late AnimationController sectionController;
   late Animation<Offset> slideFromBottom;
+
   bool isVisible = false;
+  bool menuSelected = false;
 
   final CarouselSliderController carouselController = CarouselSliderController();
+
+
+
 
 
   final List<Map<String, String>> cardData = [
@@ -29,13 +36,16 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   ];
 
 
+
+
+
   final List<Map<String, String>> languagesAndFrameworks = [
     {'name': 'C', 'level': 'Intermediate','image':AssetConstants.cLogo},
     {'name': 'Dart', 'level': 'Experienced','image':AssetConstants.dartLogo},
     {'name': 'Kotlin', 'level': 'Beginner','image':AssetConstants.kotlinLogo},
     {'name': 'SQL', 'level': 'Intermediate','image':AssetConstants.sqlLogo},
     {'name': 'Flutter', 'level': 'Advanced','image':AssetConstants.flutterLogo},
-    {'name': 'Flutter Flow', 'level': 'Advanced','image':AssetConstants.flutterFlowLogo},
+    {'name': 'Flutter Flow', 'level': 'Intermediate','image':AssetConstants.flutterFlowLogo},
     {'name': 'Golang', 'level': 'Beginner','image':AssetConstants.golangLogo},
   ];
 
@@ -79,23 +89,12 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 
   final ScrollController scrollController = ScrollController();
 
-  final GlobalKey aboutKey = GlobalKey();
-  final GlobalKey experienceKey = GlobalKey();
-  final GlobalKey projectsKey = GlobalKey();
-  final GlobalKey toolsKey = GlobalKey();
-  final GlobalKey blogKey = GlobalKey();
-  final GlobalKey contactKey = GlobalKey();
-
   late Timer _timer;
-
-
-  var selectedSection = "".obs; // Observable to track selected section
-
 
 
   void resumeDriveLink() async {
     var resumeDriveLinkUrl;
-      // appInfo = await Utility.getApplicationInfo();
+    // appInfo = await Utility.getApplicationInfo();
 
     resumeDriveLinkUrl = 'https://drive.google.com/file/d/1Vc4XGP3znz8yfxknu0dPZk4mPr1YR8NZ/view?usp=drivesdk';
 
@@ -108,7 +107,7 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 
   void linkedInLink() async {
     var linkedInLinkUrl;
-      // appInfo = await Utility.getApplicationInfo();
+    // appInfo = await Utility.getApplicationInfo();
 
     linkedInLinkUrl = 'https://www.linkedin.com/in/girithar-kaarthiraajan-329206225';
 
@@ -121,7 +120,7 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 
   void gitHubLink() async {
     var gitHubLinkUrl;
-      // appInfo = await Utility.getApplicationInfo();
+    // appInfo = await Utility.getApplicationInfo();
 
     gitHubLinkUrl = 'https://github.com/Girithardeveloper?tab=repositories';
 
@@ -141,6 +140,18 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
           'subject': subject??""
         }
     ).toString());
+  }
+
+  /// Scroll Appbar Menu
+  void scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
 
@@ -187,7 +198,7 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   ///
   void triggerAnimation(bool visible) {
     if (visible && !isVisible) {
-        isVisible = true;
+      isVisible = true;
       sectionController.forward();
       update();
     }
@@ -202,7 +213,6 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
     // TODO: implement onInit
     _startAutoScroll();
     super.onInit();
-    scrollController.addListener(trackScrolling);
     sectionController = AnimationController(
       duration: Duration(milliseconds: 800),
       vsync: this,
@@ -255,55 +265,4 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
     super.dispose();
   }
 
-
-  /// Function to scroll to a specific section
-  ///
-  void scrollToSection(GlobalKey key, String sectionName) {
-    final context = key.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-      selectedSection.value = sectionName; // Update selected section
-    }
-  }
-
-  // Listen to scrolling and detect which section is in view
-  void trackScrolling() {
-    if (!scrollController.hasClients) return;
-    final offset = scrollController.offset;
-
-    // Detect which section is in view
-    if (isSectionInView(aboutKey)) {
-      selectedSection.value = "About";
-    } else if (isSectionInView(experienceKey)) {
-      selectedSection.value = "Experience";
-    } else if (isSectionInView(projectsKey)) {
-      selectedSection.value = "Projects";
-    } else if (isSectionInView(blogKey)) {
-      selectedSection.value = "Blogs";
-    } else if (isSectionInView(toolsKey)) {
-      selectedSection.value = "Tools";
-    } else if (isSectionInView(contactKey)) {
-      selectedSection.value = "Contact";
-    }
-  }
-
-  bool isSectionInView(GlobalKey key) {
-    final context = key.currentContext;
-    if (context == null) return false;
-    final RenderBox box = context.findRenderObject() as RenderBox;
-    final position = box.localToGlobal(Offset.zero).dy;
-    return position >= 0 && position <= 200; // Adjust threshold
-  }
-
-
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
-  }
 }
-
