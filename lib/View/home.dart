@@ -54,7 +54,7 @@ class HomeView extends StatelessWidget {
               forceMaterialTransparency: true,
 
               elevation: 0,
-              // toolbarHeight:
+              toolbarHeight:isTabletOrMobile?60:100,
               // ResponsiveSize.getSize(context, screenSize.height * 0.08),
               backgroundColor: ColorConstants.primaryColor.withAlpha(0),
               leading: isTabletOrMobile ? Padding(
@@ -187,8 +187,7 @@ class HomeView extends StatelessWidget {
                         TyperAnimatedText(
                           "GIRITHAR K",
                           textStyle: TextStyle(
-                              fontSize:ResponsiveSize.getSize(
-                                  context, 26),
+                              fontSize:isTabletOrMobile?22:24,
                               color: ColorConstants.primaryColor,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Airbeat'
@@ -204,17 +203,17 @@ class HomeView extends StatelessWidget {
                       height: 10,
                     ),
 
-                    _drawerItem("About", context, aboutKey),
+                    _drawerItem(isTabletOrMobile,"About", context, aboutKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Experience", context, experienceKey),
+                    _drawerItem(isTabletOrMobile,"Experience", context, experienceKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Tools", context, toolsKey),
+                    _drawerItem(isTabletOrMobile,"Tools", context, toolsKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Projects", context, projectsKey),
+                    _drawerItem(isTabletOrMobile,"Projects", context, projectsKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Blogs", context, blogKey),
+                    _drawerItem(isTabletOrMobile,"Blogs", context, blogKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem("Contact", context, contactKey),
+                    _drawerItem(isTabletOrMobile,"Contact", context, contactKey),
                   ],
                 ),
               ),
@@ -809,12 +808,12 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _drawerItem(String title, context, scrollNavigationKey) {
+  Widget _drawerItem(bool isMobile,String title, context, scrollNavigationKey) {
     return   Builder(builder: (context) {
       return ListTile(
         title: Text(title,
             style: TextStyle(
-              fontSize: ResponsiveSize.getSize(context, 24),
+              fontSize: isMobile?22:24,
               fontFamily: FontConstants.fontFamily,
             )),
         onTap: () {
@@ -1074,7 +1073,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   childAspectRatio: width < 400 ? 3 : 2.5,
-                  mainAxisExtent: ResponsiveSize.getSize(context, 250),
+                  mainAxisExtent: ResponsiveSize.getSize(context, 300),
                 ),
                 itemCount: skillList.length,
                 itemBuilder: (context, index) {
