@@ -54,8 +54,8 @@ class HomeView extends StatelessWidget {
               forceMaterialTransparency: true,
 
               elevation: 0,
-              toolbarHeight:
-              ResponsiveSize.getSize(context, screenSize.height * 0.08),
+              // toolbarHeight:
+              // ResponsiveSize.getSize(context, screenSize.height * 0.08),
               backgroundColor: ColorConstants.primaryColor.withAlpha(0),
               leading: isTabletOrMobile ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -283,8 +283,7 @@ class HomeView extends StatelessWidget {
                                         TyperAnimatedText(
                                           "Hello, I'm",
                                           textStyle: TextStyle(
-                                              fontSize:ResponsiveSize.getSize(
-                                                  context, 18),
+                                              fontSize:isTabletOrMobile ? 16 : 18,
                                               color: ColorConstants.darkGreyColor,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: FontConstants.fontFamily
@@ -304,8 +303,7 @@ class HomeView extends StatelessWidget {
                                       TyperAnimatedText(
                                         "GIRITHAR K",
                                         textStyle: TextStyle(
-                                            fontSize:
-                                            ResponsiveSize.getSize(context, 26),
+                                            fontSize:isTabletOrMobile ? 18 : 24,
                                             color: ColorConstants.primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: FontConstants.fontFamily
@@ -325,8 +323,7 @@ class HomeView extends StatelessWidget {
                                       TyperAnimatedText(
                                         "Software Developer",
                                         textStyle: TextStyle(
-                                            fontSize:
-                                            ResponsiveSize.getSize(context, 26),
+                                            fontSize:isTabletOrMobile ? 18 : 24,
                                             color: ColorConstants.darkGreyColor,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: FontConstants.fontFamily
@@ -369,9 +366,7 @@ class HomeView extends StatelessWidget {
                                           child: Text(
                                             "Download CV",
                                             style: TextStyle(
-                                                fontSize:
-                                                ResponsiveSize.getSize(
-                                                    context, 16),
+                                                fontSize:isTabletOrMobile ? 18 : 22,
                                                 fontFamily:
                                                 FontConstants.fontFamily,
                                                 color:
@@ -381,7 +376,7 @@ class HomeView extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 5,
+                                        width: 10,
                                       ),
                                       InkWell(
                                         highlightColor: Colors.transparent,  // Remove the highlight shadow
@@ -408,9 +403,7 @@ class HomeView extends StatelessWidget {
                                           child: Text(
                                             "Contact Info",
                                             style: TextStyle(
-                                                fontSize:
-                                                ResponsiveSize.getSize(
-                                                    context, 16),
+                                                fontSize:isTabletOrMobile ? 18 : 22,
                                                 fontFamily:
                                                 FontConstants.fontFamily,
                                                 color:
@@ -508,8 +501,7 @@ class HomeView extends StatelessWidget {
                                             TyperAnimatedText(
                                               "Hello, I'm",
                                               textStyle: TextStyle(
-                                                  fontSize:ResponsiveSize.getSize(
-                                                      context, 18),
+                                                  fontSize:isTabletOrMobile ? 16 : 18,
                                                   color: ColorConstants.darkGreyColor,
                                                   fontWeight: FontWeight.w600,
                                                   fontFamily: FontConstants.fontFamily
@@ -529,8 +521,7 @@ class HomeView extends StatelessWidget {
                                         TyperAnimatedText(
                                           "GIRITHAR K",
                                           textStyle: TextStyle(
-                                              fontSize:
-                                              ResponsiveSize.getSize(context, 26),
+                                              fontSize:isTabletOrMobile ? 18 : 24,
                                               color: ColorConstants.primaryColor,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: FontConstants.fontFamily
@@ -550,8 +541,7 @@ class HomeView extends StatelessWidget {
                                         TyperAnimatedText(
                                           "Software Developer",
                                           textStyle: TextStyle(
-                                              fontSize:
-                                              ResponsiveSize.getSize(context, 26),
+                                              fontSize:isTabletOrMobile ? 18 : 24,
                                               color: ColorConstants.darkGreyColor,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: FontConstants.fontFamily
@@ -596,9 +586,7 @@ class HomeView extends StatelessWidget {
                                             child: Text(
                                               "Download CV",
                                               style: TextStyle(
-                                                  fontSize:
-                                                  ResponsiveSize.getSize(
-                                                      context, 16),
+                                                  fontSize:isTabletOrMobile ? 18 : 22,
                                                   fontFamily:
                                                   FontConstants.fontFamily,
                                                   color:
@@ -609,7 +597,7 @@ class HomeView extends StatelessWidget {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          width: 10,
                                         ),
                                         InkWell(
                                           highlightColor: Colors.transparent,  // Remove the highlight shadow
@@ -637,9 +625,7 @@ class HomeView extends StatelessWidget {
                                             child: Text(
                                               "Contact Info",
                                               style: TextStyle(
-                                                  fontSize:
-                                                  ResponsiveSize.getSize(
-                                                      context, 16),
+                                                  fontSize:isTabletOrMobile ? 18 : 22,
                                                   fontFamily:
                                                   FontConstants.fontFamily,
                                                   color:
@@ -739,7 +725,7 @@ class HomeView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: getHorizontalPadding(constraints.maxWidth),
                           ),
-                          child: _buildBloGGrid(),
+                          child: _buildBloGGrid(isTabletOrMobile),
                         ),
                         SizedBox(height: screenSize.height * 0.1),
                         SizedBox(
@@ -860,14 +846,14 @@ class HomeView extends StatelessWidget {
               ReusableTextWidget(
                 text: 'Get To Know More',
                 color: Colors.grey.shade600,
-                fontSize: ResponsiveSize.getSize(context, 20),
+                fontSize:  isMobile ? 22 : 24,
               ),
               SizedBox(
                 height: 10,
               ),
               ReusableTextWidget(
                   text: "About Me",
-                  fontSize: ResponsiveSize.getSize(context, 24),
+                  fontSize:  isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
                 height: ResponsiveSize.getSize(context, screenSize.height * 0.10),
@@ -913,12 +899,12 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ReusableTextWidget(
                 text: 'Explore My',
                 color: Colors.grey.shade600,
-                fontSize: ResponsiveSize.getSize(context, 20),
+                fontSize: isMobile ? 22 : 24,
               ),
               SizedBox(height: 10),
               ReusableTextWidget(
                   text: "Experience",
-                  fontSize: ResponsiveSize.getSize(context, 24),
+                  fontSize: isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
                 height: ResponsiveSize.getSize(context, 50),
@@ -972,12 +958,12 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ReusableTextWidget(
                 text: 'Explore My',
                 color: Colors.grey.shade600,
-                fontSize: ResponsiveSize.getSize(context, 20),
+                fontSize: isMobile ? 22 : 24,
               ),
               SizedBox(height: 10),
               ReusableTextWidget(
                   text: "Tools, IDEs, and Others",
-                  fontSize: ResponsiveSize.getSize(context, 24),
+                  fontSize:isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
                 height: ResponsiveSize.getSize(context, 60),
@@ -1026,8 +1012,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                   text: homeController.toolsAndIDEs[index]
                                   ['name'] ??
                                       '',
-                                  fontSize: ResponsiveSize.getSize(context,
-                                      20), // Slightly reduced for better responsiveness
+                                  fontSize:isMobile ? 18 : 22, // Slightly reduced for better responsiveness
                                   fontWeight: FontWeight.bold,
                                   // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
                                 ),
@@ -1035,7 +1020,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                   text: homeController.toolsAndIDEs[index]
                                   ['level'] ??
                                       '',
-                                  fontSize: ResponsiveSize.getSize(context, 16),
+                                  fontSize: isMobile ? 16 : 20,
                                   // overflow: TextOverflow.ellipsis,
                                 ),
                               ],
@@ -1064,7 +1049,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
           ReusableTextWidget(
             text: title,
             fontWeight: FontWeight.bold,
-            fontSize: ResponsiveSize.getSize(context, 22),
+            fontSize: isMobile ? 22 : 24,
             color: Colors.grey.shade600,
           ),
           SizedBox(height: 40),
@@ -1089,7 +1074,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   childAspectRatio: width < 400 ? 3 : 2.5,
-                  mainAxisExtent: ResponsiveSize.getSize(context, 200),
+                  mainAxisExtent: ResponsiveSize.getSize(context, 250),
                 ),
                 itemCount: skillList.length,
                 itemBuilder: (context, index) {
@@ -1097,6 +1082,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                     skillName: skillList[index]['name'] ?? '',
                     skillLogo: skillList[index]['image'] ?? '',
                     experienceLevel: skillList[index]['level'] ?? '',
+                    isMobile: isMobile,
                   );
                 },
               );
@@ -1173,11 +1159,11 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
           builder: (controller) {
             return Column(
               children: [
-                ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600, fontSize: ResponsiveSize.getSize(context, 20),),
+                ReusableTextWidget(text: 'Browse My', color: Colors.grey.shade600, fontSize:isMobile ? 22 : 24,),
                 SizedBox(height: ResponsiveSize.getSize(context, 10)),
 
                 ReusableTextWidget(
-                    text: "Projects",  fontSize: ResponsiveSize.getSize(context, 24), fontWeight: FontWeight.w700),
+                    text: "Projects",  fontSize: isMobile ? 24 : 26, fontWeight: FontWeight.w700),
                 SizedBox(height: ResponsiveSize.getSize(context, 50)),
 
                 CarouselSlider(
@@ -1275,7 +1261,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
 
 
-  Widget _buildBloGGrid() {
+  Widget _buildBloGGrid(bool isMobile) {
     return LayoutBuilder(
       builder: (context, constraints) {
         double width = constraints.maxWidth;
@@ -1293,12 +1279,12 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ReusableTextWidget(
                 text: 'Explore My',
                 color: Colors.grey.shade600,
-                fontSize: ResponsiveSize.getSize(context, 20),
+                fontSize: isMobile ? 22 : 24,
               ),
               SizedBox(height: 10),
               ReusableTextWidget(
                   text: "Project Case Studies",
-                  fontSize: ResponsiveSize.getSize(context, 24),
+                  fontSize: isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
                 height: ResponsiveSize.getSize(context, 50),
@@ -1316,6 +1302,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                 itemCount: homeController.blogs.length,
                 itemBuilder: (context, index) {
                   return _buildBlocCard(
+                    isMobile,
                       homeController.blogs[index],context);
                 },
               ),
@@ -1328,7 +1315,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
 
 
-  Widget _buildBlocCard(Project project, context) {
+  Widget _buildBlocCard(bool isMobile,Project project, context) {
     return Card(
       color: Colors.white,
       elevation: 0,
@@ -1375,7 +1362,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               SizedBox(height: 10),
               ReusableTextWidget(
                 text: project.title,
-                fontSize: ResponsiveSize.getSize(context, 18),
+                fontSize: isMobile ? 18 : 20,
                 fontWeight: FontWeight.bold,
               ),
               SizedBox(
@@ -1384,12 +1371,12 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ReusableTextWidget(
                 text: project.description,
                 maxLines: 5,
-                fontSize: ResponsiveSize.getSize(context, 15),
+                fontSize: isMobile ? 16 : 18,
               ),
               SizedBox(width: 5,),
               ReusableTextWidget(
                 text: 'Read more....',
-                fontSize: ResponsiveSize.getSize(context, 15),
+                fontSize: isMobile ? 16 : 18,
                 color: ColorConstants.primaryColor,
                 fontWeight: FontWeight.bold,
               ),
@@ -1793,12 +1780,14 @@ class SkillWidget extends StatelessWidget {
   final String skillName;
   final String skillLogo;
   final String experienceLevel;
+  final bool isMobile;
 
   const SkillWidget({
     super.key,
     required this.skillName,
     required this.skillLogo,
     required this.experienceLevel,
+    required this.isMobile,
   });
 
   @override
@@ -1825,14 +1814,13 @@ class SkillWidget extends StatelessWidget {
                 children: [
                   ReusableTextWidget(
                     text: skillName,
-                    fontSize: ResponsiveSize.getSize(context,
-                        20), // Slightly reduced for better responsiveness
+                    fontSize:isMobile ? 22 : 24, // Slightly reduced for better responsiveness
                     fontWeight: FontWeight.bold,
                     // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
                   ),
                   ReusableTextWidget(
                     text: experienceLevel,
-                    fontSize: ResponsiveSize.getSize(context, 16),
+                    fontSize: isMobile ? 20 : 22,
                     // overflow: TextOverflow.ellipsis,
                   ),
                 ],
