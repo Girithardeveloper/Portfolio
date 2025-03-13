@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/View/home.dart';
 
@@ -9,6 +10,10 @@ void main() async{
   // await dotenv.load(fileName: ".env");
   Get.testMode = true;
   runApp(MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home:  HomeView(),
         );

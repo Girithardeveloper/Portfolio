@@ -20,12 +20,7 @@ class HomeView extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
 
-  final GlobalKey aboutKey = GlobalKey();
-  final GlobalKey experienceKey = GlobalKey();
-  final GlobalKey projectsKey = GlobalKey();
-  final GlobalKey toolsKey = GlobalKey();
-  final GlobalKey blogKey = GlobalKey();
-  final GlobalKey contactKey = GlobalKey();
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -58,7 +53,7 @@ class HomeView extends StatelessWidget {
               // ResponsiveSize.getSize(context, screenSize.height * 0.08),
               backgroundColor: ColorConstants.primaryColor.withAlpha(0),
               leading: isTabletOrMobile ? Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8,left: 16,bottom: 8),
                 child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
               ): null,
               title: isTabletOrMobile
@@ -112,10 +107,10 @@ class HomeView extends StatelessWidget {
                 hoverColor:  Colors.transparent,  // Remove the highlight shadow
                 onTap: () {
                   homeController.selectedMenuIndex = 0;
-                  homeController.scrollToSection(aboutKey);
+                  homeController.scrollToSection(controller.aboutKey);
                   homeController.update();
                 },
-              child: _menuItem("About", screenSize, context,0)),
+              child: _menuItem("About", screenSize, context,0,isTabletOrMobile)),
 
                 InkWell(
                     highlightColor: Colors.transparent,  // Remove the highlight shadow
@@ -123,40 +118,40 @@ class HomeView extends StatelessWidget {
                     hoverColor:  Colors.transparent,
                     onTap: () {
                       homeController.selectedMenuIndex = 1;
-                      homeController.scrollToSection(experienceKey);
+                      homeController.scrollToSection(controller.experienceKey);
                       homeController.update();
                     },
-                    child: _menuItem("Experience", screenSize, context,1)),
+                    child: _menuItem("Experience", screenSize, context,1,isTabletOrMobile)),
                 InkWell(
                     highlightColor: Colors.transparent,  // Remove the highlight shadow
                     splashColor: Colors.transparent,
                     hoverColor:  Colors.transparent,
                     onTap: () {
                       homeController.selectedMenuIndex = 2;
-                      homeController.scrollToSection(toolsKey);
+                      homeController.scrollToSection(controller.toolsKey);
                       homeController.update();
                     },
-                    child: _menuItem("Tools", screenSize, context,2)),
+                    child: _menuItem("Tools", screenSize, context,2,isTabletOrMobile)),
                 InkWell(
                     highlightColor: Colors.transparent,  // Remove the highlight shadow
                     splashColor: Colors.transparent,
                     hoverColor:  Colors.transparent,
                     onTap: () {
                       homeController.selectedMenuIndex = 3;
-                      homeController.scrollToSection(projectsKey);
+                      homeController.scrollToSection(controller.projectsKey);
                       homeController.update();
                     },
-                    child: _menuItem("Projects", screenSize, context,3)),
+                    child: _menuItem("Projects", screenSize, context,3,isTabletOrMobile)),
                 InkWell(
                     highlightColor: Colors.transparent,  // Remove the highlight shadow
                     splashColor: Colors.transparent,
                     hoverColor:  Colors.transparent,
                     onTap: () {
                       homeController.selectedMenuIndex = 4;
-                      homeController.scrollToSection(blogKey);
+                      homeController.scrollToSection(controller.blogKey);
                       homeController.update();
                     },
-                    child: _menuItem("Blogs", screenSize, context,4)),
+                    child: _menuItem("Blogs", screenSize, context,4,isTabletOrMobile)),
 
                 InkWell(
                     highlightColor: Colors.transparent,  // Remove the highlight shadow
@@ -164,10 +159,10 @@ class HomeView extends StatelessWidget {
                     hoverColor:  Colors.transparent,
                     onTap: () {
                       homeController.selectedMenuIndex = 5;
-                      homeController.scrollToSection(contactKey);
+                      homeController.scrollToSection(controller.contactKey);
                       homeController.update();
                     },
-                    child: _menuItem("Contact", screenSize, context,5)),
+                    child: _menuItem("Contact", screenSize, context,5,isTabletOrMobile)),
                 SizedBox(
                   width:
                   ResponsiveSize.getSize(context, screenSize.width * 0.02),
@@ -203,17 +198,17 @@ class HomeView extends StatelessWidget {
                       height: 10,
                     ),
 
-                    _drawerItem(isTabletOrMobile,"About", context, aboutKey),
+                    _drawerItem(isTabletOrMobile,"About", context, controller.aboutKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem(isTabletOrMobile,"Experience", context, experienceKey),
+                    _drawerItem(isTabletOrMobile,"Experience", context, controller.experienceKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem(isTabletOrMobile,"Tools", context, toolsKey),
+                    _drawerItem(isTabletOrMobile,"Tools", context, controller.toolsKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem(isTabletOrMobile,"Projects", context, projectsKey),
+                    _drawerItem(isTabletOrMobile,"Projects", context, controller.projectsKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem(isTabletOrMobile,"Blogs", context, blogKey),
+                    _drawerItem(isTabletOrMobile,"Blogs", context, controller.blogKey),
                     Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-                    _drawerItem(isTabletOrMobile,"Contact", context, contactKey),
+                    _drawerItem(isTabletOrMobile,"Contact", context, controller.contactKey),
                   ],
                 ),
               ),
@@ -250,7 +245,7 @@ class HomeView extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 200, // Keep vertical spacing consistent
+                            vertical: isTabletOrMobile ?100:160, // Keep vertical spacing consistent
                           ),
                           child: isTabletOrMobile
                               ? Column(
@@ -259,10 +254,12 @@ class HomeView extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 backgroundColor: ColorConstants.primaryColor,
-                                radius: ResponsiveSize.getSize(context, 130),
+                                radius: isTabletOrMobile ? 140 : 190,
+                                // ResponsiveSize.getSize(context, 130),
                                 child: CircleAvatar(
                                   backgroundColor: ColorConstants.whiteColor,
-                                  radius: ResponsiveSize.getSize(context, 120),
+                                  radius: isTabletOrMobile ? 130 : 180,
+                                  // ResponsiveSize.getSize(context, 120),
                                   //isMobile ? 100 : 170, // Adjust for mobile
                                   backgroundImage:
                                   AssetImage(AssetConstants.profileImage),
@@ -302,7 +299,7 @@ class HomeView extends StatelessWidget {
                                       TyperAnimatedText(
                                         "GIRITHAR K",
                                         textStyle: TextStyle(
-                                            fontSize:isTabletOrMobile ? 18 : 24,
+                                            fontSize:isTabletOrMobile ? 20 : 24,
                                             color: ColorConstants.primaryColor,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: FontConstants.fontFamily
@@ -322,7 +319,7 @@ class HomeView extends StatelessWidget {
                                       TyperAnimatedText(
                                         "Software Developer",
                                         textStyle: TextStyle(
-                                            fontSize:isTabletOrMobile ? 18 : 24,
+                                            fontSize:isTabletOrMobile ? 20 : 24,
                                             color: ColorConstants.darkGreyColor,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: FontConstants.fontFamily
@@ -365,7 +362,7 @@ class HomeView extends StatelessWidget {
                                           child: Text(
                                             "Download CV",
                                             style: TextStyle(
-                                                fontSize:isTabletOrMobile ? 18 : 22,
+                                                fontSize:isTabletOrMobile ? 16 : 20,
                                                 fontFamily:
                                                 FontConstants.fontFamily,
                                                 color:
@@ -402,7 +399,7 @@ class HomeView extends StatelessWidget {
                                           child: Text(
                                             "Contact Info",
                                             style: TextStyle(
-                                                fontSize:isTabletOrMobile ? 18 : 22,
+                                                fontSize:isTabletOrMobile ? 16 : 20,
                                                 fontFamily:
                                                 FontConstants.fontFamily,
                                                 color:
@@ -434,10 +431,12 @@ class HomeView extends StatelessWidget {
                                             },
                                             child: Lottie.asset(
                                               'assets/images/lotties/linkedin.json',
-                                              width: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              height: ResponsiveSize.getSize(
-                                                  context, 50),
+                                              width:isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
+                                              height: isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
                                               fit: BoxFit.fill,
                                             ),
                                           ),
@@ -450,10 +449,12 @@ class HomeView extends StatelessWidget {
                                             },
                                             child: Lottie.asset(
                                               'assets/images/lotties/github.json',
-                                              width: ResponsiveSize.getSize(
-                                                  context, 50),
-                                              height: ResponsiveSize.getSize(
-                                                  context, 50),
+                                              width: isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
+                                              height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //   context, 50),
                                               fit: BoxFit.fill,
                                             ),
                                           ),
@@ -476,11 +477,12 @@ class HomeView extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   backgroundColor: ColorConstants.primaryColor,
-                                  radius: ResponsiveSize.getSize(context, 130),
+                                  radius: isTabletOrMobile ? 140 : 190,
+                                  // ResponsiveSize.getSize(context, 130),
                                   child: CircleAvatar(
                                     backgroundColor: ColorConstants.whiteColor,
-                                    radius:
-                                    ResponsiveSize.getSize(context, 120),
+                                    radius:isTabletOrMobile ? 130 : 180,
+                                    // ResponsiveSize.getSize(context, 120),
                                     //isMobile ? 100 : 170, // Adjust for mobile
                                     backgroundImage:
                                     AssetImage(AssetConstants.profileImage),
@@ -520,7 +522,7 @@ class HomeView extends StatelessWidget {
                                         TyperAnimatedText(
                                           "GIRITHAR K",
                                           textStyle: TextStyle(
-                                              fontSize:isTabletOrMobile ? 18 : 24,
+                                              fontSize:isTabletOrMobile ? 20 : 24,
                                               color: ColorConstants.primaryColor,
                                               fontWeight: FontWeight.w600,
                                               fontFamily: FontConstants.fontFamily
@@ -540,7 +542,7 @@ class HomeView extends StatelessWidget {
                                         TyperAnimatedText(
                                           "Software Developer",
                                           textStyle: TextStyle(
-                                              fontSize:isTabletOrMobile ? 18 : 24,
+                                              fontSize:isTabletOrMobile ? 20 : 24,
                                               color: ColorConstants.darkGreyColor,
                                               fontWeight: FontWeight.bold,
                                               fontFamily: FontConstants.fontFamily
@@ -585,7 +587,7 @@ class HomeView extends StatelessWidget {
                                             child: Text(
                                               "Download CV",
                                               style: TextStyle(
-                                                  fontSize:isTabletOrMobile ? 18 : 22,
+                                                  fontSize:isTabletOrMobile ? 16 : 20,
                                                   fontFamily:
                                                   FontConstants.fontFamily,
                                                   color:
@@ -624,7 +626,7 @@ class HomeView extends StatelessWidget {
                                             child: Text(
                                               "Contact Info",
                                               style: TextStyle(
-                                                  fontSize:isTabletOrMobile ? 18 : 22,
+                                                  fontSize:isTabletOrMobile ? 16 : 20,
                                                   fontFamily:
                                                   FontConstants.fontFamily,
                                                   color:
@@ -658,10 +660,12 @@ class HomeView extends StatelessWidget {
                                               },
                                               child: Lottie.asset(
                                                 'assets/images/lotties/linkedin.json',
-                                                width: ResponsiveSize.getSize(
-                                                    context, 50),
-                                                height: ResponsiveSize.getSize(
-                                                    context, 50),
+                                                width: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
@@ -674,10 +678,12 @@ class HomeView extends StatelessWidget {
                                               },
                                               child: Lottie.asset(
                                                 'assets/images/lotties/github.json',
-                                                width: ResponsiveSize.getSize(
-                                                    context, 50),
-                                                height: ResponsiveSize.getSize(
-                                                    context, 50),
+                                                width: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
@@ -710,7 +716,7 @@ class HomeView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: getHorizontalPadding(constraints.maxWidth),
                           ),
-                          child: _buildToolsSegment(isTabletOrMobile, screenSize),
+                          child: _buildToolsSegment(isTabletOrMobile, screenSize,context),
                         ),
                         SizedBox(height: screenSize.height * 0.1),
                         Padding(
@@ -728,7 +734,6 @@ class HomeView extends StatelessWidget {
                         ),
                         SizedBox(height: screenSize.height * 0.1),
                         SizedBox(
-                            height: 650,
                             child: _buildContact(isTabletOrMobile,screenSize,context))
                       ],
                     ),
@@ -737,55 +742,55 @@ class HomeView extends StatelessWidget {
               );
             }),
             floatingActionButton: Container(
-              width: ResponsiveSize.getSize(
-                  context, 90),
-              height: ResponsiveSize.getSize(
-                  context, 90),
-              margin: EdgeInsets.only(bottom:ResponsiveSize.getSize(
-                  context, 50),right: ResponsiveSize.getSize(
-                  context, 50) ),
-              child: FloatingActionButton(
-                elevation: 0,
-                shape: CircleBorder(),
-                backgroundColor: ColorConstants.whiteColor,
-                onPressed: () async {
-                  // Create WhatsApp URL with the phone number and encoded message
-                  final Uri whatsappUrl = Uri.parse(
-                    "https://wa.me/+918838304677",
-                  );
-
-                  try {
-                    // Check if the WhatsApp URL can be launched
-                    if (await canLaunchUrl(whatsappUrl)) {
-                      await launchUrl(whatsappUrl);
-                    } else {}
-                  } catch (e) {
-                    // Handle any errors gracefully
-                    Get.snackbar(
-                      "Error",
-                      "Could not share on WhatsApp: $e",
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  }
-                },
-                child: Lottie.asset(
-                  'assets/images/lotties/whatsapp.json',
-                  width: ResponsiveSize.getSize(
-                      context, 80),
-                  height: ResponsiveSize.getSize(
-                      context, 80),
-                  fit: BoxFit.fill,
+              color: Colors.transparent,
+              width: isTabletOrMobile ? 90 : 120,
+              height: isTabletOrMobile ? 90 : 120,
+              margin: EdgeInsets.only(bottom: isTabletOrMobile ? 10 : 50, right: isTabletOrMobile ? 10 : 50),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  floatingActionButtonTheme: FloatingActionButtonThemeData(
+                    hoverElevation: 0, // Removes hover elevation
+                    splashColor: Colors.transparent, // Removes splash effect
+                    focusColor: Colors.transparent,
+                    highlightElevation: 0,
+                  ),
                 ),
-                // Image.asset(AssetConstants.whatsappLogo,),
+                child: FloatingActionButton(
+                  elevation: 0,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  highlightElevation: 0,
+                  shape: CircleBorder(),
+                  backgroundColor: Colors.transparent,
+                  onPressed: () async {
+                    final Uri whatsappUrl = Uri.parse("https://wa.me/+918838304677");
+                    try {
+                      if (await canLaunchUrl(whatsappUrl)) {
+                        await launchUrl(whatsappUrl);
+                      }
+                    } catch (e) {
+                      Get.snackbar("Error", "Could not share on WhatsApp: $e", snackPosition: SnackPosition.BOTTOM);
+                    }
+                  },
+                  child: Lottie.asset(
+                    'assets/images/lotties/whatsapp.json',
+                    width: isTabletOrMobile ? 90 : 120,
+                    height: isTabletOrMobile ? 90 : 120,
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
             ),
+
+
           );
         }
       ),
     );
   }
 
-  Widget _menuItem(String title, Size screenSize, context,int index) {
+  Widget _menuItem(String title, Size screenSize, context,int index,bool isMobile) {
     bool isSelected = homeController.selectedMenuIndex == index;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.01),
@@ -799,7 +804,8 @@ class HomeView extends StatelessWidget {
         child: Text(
           title,
           style: TextStyle(
-              fontSize: ResponsiveSize.getSize(context, 16),
+              fontSize:isMobile?18:20,
+              // ResponsiveSize.getSize(context, 16),
               fontFamily: FontConstants.fontFamily,
               fontWeight: FontWeight.bold,
               color: ColorConstants.primaryColor),
@@ -813,7 +819,7 @@ class HomeView extends StatelessWidget {
       return ListTile(
         title: Text(title,
             style: TextStyle(
-              fontSize: isMobile?22:24,
+              fontSize: isMobile?18:20,
               fontFamily: FontConstants.fontFamily,
             )),
         onTap: () {
@@ -836,7 +842,7 @@ class HomeView extends StatelessWidget {
         position: homeController.slideFromBottom,
         child: Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: aboutKey,
+          key: homeController.aboutKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -890,7 +896,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: experienceKey,
+          key: homeController.experienceKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -942,14 +948,23 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
     );
   }
 
-  Widget _buildToolsSegment(bool isMobile, Size screenSize) {
+  Widget _buildToolsSegment(bool isMobile, Size screenSize,context) {
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        bool isWideScreen =
-            constraints.maxWidth > 600; // Adjust breakpoint as needed
+        int crossAxisCount;
+        double width = constraints.maxWidth;
+
+        if (width < 400) {
+          crossAxisCount = 2;
+        } else if (width < 700) {
+          crossAxisCount = 3;
+        } else {
+          crossAxisCount = 2;
+        }
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: toolsKey,
+          key: homeController.toolsKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -969,10 +984,20 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ),
 
               SizedBox(
-                height: screenSize.height * 0.35,
-                child: ListView.builder(
+                height:width < 400 ?screenSize.height * 0.60:width < 700?screenSize.height * 0.85:screenSize.height * 0.90,
+                child: GridView.builder(
                   controller: homeController.scrollController,
-                  physics: BouncingScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: width < 400 ? 3 : 2.5,
+                    mainAxisExtent:width < 400 ?150:width < 700?300:400,
+
+                    // ResponsiveSize.getSize(context, 300),
+                  ),
+
                   scrollDirection: Axis.horizontal,
                   itemCount: homeController.toolsAndIDEs.length,
                   itemBuilder: (context, index) {
@@ -1051,14 +1076,14 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             fontSize: isMobile ? 22 : 24,
             color: Colors.grey.shade600,
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 30),
           LayoutBuilder(
             builder: (context, constraints) {
               int crossAxisCount;
               double width = constraints.maxWidth;
 
               if (width < 400) {
-                crossAxisCount = 1;
+                crossAxisCount = 2;
               } else if (width < 700) {
                 crossAxisCount = 2;
               } else {
@@ -1073,7 +1098,8 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   childAspectRatio: width < 400 ? 3 : 2.5,
-                  mainAxisExtent: ResponsiveSize.getSize(context, 300),
+                  mainAxisExtent: isMobile?180:300,
+                  // ResponsiveSize.getSize(context, 300),
                 ),
                 itemCount: skillList.length,
                 itemBuilder: (context, index) {
@@ -1152,7 +1178,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
   Widget _buildProjectsCarousel(bool isMobile,context) {
     return Container(
-      key: projectsKey,
+      key: homeController.projectsKey,
       margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
       child:GetBuilder<HomeController>(
           builder: (controller) {
@@ -1272,7 +1298,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
-          key: blogKey,
+          key: homeController.blogKey,
           child: Column(
             children: [
               ReusableTextWidget(
@@ -1349,12 +1375,19 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      project.imagePath,
-                      fit: BoxFit.contain, // Shows the full image without cropping
-                      width: 400,
-                      height: 200,
+                    child:    ReusableTextWidget(
+                      text: project.imagePath,
+                      fontSize: isMobile ? 22 : 26,
+                      fontWeight: FontWeight.bold,
+                      color: ColorConstants.primaryColor,
+                      fontFamily: FontConstants.fontFamily,
                     ),
+                    // Image.asset(
+                    //   project.imagePath,
+                    //   fit: BoxFit.contain, // Shows the full image without cropping
+                    //   width: 400,
+                    //   height: 200,
+                    // ),
                   ),
                 ),
               ),
@@ -1363,6 +1396,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                 text: project.title,
                 fontSize: isMobile ? 18 : 20,
                 fontWeight: FontWeight.bold,
+                fontFamily: FontConstants.fontFamily,
               ),
               SizedBox(
                 height: 10,
@@ -1371,6 +1405,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                 text: project.description,
                 maxLines: 5,
                 fontSize: isMobile ? 16 : 18,
+                fontFamily: FontConstants.fontFamily,
               ),
               SizedBox(width: 5,),
               ReusableTextWidget(
@@ -1378,6 +1413,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                 fontSize: isMobile ? 16 : 18,
                 color: ColorConstants.primaryColor,
                 fontWeight: FontWeight.bold,
+                fontFamily: FontConstants.fontFamily,
               ),
             ],
           ),
@@ -1390,378 +1426,264 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
   ///Contact Info
 
   Widget _buildContact(bool isMobile,Size screenSize,context) {
-    return Container(
-      width: screenSize.width,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0XFFB1F0F7),Color(0XFFB1F0F7),], // Gradient colors
-
-          ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.transparent, // Light shadow
-            spreadRadius: 0,
-            blurRadius: 5,
-            offset: Offset(0, 3), // Moves shadow **only down**
-          ),
-        ],
-        ),
-      key:contactKey,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          bool isWide = constraints.maxWidth > 600;
-          double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
-          double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
-          return Center(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width:  constraints.maxWidth * 1,
-                height: formHeight, // Set height dynamically
-                child: Padding(
-                  padding:  EdgeInsets.only(left:  padding, right: padding),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ReusableTextWidget(
-                          text: 'Contact with me to sizzle your project',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          color: ColorConstants.primaryColor,
-                        ),
-                        const SizedBox(height: 10),
-                        ReusableTextWidget(
-                          text: "Feel free to contact me if you have any questions. "
-                              "I'm available for new projects or just for chatting.",
-                          textAlign: TextAlign.center,
-                          fontSize: 16,
-                          maxLines: 3,
-                          color: ColorConstants.primaryColor,
-
-
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Responsive Name & Email Fields
-                        isWide
-                            ? Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: homeController.nameController,
-                                style: TextStyle(color: ColorConstants.primaryColor,),
-                                decoration: const InputDecoration(
-                                  labelText: "Name",
-                                  labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                                  focusedBorder:OutlineInputBorder(
-                                    borderSide:  BorderSide(
-                                      color: ColorConstants.primaryColor,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:  BorderSide(
-                                      color: ColorConstants.primaryColor,
-                                    ),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                  focusColor: ColorConstants.primaryColor,
-                                  hoverColor: ColorConstants.primaryColor,
-                                ),
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter your name" : null,
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: TextFormField(
-                                controller: homeController.emailController,
-                                style: TextStyle(color: ColorConstants.primaryColor,),
-                                decoration: const InputDecoration(
-                                  labelText: "Email",
-                                  labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                                  border: OutlineInputBorder(),
-                                  focusedBorder:OutlineInputBorder(
-                                    borderSide:  BorderSide(
-                                      color: ColorConstants.primaryColor,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:  BorderSide(
-                                      color: ColorConstants.primaryColor,
-                                    ),
-                                  ),
-                                  focusColor: ColorConstants.primaryColor,
-                                  hoverColor: ColorConstants.primaryColor,
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter a valid email" : null,
-                              ),
-                            ),
-                          ],
-                        )
-                            : Column(
-                          children: [
-                            TextFormField(
-                              controller: homeController.nameController,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
-                              decoration: const InputDecoration(
-                                labelText: "Name",
-                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                                border: OutlineInputBorder(),
-                                focusedBorder:OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                focusColor: ColorConstants.primaryColor,
-                                hoverColor: ColorConstants.primaryColor,
-                              ),
-                              validator: (value) =>
-                              value!.isEmpty ? "Enter your name" : null,
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormField(
-                              controller: homeController.emailController,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
-                              decoration: const InputDecoration(
-                                labelText: "Email",
-                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                                border: OutlineInputBorder(),
-                                focusedBorder:OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                focusColor: ColorConstants.primaryColor,
-                                hoverColor: ColorConstants.primaryColor,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) =>
-                              value!.isEmpty ? "Enter a valid email" : null,
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 15),
-                        TextFormField(
-                          controller: homeController.descriptionController,
-                          style: TextStyle(color: ColorConstants.primaryColor,),
-                          decoration: const InputDecoration(
-                            labelText: "Description...",
-                            labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                            border: OutlineInputBorder(),
-                            focusedBorder:OutlineInputBorder(
-                              borderSide:  BorderSide(
-                                color: ColorConstants.primaryColor,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:  BorderSide(
-                                color: ColorConstants.primaryColor,
-                              ),
-                            ),
-                            focusColor: ColorConstants.primaryColor,
-                            hoverColor: ColorConstants.primaryColor,
-
-                          ),
-                          maxLines: 4,
-                          validator: (value) =>
-                          value!.isEmpty ? "Enter work details" : null,
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorConstants.primaryColor,
-                              foregroundColor: ColorConstants.primaryColor,
-                              padding: const EdgeInsets.symmetric(vertical: 15),
-                            ),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-
-                                homeController.sendEmail(homeController.nameController.text,homeController.emailController.text,homeController.descriptionController.text);
-                                // Toast.showToast('Form Submitted');
-                                // Handle form submission
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.primaryColor,),
-                                );
-                              }
-                            },
-                            child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold,color: ColorConstants.whiteColor),),
-                          ),
-                        ),
-                        Spacer(),
-                        ReusableTextWidget(
-                          text: '© Copyrights. All Rights Reserved.',
-                          fontSize: ResponsiveSize.getSize(context, 15),
-                          color: ColorConstants.primaryColor,
-                          fontWeight: FontWeight.bold,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-
-
-
-  }
-
-
-}
-
-
-class ContactFormScreen extends StatelessWidget {
-  ContactFormScreen({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        color: Colors.grey,
-        child: LayoutBuilder(
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return LayoutBuilder(
           builder: (context, constraints) {
             bool isWide = constraints.maxWidth > 600;
             double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
             double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
             return Center(
               child: SingleChildScrollView(
-                child: SizedBox(
-                  width:  constraints.maxWidth * 1,
-                  height: formHeight, // Set height dynamically
-                  child: Padding(
-                    padding:  EdgeInsets.only(left:  padding, right: padding),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ReusableTextWidget(
-                            text: 'Contact with me to sizzle your project',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 10),
-                          ReusableTextWidget(
-                            text: "Feel free to contact me if you have any questions. "
-                                "I'm available for new projects or just for chatting.",
-                            textAlign: TextAlign.center,
-                            fontSize: 16,
-                            maxLines: 3,
+                child: Container(
+                  height: isMobile?620:652,
+                  width: screenSize.width,
+                  padding: EdgeInsets.only(top: screenSize.height*0.08),
+                  decoration: BoxDecoration(
+                    color: ColorConstants.primaryColor,
+                    gradient: LinearGradient(
+                      colors: [Color(0XFFB1F0F7),Color(0XFFB1F0F7),], // Gradient colors
 
-                          ),
-                          const SizedBox(height: 20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.transparent, // Light shadow
+                        spreadRadius: 0,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // Moves shadow **only down**
+                      ),
+                    ],
+                  ),
+                  key:controller.contactKey,
+                  child: SizedBox(
+                    width:  constraints.maxWidth * 1,
+                    height: formHeight, // Set height dynamically
+                    child: Padding(
+                      padding:  EdgeInsets.only(left:  padding, right: padding),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ReusableTextWidget(
+                              text: 'Contact with me to sizzle your project',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              color: ColorConstants.primaryColor,
+                            ),
+                            const SizedBox(height: 10),
+                            ReusableTextWidget(
+                              text: "Feel free to contact me if you have any questions. "
+                                  "I'm available for new projects or just for chatting.",
+                              textAlign: TextAlign.center,
+                              fontSize: 16,
+                              maxLines: 3,
+                              color: ColorConstants.primaryColor,
 
-                          // Responsive Name & Email Fields
-                          isWide
-                              ? Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
+
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Responsive Name & Email Fields
+                            isWide
+                                ? Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: controller.nameController,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                    decoration: const InputDecoration(
+                                      labelText: "Name",
+                                      labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      border: OutlineInputBorder(),
+                                      focusColor: ColorConstants.primaryColor,
+                                      hoverColor: ColorConstants.primaryColor,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter your name";
+                                      }
+                                      return null;
+                                    }
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: controller.emailController,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                    decoration: const InputDecoration(
+                                      labelText: "Email",
+                                      labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                      border: OutlineInputBorder(),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      focusColor: ColorConstants.primaryColor,
+                                      hoverColor: ColorConstants.primaryColor,
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter a valid email";
+                                      }
+                                      return null;
+                                    }
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Column(
+                              children: [
+                                TextFormField(
+                                  controller: controller.nameController,
+                                    focusNode: controller.nameFocusNode,
+                                    onTap: () {
+                                      controller.nameFocusNode.requestFocus();
+                                    },
+                                  style: TextStyle(color: ColorConstants.primaryColor,),
                                   decoration: const InputDecoration(
                                     labelText: "Name",
+                                    labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                     border: OutlineInputBorder(),
+                                    focusedBorder:OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    focusColor: ColorConstants.primaryColor,
+                                    hoverColor: ColorConstants.primaryColor,
                                   ),
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Enter your name" : null,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter your name";
+                                    }
+                                    return null;
+                                  }
                                 ),
-                              ),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                child: TextFormField(
+                                const SizedBox(height: 15),
+                                TextFormField(
+                                  controller: controller.emailController,
+                                  style: TextStyle(color: ColorConstants.primaryColor,),
                                   decoration: const InputDecoration(
                                     labelText: "Email",
+                                    labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                     border: OutlineInputBorder(),
+                                    focusedBorder:OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    focusColor: ColorConstants.primaryColor,
+                                    hoverColor: ColorConstants.primaryColor,
                                   ),
                                   keyboardType: TextInputType.emailAddress,
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Enter a valid email" : null,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter a valid email";
+                                    }
+                                    return null;
+                                  }
                                 ),
-                              ),
-                            ],
-                          )
-                              : Column(
-                            children: [
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: "Name",
-                                  border: OutlineInputBorder(),
-                                ),
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter your name" : null,
-                              ),
-                              const SizedBox(height: 15),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: "Email",
-                                  border: OutlineInputBorder(),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter a valid email" : null,
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          const SizedBox(height: 15),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Description...",
-                              border: OutlineInputBorder(),
-                            ),
-                            maxLines: 4,
-                            validator: (value) =>
-                            value!.isEmpty ? "Enter work details" : null,
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 15),
+                            const SizedBox(height: 15),
+                            TextFormField(
+                              controller: controller.descriptionController,
+                              style: TextStyle(color: ColorConstants.primaryColor,),
+                              decoration: const InputDecoration(
+                                labelText: "Description...",
+                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                border: OutlineInputBorder(),
+                                focusedBorder:OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.primaryColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:  BorderSide(
+                                    color: ColorConstants.primaryColor,
+                                  ),
+                                ),
+                                focusColor: ColorConstants.primaryColor,
+                                hoverColor: ColorConstants.primaryColor,
+
                               ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  // Handle form submission
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Form Submitted")),
-                                  );
+                              maxLines: 4,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Enter work details name";
                                 }
-                              },
-                              child: const Text("Submit"),
+                                return null;
+                              }
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: double.infinity,
+                              // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorConstants.primaryColor,
+                                  foregroundColor: ColorConstants.primaryColor,
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+
+                                    controller.sendEmail(controller.nameController.text,controller.emailController.text,controller.descriptionController.text);
+                                    // Toast.showToast('Form Submitted');
+                                    // Handle form submission
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.primaryColor,),
+                                    );
+                                  }
+                                },
+                                child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold,color: ColorConstants.whiteColor),),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            ReusableTextWidget(
+                              text: '© Copyrights. All Rights Reserved.',
+                              fontSize: isMobile?14:20,
+                                // ResponsiveSize.getSize(context, 15),
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -1769,11 +1691,18 @@ class ContactFormScreen extends StatelessWidget {
               ),
             );
           },
-        ),
-      ),
+        );
+      }
     );
+
+
+
   }
+
+
 }
+
+
 
 class SkillWidget extends StatelessWidget {
   final String skillName;
@@ -1805,7 +1734,7 @@ class SkillWidget extends StatelessWidget {
                 width: ResponsiveSize.getSize(context, 100),
               ),
             ),
-            SizedBox(height: 20), // Reduced spacing to prevent overflow
+            SizedBox(height: 10), // Reduced spacing to prevent overflow
             Expanded(
               // Ensures text does not overflow
               child: Column(

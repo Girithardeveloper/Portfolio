@@ -22,7 +22,16 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   bool isVisible = false;
   bool menuSelected = false;
 
+
+  final GlobalKey aboutKey = GlobalKey();
+  final GlobalKey experienceKey = GlobalKey();
+  final GlobalKey projectsKey = GlobalKey();
+  final GlobalKey toolsKey = GlobalKey();
+  final GlobalKey blogKey = GlobalKey();
+  final GlobalKey contactKey = GlobalKey();
+
   final CarouselSliderController carouselController = CarouselSliderController();
+
 
 
 
@@ -74,12 +83,19 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   ];
 
   final List<Project> blogs = [
-    Project(imagePath: AssetConstants.nearleDealsLogo, title: 'Revolutionizing Local Shopping: My Journey with Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/revolutionizing-local-shopping-my.html'  ),
-    Project(imagePath: AssetConstants.nearleXpressLogo, title: 'Nearle Express: Transforming Food Delivery', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/nearle-express-transforming-food.html'  ),
-    Project(imagePath: AssetConstants.legendaryLogo, title: 'Legendary: Simplifying Workforce Management', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/legendary-simplifying-workforce.html' ),
+    Project(imagePath: 'Nearle Deals', title: 'Revolutionizing Local Shopping: My Journey with Nearle Deals', description: TextConst.aboutNearleDeals,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/revolutionizing-local-shopping-my.html'  ),
+    Project(imagePath: 'Nearle Xpress', title: 'Nearle Express: Transforming Food Delivery', description: TextConst.aboutNearleXpress,backgroundColor:Color(0XFF8a589f),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/nearle-express-transforming-food.html'  ),
+    Project(imagePath: 'Legendary', title: 'Legendary: Simplifying Workforce Management', description: TextConst.aboutLegendary,backgroundColor: Color(0XFF32a2ad),blogUrl: 'https://giritharkdev.blogspot.com/2025/03/legendary-simplifying-workforce.html' ),
     // Project(imagePath: AssetConstants.profileImage, title: 'Groom Gear', description: TextConst.aboutGroomGear),
   ];
 
+  ///TextField FocusNode
+  FocusNode nameFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode descriptionFocusNode = FocusNode();
+
+
+  ///TextField Controller
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -88,6 +104,7 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
 //   final gmailSmtp = gmail(dotenv.env["GMAIL_MAIL"]!, dotenv.env["GMAIL_PASSWORD"]!);
 
   final ScrollController scrollController = ScrollController();
+  final ScrollController contactScrollController = ScrollController();
 
   late Timer _timer;
 
