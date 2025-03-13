@@ -1468,7 +1468,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ReusableTextWidget(
-                              text: 'Contact with me to sizzle your project',
+                              text: 'Contact with me to sizzle your projects',
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               maxLines: 2,
