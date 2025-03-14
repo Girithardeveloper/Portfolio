@@ -26,14 +26,14 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///Scroll
-    ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
-    ValueNotifier<bool> showThirdSegment = ValueNotifier<bool>(false);
-
-    ///Responsive
-    Size screenSize = MediaQuery.of(context).size;
-    bool isMobileDevice = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
-    bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth || isMobileDevice;
+    // ///Scroll
+    // ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
+    // ValueNotifier<bool> showThirdSegment = ValueNotifier<bool>(false);
+    //
+    // ///Responsive
+    // Size screenSize = MediaQuery.of(context).size;
+    // bool isMobileDevice = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+    // bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth || isMobileDevice;
     // bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
     return Center(child: Image.asset(AssetConstants.GiritharLogoImage));
