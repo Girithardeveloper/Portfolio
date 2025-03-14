@@ -11,6 +11,7 @@ import 'package:portfolio/Helper/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import '../Helper/toaster.dart';
 import '../Model/projectModel.dart';
 import '../globalWidgets/responsiveSizeWidget.dart';
 import '../globalWidgets/textWidget.dart';
@@ -1461,7 +1462,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                     child: Padding(
                       padding:  EdgeInsets.only(left:  padding, right: padding),
                       child: Form(
-                        key: _formKey,
+                        // key: _formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -1495,6 +1496,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 Expanded(
                                   child: TextFormField(
                                     controller: controller.nameController,
+                                    keyboardType: TextInputType.text,
                                     style: TextStyle(color: ColorConstants.primaryColor,),
                                     decoration: const InputDecoration(
                                       labelText: "Name",
@@ -1525,7 +1527,8 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 Expanded(
                                   child: TextFormField(
                                     controller: controller.emailController,
-                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                      keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(color: ColorConstants.primaryColor,),
                                     decoration: const InputDecoration(
                                       labelText: "Email",
                                       labelStyle: TextStyle(color: ColorConstants.primaryColor,),
@@ -1543,7 +1546,6 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                       focusColor: ColorConstants.primaryColor,
                                       hoverColor: ColorConstants.primaryColor,
                                     ),
-                                    keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return "Enter a valid email";
@@ -1558,11 +1560,8 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                               children: [
                                 TextFormField(
                                   controller: controller.nameController,
-                                    focusNode: controller.nameFocusNode,
-                                    onTap: () {
-                                      controller.nameFocusNode.requestFocus();
-                                    },
-                                  style: TextStyle(color: ColorConstants.primaryColor,),
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
                                   decoration: const InputDecoration(
                                     labelText: "Name",
                                     labelStyle: TextStyle(color: ColorConstants.primaryColor,),
@@ -1590,7 +1589,8 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 const SizedBox(height: 15),
                                 TextFormField(
                                   controller: controller.emailController,
-                                  style: TextStyle(color: ColorConstants.primaryColor,),
+                                    keyboardType: TextInputType.emailAddress,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
                                   decoration: const InputDecoration(
                                     labelText: "Email",
                                     labelStyle: TextStyle(color: ColorConstants.primaryColor,),
@@ -1608,7 +1608,6 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                     focusColor: ColorConstants.primaryColor,
                                     hoverColor: ColorConstants.primaryColor,
                                   ),
-                                  keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "Enter a valid email";
@@ -1622,7 +1621,8 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                             const SizedBox(height: 15),
                             TextFormField(
                               controller: controller.descriptionController,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(color: ColorConstants.primaryColor,),
                               decoration: const InputDecoration(
                                 labelText: "Description...",
                                 labelStyle: TextStyle(color: ColorConstants.primaryColor,),
@@ -1660,13 +1660,24 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                   padding: const EdgeInsets.symmetric(vertical: 15),
                                 ),
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  // if (_formKey.currentState!.validate()) {
+                                  if (controller.nameController.text.isEmpty) {
+                                    Toast.showToast('Enter your name');
+                                  }
+                                  else if(controller.emailController.text.isEmpty){
+                                    Toast.showToast('Enter a valid email');
 
+                                  }
+                                  else if(controller.descriptionController.text.isEmpty){
+                                    Toast.showToast('Enter work details name');
+
+                                  }
+                                  else{
                                     controller.sendEmail(controller.nameController.text,controller.emailController.text,controller.descriptionController.text);
                                     // Toast.showToast('Form Submitted');
                                     // Handle form submission
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.primaryColor),),backgroundColor: ColorConstants.primaryColor,),
+                                      const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.whiteColor),),backgroundColor: ColorConstants.primaryColor,),
                                     );
                                   }
                                 },
