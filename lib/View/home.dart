@@ -26,771 +26,768 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ///Scroll
-    // ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
-    // ValueNotifier<bool> showThirdSegment = ValueNotifier<bool>(false);
-    //
-    // ///Responsive
-    // Size screenSize = MediaQuery.of(context).size;
-    // bool isMobileDevice = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
-    // bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth || isMobileDevice;
-    // bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
+    ///Scroll
+    ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
+    ValueNotifier<bool> showThirdSegment = ValueNotifier<bool>(false);
 
-    return Center(child: Image.asset(AssetConstants.GiritharLogoImage));
-    //   Container(
-    //   decoration: BoxDecoration(
-    //     gradient: RadialGradient(
-    //       colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
-    //
-    //     ),
-    //   ),
-    //   child: GetBuilder<HomeController>(
-    //     builder: (controller) {
-    //       return Scaffold(
-    //         backgroundColor: Colors.transparent,
-    //         appBar: AppBar(
-    //           forceMaterialTransparency: true,
-    //
-    //           elevation: 0,
-    //           toolbarHeight:isTabletOrMobile?60:100,
-    //           // ResponsiveSize.getSize(context, screenSize.height * 0.08),
-    //           backgroundColor: ColorConstants.primaryColor.withAlpha(0),
-    //           leading: isTabletOrMobile ? Padding(
-    //             padding: const EdgeInsets.only(top: 8,left: 16,bottom: 8),
-    //             child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
-    //           ): null,
-    //           title: isTabletOrMobile
-    //               ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
-    //           // flexibleSpace: Padding(
-    //           //   padding: EdgeInsets.only(
-    //           //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
-    //           //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
-    //           //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
-    //           //   child: Row(
-    //           //     crossAxisAlignment: CrossAxisAlignment.center,
-    //           //     children: [
-    //           //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
-    //           //     ],
-    //           //   )
-    //           //   // Text(
-    //           //   //   "Portfolio",
-    //           //   //   style: TextStyle(
-    //           //   //     fontSize: ResponsiveSize.getSize(context, 30),
-    //           //   //     fontFamily: FontConstants.fontFamily,
-    //           //   //     color: ColorConstants.whiteColor,
-    //           //   //   ),
-    //           //   // ),
-    //           // ),
-    //           actions: isTabletOrMobile
-    //               ? [
-    //             Builder(builder: (context) {
-    //               return IconButton(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 icon: const Icon(
-    //                   Icons.menu,
-    //                   color: ColorConstants.primaryColor,
-    //                   size: 40,
-    //                 ),
-    //                 onPressed: () {
-    //                   Scaffold.of(context).openDrawer();
-    //                 },
-    //               );
-    //             }),
-    //             SizedBox(
-    //               width:
-    //               ResponsiveSize.getSize(context, screenSize.width * 0.02),
-    //             ),
-    //           ] // Hide actions in AppBar, show them in Drawer
-    //               : [
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //             hoverColor:  Colors.transparent,  // Remove the highlight shadow
-    //             onTap: () {
-    //               homeController.selectedMenuIndex = 0;
-    //               homeController.scrollToSection(controller.aboutKey);
-    //               homeController.update();
-    //             },
-    //           child: _menuItem("About", screenSize, context,0,isTabletOrMobile)),
-    //
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 onTap: () {
-    //                   homeController.selectedMenuIndex = 1;
-    //                   homeController.scrollToSection(controller.experienceKey);
-    //                   homeController.update();
-    //                 },
-    //                 child: _menuItem("Experience", screenSize, context,1,isTabletOrMobile)),
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 onTap: () {
-    //                   homeController.selectedMenuIndex = 2;
-    //                   homeController.scrollToSection(controller.toolsKey);
-    //                   homeController.update();
-    //                 },
-    //                 child: _menuItem("Tools", screenSize, context,2,isTabletOrMobile)),
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 onTap: () {
-    //                   homeController.selectedMenuIndex = 3;
-    //                   homeController.scrollToSection(controller.projectsKey);
-    //                   homeController.update();
-    //                 },
-    //                 child: _menuItem("Projects", screenSize, context,3,isTabletOrMobile)),
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 onTap: () {
-    //                   homeController.selectedMenuIndex = 4;
-    //                   homeController.scrollToSection(controller.blogKey);
-    //                   homeController.update();
-    //                 },
-    //                 child: _menuItem("Blogs", screenSize, context,4,isTabletOrMobile)),
-    //
-    //             InkWell(
-    //                 highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                 splashColor: Colors.transparent,
-    //                 hoverColor:  Colors.transparent,
-    //                 onTap: () {
-    //                   homeController.selectedMenuIndex = 5;
-    //                   homeController.scrollToSection(controller.contactKey);
-    //                   homeController.update();
-    //                 },
-    //                 child: _menuItem("Contact", screenSize, context,5,isTabletOrMobile)),
-    //             SizedBox(
-    //               width:
-    //               ResponsiveSize.getSize(context, screenSize.width * 0.02),
-    //             ),
-    //           ],
-    //         ),
-    //         drawer: isTabletOrMobile
-    //             ? Drawer(
-    //           backgroundColor: ColorConstants.whiteColor,
-    //           child: Padding(
-    //             padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
-    //             child: ListView(
-    //               padding: EdgeInsets.zero,
-    //               children: [
-    //                 AnimatedTextKit(
-    //                   animatedTexts: [
-    //                     TyperAnimatedText(
-    //                       "GIRITHAR K",
-    //                       textStyle: TextStyle(
-    //                           fontSize:isTabletOrMobile?22:24,
-    //                           color: ColorConstants.primaryColor,
-    //                           fontWeight: FontWeight.bold,
-    //                           fontFamily: 'Airbeat'
-    //
-    //                       ),
-    //                       textAlign: TextAlign.center,
-    //                       speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                     ),
-    //                   ],
-    //                   isRepeatingAnimation: false,
-    //                 ),
-    //                 SizedBox(
-    //                   height: 10,
-    //                 ),
-    //
-    //                 _drawerItem(isTabletOrMobile,"About", context, controller.aboutKey),
-    //                 Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-    //                 _drawerItem(isTabletOrMobile,"Experience", context, controller.experienceKey),
-    //                 Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-    //                 _drawerItem(isTabletOrMobile,"Tools", context, controller.toolsKey),
-    //                 Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-    //                 _drawerItem(isTabletOrMobile,"Projects", context, controller.projectsKey),
-    //                 Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-    //                 _drawerItem(isTabletOrMobile,"Blogs", context, controller.blogKey),
-    //                 Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-    //                 _drawerItem(isTabletOrMobile,"Contact", context, controller.contactKey),
-    //               ],
-    //             ),
-    //           ),
-    //         )
-    //             : null,
-    //         body: LayoutBuilder(builder: (context, constraints) {
-    //           return NotificationListener<ScrollNotification>(
-    //             onNotification: (scrollNotification) {
-    //               double scrollPosition = scrollNotification.metrics.extentBefore;
-    //
-    //               // Show Second Segment
-    //               if (scrollPosition > constraints.maxHeight * 0.5) {
-    //                 showSecondSegment.value = true;
-    //               } else {
-    //                 showSecondSegment.value = false;
-    //               }
-    //
-    //               // Show Third Segment
-    //               if (scrollPosition > constraints.maxHeight * 0.9) {
-    //                 showThirdSegment.value = true;
-    //               } else {
-    //                 showThirdSegment.value = false;
-    //               }
-    //
-    //               return true;
-    //             },
-    //             child: SingleChildScrollView(
-    //               physics: ScrollPhysics(),
-    //               // padding: const EdgeInsets.all(16.0),
-    //               child: ConstrainedBox(
-    //                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
-    //                 child: Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.center,
-    //                   children: [
-    //                     Padding(
-    //                       padding: EdgeInsets.symmetric(
-    //                         vertical: isTabletOrMobile ?100:160, // Keep vertical spacing consistent
-    //                       ),
-    //                       child: isTabletOrMobile
-    //                           ? Column(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                         children: [
-    //                           CircleAvatar(
-    //                             backgroundColor: ColorConstants.primaryColor,
-    //                             radius: isTabletOrMobile ? 140 : 190,
-    //                             // ResponsiveSize.getSize(context, 130),
-    //                             child: CircleAvatar(
-    //                               backgroundColor: ColorConstants.whiteColor,
-    //                               radius: isTabletOrMobile ? 130 : 180,
-    //                               // ResponsiveSize.getSize(context, 120),
-    //                               //isMobile ? 100 : 170, // Adjust for mobile
-    //                               backgroundImage:
-    //                               AssetImage(AssetConstants.profileImage),
-    //                             ),
-    //                           ),
-    //                           SizedBox(
-    //                             width: 10,
-    //                           ),
-    //                           Column(
-    //                             mainAxisAlignment: MainAxisAlignment.center,
-    //                             crossAxisAlignment: CrossAxisAlignment.center,
-    //                             children: [
-    //                               Padding(
-    //                                 padding: const EdgeInsets.only(top: 15),
-    //                                 child: AnimatedTextKit(
-    //                                   animatedTexts: [
-    //                                     TyperAnimatedText(
-    //                                       "Hello, I'm",
-    //                                       textStyle: TextStyle(
-    //                                           fontSize:isTabletOrMobile ? 16 : 18,
-    //                                           color: ColorConstants.darkGreyColor,
-    //                                           fontWeight: FontWeight.w600,
-    //                                           fontFamily: FontConstants.fontFamily
-    //
-    //                                       ),
-    //                                       speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                     ),
-    //                                   ],
-    //                                   isRepeatingAnimation: false,
-    //                                 ),
-    //                               ),
-    //                               SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               AnimatedTextKit(
-    //                                 animatedTexts: [
-    //                                   TyperAnimatedText(
-    //                                     "GIRITHAR K",
-    //                                     textStyle: TextStyle(
-    //                                         fontSize:isTabletOrMobile ? 20 : 24,
-    //                                         color: ColorConstants.primaryColor,
-    //                                         fontWeight: FontWeight.w600,
-    //                                         fontFamily: FontConstants.fontFamily
-    //
-    //                                     ),
-    //                                     speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                   ),
-    //                                 ],
-    //                                 isRepeatingAnimation: false,
-    //                               ),
-    //
-    //                               SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               AnimatedTextKit(
-    //                                 animatedTexts: [
-    //                                   TyperAnimatedText(
-    //                                     "Software Developer",
-    //                                     textStyle: TextStyle(
-    //                                         fontSize:isTabletOrMobile ? 20 : 24,
-    //                                         color: ColorConstants.darkGreyColor,
-    //                                         fontWeight: FontWeight.bold,
-    //                                         fontFamily: FontConstants.fontFamily
-    //
-    //                                     ),
-    //                                     speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                   ),
-    //                                 ],
-    //                                 isRepeatingAnimation: false,
-    //                               ),
-    //                               SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               Row(
-    //                                 mainAxisAlignment: MainAxisAlignment.center,
-    //                                 crossAxisAlignment:
-    //                                 CrossAxisAlignment.center,
-    //                                 children: [
-    //                                   InkWell(
-    //                                     highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                     splashColor: Colors.transparent,
-    //                                     hoverColor:  Colors.transparent,
-    //                                     onTap: () {
-    //                                       homeController.resumeDriveLink();
-    //                                     },
-    //                                     child: Container(
-    //                                       padding: EdgeInsets.only(
-    //                                           left: 10,
-    //                                           right: 10,
-    //                                           top: 5,
-    //                                           bottom: 5),
-    //                                       decoration: BoxDecoration(
-    //                                           color:
-    //                                           ColorConstants.primaryColor,
-    //                                           borderRadius:
-    //                                           BorderRadius.circular(10),
-    //                                           border: Border.all(
-    //                                               color: ColorConstants
-    //                                                   .lightGrey)),
-    //                                       child: Text(
-    //                                         "Download CV",
-    //                                         style: TextStyle(
-    //                                             fontSize:isTabletOrMobile ? 16 : 20,
-    //                                             fontFamily:
-    //                                             FontConstants.fontFamily,
-    //                                             color:
-    //                                             ColorConstants.whiteColor,
-    //                                             fontWeight: FontWeight.normal),
-    //                                       ),
-    //                                     ),
-    //                                   ),
-    //                                   SizedBox(
-    //                                     width: 10,
-    //                                   ),
-    //                                   InkWell(
-    //                                     highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                     splashColor: Colors.transparent,
-    //                                     hoverColor:  Colors.transparent,
-    //                                     onTap: () {
-    //                                       HomeController.openEmailApp(
-    //                                           toMail: "girithardev@gmail.com");
-    //                                     },
-    //                                     child: Container(
-    //                                       padding: EdgeInsets.only(
-    //                                           left: 10,
-    //                                           right: 10,
-    //                                           top: 5,
-    //                                           bottom: 5),
-    //                                       decoration: BoxDecoration(
-    //                                           color:
-    //                                           ColorConstants.primaryColor,
-    //                                           borderRadius:
-    //                                           BorderRadius.circular(10),
-    //                                           border: Border.all(
-    //                                               color: ColorConstants
-    //                                                   .lightGrey)),
-    //                                       child: Text(
-    //                                         "Contact Info",
-    //                                         style: TextStyle(
-    //                                             fontSize:isTabletOrMobile ? 16 : 20,
-    //                                             fontFamily:
-    //                                             FontConstants.fontFamily,
-    //                                             color:
-    //                                             ColorConstants.whiteColor,
-    //                                             fontWeight: FontWeight.normal),
-    //                                       ),
-    //                                     ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                               SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               Row(
-    //                                 mainAxisAlignment: MainAxisAlignment.center,
-    //                                 crossAxisAlignment:
-    //                                 CrossAxisAlignment.center,
-    //                                 children: [
-    //                                   Wrap(
-    //                                     spacing: 0,
-    //                                     alignment: WrapAlignment.center,
-    //                                     children: [
-    //                                       InkWell(
-    //                                         highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                         splashColor: Colors.transparent,
-    //                                         hoverColor:  Colors.transparent,
-    //                                         onTap: () {
-    //                                           homeController.linkedInLink();
-    //                                         },
-    //                                         child: Lottie.asset(
-    //                                           'assets/images/lotties/linkedin.json',
-    //                                           width:isTabletOrMobile?60:80,
-    //                                           // ResponsiveSize.getSize(
-    //                                           //     context, 50),
-    //                                           height: isTabletOrMobile?60:80,
-    //                                           // ResponsiveSize.getSize(
-    //                                           //     context, 50),
-    //                                           fit: BoxFit.fill,
-    //                                         ),
-    //                                       ),
-    //                                       InkWell(
-    //                                         highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                         splashColor: Colors.transparent,
-    //                                         hoverColor:  Colors.transparent,
-    //                                         onTap: () {
-    //                                           homeController.gitHubLink();
-    //                                         },
-    //                                         child: Lottie.asset(
-    //                                           'assets/images/lotties/github.json',
-    //                                           width: isTabletOrMobile?60:80,
-    //                                           // ResponsiveSize.getSize(
-    //                                           //     context, 50),
-    //                                           height: isTabletOrMobile?60:80,
-    //                                             // ResponsiveSize.getSize(
-    //                                             //   context, 50),
-    //                                           fit: BoxFit.fill,
-    //                                         ),
-    //                                       ),
-    //                                     ],
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                             ],
-    //                           )
-    //                         ],
-    //                       )
-    //                           : Padding(
-    //                         padding: EdgeInsets.symmetric(
-    //                           horizontal:
-    //                           getHorizontalPadding(constraints.maxWidth),
-    //                         ),
-    //                         child: Row(
-    //                           mainAxisAlignment: MainAxisAlignment.center,
-    //                           crossAxisAlignment: CrossAxisAlignment.center,
-    //                           children: [
-    //                             CircleAvatar(
-    //                               backgroundColor: ColorConstants.primaryColor,
-    //                               radius: isTabletOrMobile ? 140 : 190,
-    //                               // ResponsiveSize.getSize(context, 130),
-    //                               child: CircleAvatar(
-    //                                 backgroundColor: ColorConstants.whiteColor,
-    //                                 radius:isTabletOrMobile ? 130 : 180,
-    //                                 // ResponsiveSize.getSize(context, 120),
-    //                                 //isMobile ? 100 : 170, // Adjust for mobile
-    //                                 backgroundImage:
-    //                                 AssetImage(AssetConstants.profileImage),
-    //                               ),
-    //                             ),
-    //                             SizedBox(
-    //                               width: screenSize.width * 0.04,
-    //                             ),
-    //                             Column(
-    //                               mainAxisAlignment: MainAxisAlignment.center,
-    //                               crossAxisAlignment: CrossAxisAlignment.center,
-    //                               children: [
-    //                                 Padding(
-    //                                     padding: const EdgeInsets.only(top: 15),
-    //                                     child:  AnimatedTextKit(
-    //                                       animatedTexts: [
-    //                                         TyperAnimatedText(
-    //                                           "Hello, I'm",
-    //                                           textStyle: TextStyle(
-    //                                               fontSize:isTabletOrMobile ? 16 : 18,
-    //                                               color: ColorConstants.darkGreyColor,
-    //                                               fontWeight: FontWeight.w600,
-    //                                               fontFamily: FontConstants.fontFamily
-    //
-    //                                           ),
-    //                                           speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                         ),
-    //                                       ],
-    //                                       isRepeatingAnimation: false,
-    //                                     )
-    //                                 ),
-    //                                 SizedBox(
-    //                                   height: 10,
-    //                                 ),
-    //                                 AnimatedTextKit(
-    //                                   animatedTexts: [
-    //                                     TyperAnimatedText(
-    //                                       "GIRITHAR K",
-    //                                       textStyle: TextStyle(
-    //                                           fontSize:isTabletOrMobile ? 20 : 24,
-    //                                           color: ColorConstants.primaryColor,
-    //                                           fontWeight: FontWeight.w600,
-    //                                           fontFamily: FontConstants.fontFamily
-    //
-    //                                       ),
-    //                                       speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                     ),
-    //                                   ],
-    //                                   isRepeatingAnimation: false,
-    //                                 ),
-    //
-    //                                 SizedBox(
-    //                                   height: 10,
-    //                                 ),
-    //                                 AnimatedTextKit(
-    //                                   animatedTexts: [
-    //                                     TyperAnimatedText(
-    //                                       "Software Developer",
-    //                                       textStyle: TextStyle(
-    //                                           fontSize:isTabletOrMobile ? 20 : 24,
-    //                                           color: ColorConstants.darkGreyColor,
-    //                                           fontWeight: FontWeight.bold,
-    //                                           fontFamily: FontConstants.fontFamily
-    //
-    //                                       ),
-    //                                       speed: Duration(milliseconds: 60), // Adjust typing speed
-    //                                     ),
-    //                                   ],
-    //                                   isRepeatingAnimation: false,
-    //                                 ),
-    //
-    //                                 SizedBox(
-    //                                   height: 10,
-    //                                 ),
-    //                                 Row(
-    //                                   mainAxisAlignment:
-    //                                   MainAxisAlignment.center,
-    //                                   crossAxisAlignment:
-    //                                   CrossAxisAlignment.center,
-    //                                   children: [
-    //                                     InkWell(
-    //                                       highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                       splashColor: Colors.transparent,
-    //                                       hoverColor:  Colors.transparent,
-    //                                       onTap: () {
-    //                                         homeController.resumeDriveLink();
-    //                                       },
-    //                                       child: Container(
-    //                                         padding: EdgeInsets.only(
-    //                                             left: 10,
-    //                                             right: 10,
-    //                                             top: 5,
-    //                                             bottom: 5),
-    //                                         decoration: BoxDecoration(
-    //                                             color:
-    //                                             ColorConstants.primaryColor,
-    //                                             borderRadius:
-    //                                             BorderRadius.circular(10),
-    //                                             border: Border.all(
-    //                                                 color: ColorConstants
-    //                                                     .lightGrey)),
-    //                                         child: Text(
-    //                                           "Download CV",
-    //                                           style: TextStyle(
-    //                                               fontSize:isTabletOrMobile ? 16 : 20,
-    //                                               fontFamily:
-    //                                               FontConstants.fontFamily,
-    //                                               color:
-    //                                               ColorConstants.whiteColor,
-    //                                               fontWeight:
-    //                                               FontWeight.normal),
-    //                                         ),
-    //                                       ),
-    //                                     ),
-    //                                     SizedBox(
-    //                                       width: 10,
-    //                                     ),
-    //                                     InkWell(
-    //                                       highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                       splashColor: Colors.transparent,
-    //                                       hoverColor:  Colors.transparent,
-    //                                       onTap: () {
-    //                                         HomeController.openEmailApp(
-    //                                             toMail:
-    //                                             "girithardev@gmail.com");
-    //                                       },
-    //                                       child: Container(
-    //                                         padding: EdgeInsets.only(
-    //                                             left: 10,
-    //                                             right: 10,
-    //                                             top: 5,
-    //                                             bottom: 5),
-    //                                         decoration: BoxDecoration(
-    //                                             color:
-    //                                             ColorConstants.primaryColor,
-    //                                             borderRadius:
-    //                                             BorderRadius.circular(10),
-    //                                             border: Border.all(
-    //                                                 color: ColorConstants
-    //                                                     .lightGrey)),
-    //                                         child: Text(
-    //                                           "Contact Info",
-    //                                           style: TextStyle(
-    //                                               fontSize:isTabletOrMobile ? 16 : 20,
-    //                                               fontFamily:
-    //                                               FontConstants.fontFamily,
-    //                                               color:
-    //                                               ColorConstants.whiteColor,
-    //                                               fontWeight:
-    //                                               FontWeight.normal),
-    //                                         ),
-    //                                       ),
-    //                                     ),
-    //                                   ],
-    //                                 ),
-    //                                 SizedBox(
-    //                                   height: 10,
-    //                                 ),
-    //                                 Row(
-    //                                   mainAxisAlignment:
-    //                                   MainAxisAlignment.center,
-    //                                   crossAxisAlignment:
-    //                                   CrossAxisAlignment.center,
-    //                                   children: [
-    //                                     Wrap(
-    //                                       spacing: 0,
-    //                                       alignment: WrapAlignment.center,
-    //                                       children: [
-    //                                         InkWell(
-    //                                           highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                           splashColor: Colors.transparent,
-    //                                           hoverColor:  Colors.transparent,
-    //                                           onTap: () {
-    //                                             homeController.linkedInLink();
-    //                                           },
-    //                                           child: Lottie.asset(
-    //                                             'assets/images/lotties/linkedin.json',
-    //                                             width: isTabletOrMobile?60:80,
-    //                                             // ResponsiveSize.getSize(
-    //                                             //     context, 50),
-    //                                             height: isTabletOrMobile?60:80,
-    //                                             // ResponsiveSize.getSize(
-    //                                             //     context, 50),
-    //                                             fit: BoxFit.fill,
-    //                                           ),
-    //                                         ),
-    //                                         InkWell(
-    //                                           highlightColor: Colors.transparent,  // Remove the highlight shadow
-    //                                           splashColor: Colors.transparent,
-    //                                           hoverColor:  Colors.transparent,
-    //                                           onTap: () {
-    //                                             homeController.gitHubLink();
-    //                                           },
-    //                                           child: Lottie.asset(
-    //                                             'assets/images/lotties/github.json',
-    //                                             width: isTabletOrMobile?60:80,
-    //                                             // ResponsiveSize.getSize(
-    //                                             //     context, 50),
-    //                                             height: isTabletOrMobile?60:80,
-    //                                             // ResponsiveSize.getSize(
-    //                                             //     context, 50),
-    //                                             fit: BoxFit.fill,
-    //                                           ),
-    //                                         ),
-    //                                       ],
-    //                                     ),
-    //                                   ],
-    //                                 ),
-    //                               ],
-    //                             )
-    //                           ],
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.2),
-    //
-    //                     // **Second Segment (Appears on Scroll)**
-    //                     Padding(
-    //                       padding: EdgeInsets.symmetric(
-    //                         horizontal: getHorizontalPadding(constraints.maxWidth),
-    //                       ),
-    //                       child: _buildSecondSegment(
-    //                           isTabletOrMobile, context, screenSize),
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.1),
-    //                     _buildThirdSegment(
-    //                       isTabletOrMobile,
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.1),
-    //                     Padding(
-    //                       padding: EdgeInsets.symmetric(
-    //                         horizontal: getHorizontalPadding(constraints.maxWidth),
-    //                       ),
-    //                       child: _buildToolsSegment(isTabletOrMobile, screenSize,context),
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.1),
-    //                     Padding(
-    //                       padding: EdgeInsets.symmetric(
-    //                         horizontal: getHorizontalPadding(constraints.maxWidth),
-    //                       ),
-    //                       child: _buildProjectsCarousel(isTabletOrMobile,context),
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.1),
-    //                     Padding(
-    //                       padding: EdgeInsets.symmetric(
-    //                         horizontal: getHorizontalPadding(constraints.maxWidth),
-    //                       ),
-    //                       child: _buildBloGGrid(isTabletOrMobile),
-    //                     ),
-    //                     SizedBox(height: screenSize.height * 0.1),
-    //                     SizedBox(
-    //                         child: _buildContact(isTabletOrMobile,screenSize,context))
-    //                   ],
-    //                 ),
-    //               ),
-    //             ),
-    //           );
-    //         }),
-    //         floatingActionButton: Container(
-    //           color: Colors.transparent,
-    //           width: isTabletOrMobile ? 90 : 120,
-    //           height: isTabletOrMobile ? 90 : 120,
-    //           margin: EdgeInsets.only(bottom: isTabletOrMobile ? 10 : 50, right: isTabletOrMobile ? 10 : 50),
-    //           child: Theme(
-    //             data: Theme.of(context).copyWith(
-    //               floatingActionButtonTheme: FloatingActionButtonThemeData(
-    //                 hoverElevation: 0, // Removes hover elevation
-    //                 splashColor: Colors.transparent, // Removes splash effect
-    //                 focusColor: Colors.transparent,
-    //                 highlightElevation: 0,
-    //               ),
-    //             ),
-    //             child: FloatingActionButton(
-    //               elevation: 0,
-    //               hoverColor: Colors.transparent,
-    //               splashColor: Colors.transparent,
-    //               focusColor: Colors.transparent,
-    //               highlightElevation: 0,
-    //               shape: CircleBorder(),
-    //               backgroundColor: Colors.transparent,
-    //               onPressed: () async {
-    //                 final Uri whatsappUrl = Uri.parse("https://wa.me/+918838304677");
-    //                 try {
-    //                   if (await canLaunchUrl(whatsappUrl)) {
-    //                     await launchUrl(whatsappUrl);
-    //                   }
-    //                 } catch (e) {
-    //                   Get.snackbar("Error", "Could not share on WhatsApp: $e", snackPosition: SnackPosition.BOTTOM);
-    //                 }
-    //               },
-    //               child: Lottie.asset(
-    //                 'assets/images/lotties/whatsapp.json',
-    //                 width: isTabletOrMobile ? 90 : 120,
-    //                 height: isTabletOrMobile ? 90 : 120,
-    //                 fit: BoxFit.fill,
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //
-    //
-    //       );
-    //     }
-    //   ),
-    // );
+    ///Responsive
+    Size screenSize = MediaQuery.of(context).size;
+    bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
+
+        ),
+      ),
+      child: GetBuilder<HomeController>(
+        builder: (controller) {
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              forceMaterialTransparency: true,
+
+              elevation: 0,
+              toolbarHeight:isTabletOrMobile?60:100,
+              // ResponsiveSize.getSize(context, screenSize.height * 0.08),
+              backgroundColor: ColorConstants.primaryColor.withAlpha(0),
+              leading: isTabletOrMobile ? Padding(
+                padding: const EdgeInsets.only(top: 8,left: 16,bottom: 8),
+                child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+              ): null,
+              title: isTabletOrMobile
+                  ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
+              // flexibleSpace: Padding(
+              //   padding: EdgeInsets.only(
+              //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+              //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
+              //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
+              //     ],
+              //   )
+              //   // Text(
+              //   //   "Portfolio",
+              //   //   style: TextStyle(
+              //   //     fontSize: ResponsiveSize.getSize(context, 30),
+              //   //     fontFamily: FontConstants.fontFamily,
+              //   //     color: ColorConstants.whiteColor,
+              //   //   ),
+              //   // ),
+              // ),
+              actions: isTabletOrMobile
+                  ? [
+                Builder(builder: (context) {
+                  return IconButton(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    icon: const Icon(
+                      Icons.menu,
+                      color: ColorConstants.primaryColor,
+                      size: 40,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                }),
+                SizedBox(
+                  width:
+                  ResponsiveSize.getSize(context, screenSize.width * 0.02),
+                ),
+              ] // Hide actions in AppBar, show them in Drawer
+                  : [
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                hoverColor:  Colors.transparent,  // Remove the highlight shadow
+                onTap: () {
+                  homeController.selectedMenuIndex = 0;
+                  homeController.scrollToSection(controller.aboutKey);
+                  homeController.update();
+                },
+              child: _menuItem("About", screenSize, context,0,isTabletOrMobile)),
+
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 1;
+                      homeController.scrollToSection(controller.experienceKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Experience", screenSize, context,1,isTabletOrMobile)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 2;
+                      homeController.scrollToSection(controller.toolsKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Tools", screenSize, context,2,isTabletOrMobile)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 3;
+                      homeController.scrollToSection(controller.projectsKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Projects", screenSize, context,3,isTabletOrMobile)),
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 4;
+                      homeController.scrollToSection(controller.blogKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Blogs", screenSize, context,4,isTabletOrMobile)),
+
+                InkWell(
+                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                    splashColor: Colors.transparent,
+                    hoverColor:  Colors.transparent,
+                    onTap: () {
+                      homeController.selectedMenuIndex = 5;
+                      homeController.scrollToSection(controller.contactKey);
+                      homeController.update();
+                    },
+                    child: _menuItem("Contact", screenSize, context,5,isTabletOrMobile)),
+                SizedBox(
+                  width:
+                  ResponsiveSize.getSize(context, screenSize.width * 0.02),
+                ),
+              ],
+            ),
+            drawer: isTabletOrMobile
+                ? Drawer(
+              backgroundColor: ColorConstants.whiteColor,
+              child: Padding(
+                padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        TyperAnimatedText(
+                          "GIRITHAR K",
+                          textStyle: TextStyle(
+                              fontSize:isTabletOrMobile?22:24,
+                              color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Airbeat'
+
+                          ),
+                          textAlign: TextAlign.center,
+                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                        ),
+                      ],
+                      isRepeatingAnimation: false,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    _drawerItem(isTabletOrMobile,"About", context, controller.aboutKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem(isTabletOrMobile,"Experience", context, controller.experienceKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem(isTabletOrMobile,"Tools", context, controller.toolsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem(isTabletOrMobile,"Projects", context, controller.projectsKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem(isTabletOrMobile,"Blogs", context, controller.blogKey),
+                    Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+                    _drawerItem(isTabletOrMobile,"Contact", context, controller.contactKey),
+                  ],
+                ),
+              ),
+            )
+                : null,
+            body: LayoutBuilder(builder: (context, constraints) {
+              return NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  double scrollPosition = scrollNotification.metrics.extentBefore;
+
+                  // Show Second Segment
+                  if (scrollPosition > constraints.maxHeight * 0.5) {
+                    showSecondSegment.value = true;
+                  } else {
+                    showSecondSegment.value = false;
+                  }
+
+                  // Show Third Segment
+                  if (scrollPosition > constraints.maxHeight * 0.9) {
+                    showThirdSegment.value = true;
+                  } else {
+                    showThirdSegment.value = false;
+                  }
+
+                  return true;
+                },
+                child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  // padding: const EdgeInsets.all(16.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: isTabletOrMobile ?100:160, // Keep vertical spacing consistent
+                          ),
+                          child: isTabletOrMobile
+                              ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: ColorConstants.primaryColor,
+                                radius: isTabletOrMobile ? 140 : 190,
+                                // ResponsiveSize.getSize(context, 130),
+                                child: CircleAvatar(
+                                  backgroundColor: ColorConstants.whiteColor,
+                                  radius: isTabletOrMobile ? 130 : 180,
+                                  // ResponsiveSize.getSize(context, 120),
+                                  //isMobile ? 100 : 170, // Adjust for mobile
+                                  backgroundImage:
+                                  AssetImage(AssetConstants.profileImage),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Hello, I'm",
+                                          textStyle: TextStyle(
+                                              fontSize:isTabletOrMobile ? 16 : 18,
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "GIRITHAR K",
+                                        textStyle: TextStyle(
+                                            fontSize:isTabletOrMobile ? 20 : 24,
+                                            color: ColorConstants.primaryColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
+                                  ),
+
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  AnimatedTextKit(
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        "Software Developer",
+                                        textStyle: TextStyle(
+                                            fontSize:isTabletOrMobile ? 20 : 24,
+                                            color: ColorConstants.darkGreyColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: FontConstants.fontFamily
+
+                                        ),
+                                        speed: Duration(milliseconds: 60), // Adjust typing speed
+                                      ),
+                                    ],
+                                    isRepeatingAnimation: false,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          homeController.resumeDriveLink();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 5),
+                                          decoration: BoxDecoration(
+                                              color:
+                                              ColorConstants.primaryColor,
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .lightGrey)),
+                                          child: Text(
+                                            "Download CV",
+                                            style: TextStyle(
+                                                fontSize:isTabletOrMobile ? 16 : 20,
+                                                fontFamily:
+                                                FontConstants.fontFamily,
+                                                color:
+                                                ColorConstants.whiteColor,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          HomeController.openEmailApp(
+                                              toMail: "girithardev@gmail.com");
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                              top: 5,
+                                              bottom: 5),
+                                          decoration: BoxDecoration(
+                                              color:
+                                              ColorConstants.primaryColor,
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              border: Border.all(
+                                                  color: ColorConstants
+                                                      .lightGrey)),
+                                          child: Text(
+                                            "Contact Info",
+                                            style: TextStyle(
+                                                fontSize:isTabletOrMobile ? 16 : 20,
+                                                fontFamily:
+                                                FontConstants.fontFamily,
+                                                color:
+                                                ColorConstants.whiteColor,
+                                                fontWeight: FontWeight.normal),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      Wrap(
+                                        spacing: 0,
+                                        alignment: WrapAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                            splashColor: Colors.transparent,
+                                            hoverColor:  Colors.transparent,
+                                            onTap: () {
+                                              homeController.linkedInLink();
+                                            },
+                                            child: Lottie.asset(
+                                              'assets/images/lotties/linkedin.json',
+                                              width:isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
+                                              height: isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          InkWell(
+                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                            splashColor: Colors.transparent,
+                                            hoverColor:  Colors.transparent,
+                                            onTap: () {
+                                              homeController.gitHubLink();
+                                            },
+                                            child: Lottie.asset(
+                                              'assets/images/lotties/github.json',
+                                              width: isTabletOrMobile?60:80,
+                                              // ResponsiveSize.getSize(
+                                              //     context, 50),
+                                              height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //   context, 50),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                              : Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                              getHorizontalPadding(constraints.maxWidth),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: ColorConstants.primaryColor,
+                                  radius: isTabletOrMobile ? 140 : 190,
+                                  // ResponsiveSize.getSize(context, 130),
+                                  child: CircleAvatar(
+                                    backgroundColor: ColorConstants.whiteColor,
+                                    radius:isTabletOrMobile ? 130 : 180,
+                                    // ResponsiveSize.getSize(context, 120),
+                                    //isMobile ? 100 : 170, // Adjust for mobile
+                                    backgroundImage:
+                                    AssetImage(AssetConstants.profileImage),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: screenSize.width * 0.04,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child:  AnimatedTextKit(
+                                          animatedTexts: [
+                                            TyperAnimatedText(
+                                              "Hello, I'm",
+                                              textStyle: TextStyle(
+                                                  fontSize:isTabletOrMobile ? 16 : 18,
+                                                  color: ColorConstants.darkGreyColor,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: FontConstants.fontFamily
+
+                                              ),
+                                              speed: Duration(milliseconds: 60), // Adjust typing speed
+                                            ),
+                                          ],
+                                          isRepeatingAnimation: false,
+                                        )
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "GIRITHAR K",
+                                          textStyle: TextStyle(
+                                              fontSize:isTabletOrMobile ? 20 : 24,
+                                              color: ColorConstants.primaryColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
+                                    ),
+
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Software Developer",
+                                          textStyle: TextStyle(
+                                              fontSize:isTabletOrMobile ? 20 : 24,
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: FontConstants.fontFamily
+
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
+                                        ),
+                                      ],
+                                      isRepeatingAnimation: false,
+                                    ),
+
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                          splashColor: Colors.transparent,
+                                          hoverColor:  Colors.transparent,
+                                          onTap: () {
+                                            homeController.resumeDriveLink();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 5),
+                                            decoration: BoxDecoration(
+                                                color:
+                                                ColorConstants.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: ColorConstants
+                                                        .lightGrey)),
+                                            child: Text(
+                                              "Download CV",
+                                              style: TextStyle(
+                                                  fontSize:isTabletOrMobile ? 16 : 20,
+                                                  fontFamily:
+                                                  FontConstants.fontFamily,
+                                                  color:
+                                                  ColorConstants.whiteColor,
+                                                  fontWeight:
+                                                  FontWeight.normal),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        InkWell(
+                                          highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                          splashColor: Colors.transparent,
+                                          hoverColor:  Colors.transparent,
+                                          onTap: () {
+                                            HomeController.openEmailApp(
+                                                toMail:
+                                                "girithardev@gmail.com");
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(
+                                                left: 10,
+                                                right: 10,
+                                                top: 5,
+                                                bottom: 5),
+                                            decoration: BoxDecoration(
+                                                color:
+                                                ColorConstants.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: ColorConstants
+                                                        .lightGrey)),
+                                            child: Text(
+                                              "Contact Info",
+                                              style: TextStyle(
+                                                  fontSize:isTabletOrMobile ? 16 : 20,
+                                                  fontFamily:
+                                                  FontConstants.fontFamily,
+                                                  color:
+                                                  ColorConstants.whiteColor,
+                                                  fontWeight:
+                                                  FontWeight.normal),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Wrap(
+                                          spacing: 0,
+                                          alignment: WrapAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                              splashColor: Colors.transparent,
+                                              hoverColor:  Colors.transparent,
+                                              onTap: () {
+                                                homeController.linkedInLink();
+                                              },
+                                              child: Lottie.asset(
+                                                'assets/images/lotties/linkedin.json',
+                                                width: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                            InkWell(
+                                              highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                              splashColor: Colors.transparent,
+                                              hoverColor:  Colors.transparent,
+                                              onTap: () {
+                                                homeController.gitHubLink();
+                                              },
+                                              child: Lottie.asset(
+                                                'assets/images/lotties/github.json',
+                                                width: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                height: isTabletOrMobile?60:80,
+                                                // ResponsiveSize.getSize(
+                                                //     context, 50),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * 0.2),
+
+                        // **Second Segment (Appears on Scroll)**
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildSecondSegment(
+                              isTabletOrMobile, context, screenSize),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        _buildThirdSegment(
+                          isTabletOrMobile,
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildToolsSegment(isTabletOrMobile, screenSize,context),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildProjectsCarousel(isTabletOrMobile,context),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalPadding(constraints.maxWidth),
+                          ),
+                          child: _buildBloGGrid(isTabletOrMobile),
+                        ),
+                        SizedBox(height: screenSize.height * 0.1),
+                        SizedBox(
+                            child: _buildContact(isTabletOrMobile,screenSize,context))
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+            floatingActionButton: Container(
+              color: Colors.transparent,
+              width: isTabletOrMobile ? 90 : 120,
+              height: isTabletOrMobile ? 90 : 120,
+              margin: EdgeInsets.only(bottom: isTabletOrMobile ? 10 : 50, right: isTabletOrMobile ? 10 : 50),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  floatingActionButtonTheme: FloatingActionButtonThemeData(
+                    hoverElevation: 0, // Removes hover elevation
+                    splashColor: Colors.transparent, // Removes splash effect
+                    focusColor: Colors.transparent,
+                    highlightElevation: 0,
+                  ),
+                ),
+                child: FloatingActionButton(
+                  elevation: 0,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  focusColor: Colors.transparent,
+                  highlightElevation: 0,
+                  shape: CircleBorder(),
+                  backgroundColor: Colors.transparent,
+                  onPressed: () async {
+                    final Uri whatsappUrl = Uri.parse("https://wa.me/+918838304677");
+                    try {
+                      if (await canLaunchUrl(whatsappUrl)) {
+                        await launchUrl(whatsappUrl);
+                      }
+                    } catch (e) {
+                      Get.snackbar("Error", "Could not share on WhatsApp: $e", snackPosition: SnackPosition.BOTTOM);
+                    }
+                  },
+                  child: Lottie.asset(
+                    'assets/images/lotties/whatsapp.json',
+                    width: isTabletOrMobile ? 90 : 120,
+                    height: isTabletOrMobile ? 90 : 120,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
+
+
+          );
+        }
+      ),
+    );
   }
 
   Widget _menuItem(String title, Size screenSize, context,int index,bool isMobile) {
