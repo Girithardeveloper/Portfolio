@@ -282,4 +282,10 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
     super.dispose();
   }
 
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
 }
