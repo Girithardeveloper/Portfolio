@@ -709,12 +709,7 @@ class HomeView extends StatelessWidget {
                           isTabletOrMobile,
                         ),
                         SizedBox(height: screenSize.height * 0.1),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: getHorizontalPadding(constraints.maxWidth),
-                          ),
-                          child: _buildToolsSegment(isTabletOrMobile, screenSize,context),
-                        ),
+                        _buildToolsSegment(isTabletOrMobile),
                         SizedBox(height: screenSize.height * 0.1),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -945,20 +940,11 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
     );
   }
 
-  Widget _buildToolsSegment(bool isMobile, Size screenSize,context) {
-
+  Widget _buildToolsSegment(bool isMobile) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        int crossAxisCount;
-        double width = constraints.maxWidth;
-
-        if (width < 400) {
-          crossAxisCount = 2;
-        } else if (width < 700) {
-          crossAxisCount = 3;
-        } else {
-          crossAxisCount = 2;
-        }
+        bool isWideScreen =
+            constraints.maxWidth > 600; // Adjust breakpoint as needed
         return Container(
           margin: EdgeInsets.only(top: ResponsiveSize.getSize(context, 40)),
           key: homeController.toolsKey,
@@ -974,91 +960,41 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               SizedBox(height: 10),
               ReusableTextWidget(
                   text: "Tools, IDEs, and Others",
-                  fontSize:isMobile ? 24 : 26,
+                  fontSize: isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
-                height: ResponsiveSize.getSize(context, 60),
+                height: ResponsiveSize.getSize(context, 50),
               ),
 
-              SizedBox(
-                height:width < 400 ?screenSize.height * 0.60:width < 700?screenSize.height * 0.85:screenSize.height * 0.90,
-                child: GridView.builder(
-                  controller: homeController.scrollController,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: width < 400 ? 3 : 2.5,
-                    mainAxisExtent:width < 400 ?150:width < 700?300:400,
-
-                    // ResponsiveSize.getSize(context, 300),
+              // Responsive Row/Column Layout
+              isWideScreen
+                  ? Row(
+                children: [
+                  Expanded(
+                    child: _buildToolsContainer(
+                        homeController.toolsAndIDEs,
+                        isMobile,
+                        context),
                   ),
-
-                  scrollDirection: Axis.horizontal,
-                  itemCount: homeController.toolsAndIDEs.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: screenSize.width *
-                          0.2, // Ensure items have enough width
-                      margin: EdgeInsets.symmetric(
-                        horizontal: ResponsiveSize.getSize(context, 10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: ResponsiveSize.getSize(context, 100),
-                            backgroundColor: ColorConstants.secondaryColor,
-                            child: CircleAvatar(
-                                backgroundColor: ColorConstants.whiteColor,
-                                radius: ResponsiveSize.getSize(context, 90),
-                                child: Image.asset(
-                                  homeController.toolsAndIDEs[index]['image'] ??
-                                      '',
-                                  height: ResponsiveSize.getSize(context, 100),
-                                  width: ResponsiveSize.getSize(context, 100),
-                                )),
-                          ),
-                          SizedBox(
-                            height: ResponsiveSize.getSize(context, 20),
-                          ),
-                          Expanded(
-                            // Ensures text does not overflow
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ReusableTextWidget(
-                                  text: homeController.toolsAndIDEs[index]
-                                  ['name'] ??
-                                      '',
-                                  fontSize:isMobile ? 18 : 22, // Slightly reduced for better responsiveness
-                                  fontWeight: FontWeight.bold,
-                                  // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
-                                ),
-                                ReusableTextWidget(
-                                  text: homeController.toolsAndIDEs[index]
-                                  ['level'] ??
-                                      '',
-                                  fontSize: isMobile ? 16 : 20,
-                                  // overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                  // SizedBox(width: 20),
+                  // Expanded(child:  _buildSkillContainer("Tools, IDEs, and Others", homeController.toolsAndIDEs, isMobile,context)),
+                ],
               )
+                  : Column(
+                children: [
+                  _buildToolsContainer(
+                      homeController.toolsAndIDEs,
+                      isMobile,
+                      context),
+                ],
+              ),
             ],
           ),
         );
       },
     );
   }
+
 
   /// **Skill Container**
   Widget _buildSkillContainer(String title, List<Map<String, String>> skillList,
@@ -1104,6 +1040,55 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                     skillName: skillList[index]['name'] ?? '',
                     skillLogo: skillList[index]['image'] ?? '',
                     experienceLevel: skillList[index]['level'] ?? '',
+                    isMobile: isMobile,
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  /// **Tools Container**
+  Widget _buildToolsContainer(List<Map<String, String>> toolsList,
+      bool isMobile, context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      child: Column(
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              int crossAxisCount;
+              double width = constraints.maxWidth;
+
+              if (width < 400) {
+                crossAxisCount = 2;
+              } else if (width < 700) {
+                crossAxisCount = 2;
+              } else {
+                crossAxisCount = 3;
+              }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: width < 400 ? 3 : 2.5,
+                  mainAxisExtent: isMobile?180:300,
+                  // ResponsiveSize.getSize(context, 300),
+                ),
+                itemCount: toolsList.length,
+                itemBuilder: (context, index) {
+                  return ToolsWidget(
+                    toolsName: toolsList[index]['name'] ?? '',
+                    toolsLogo: toolsList[index]['image'] ?? '',
+                    experienceLevel: toolsList[index]['level'] ?? '',
                     isMobile: isMobile,
                   );
                 },
@@ -1749,6 +1734,64 @@ class SkillWidget extends StatelessWidget {
                 children: [
                   ReusableTextWidget(
                     text: skillName,
+                    fontSize:isMobile ? 22 : 24, // Slightly reduced for better responsiveness
+                    fontWeight: FontWeight.bold,
+                    // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
+                  ),
+                  ReusableTextWidget(
+                    text: experienceLevel,
+                    fontSize: isMobile ? 20 : 22,
+                    // overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class ToolsWidget extends StatelessWidget {
+  final String toolsName;
+  final String toolsLogo;
+  final String experienceLevel;
+  final bool isMobile;
+
+  const ToolsWidget({
+    super.key,
+    required this.toolsName,
+    required this.toolsLogo,
+    required this.experienceLevel,
+    required this.isMobile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min, // Prevent excessive width usage
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Image.asset(
+                toolsLogo,
+                height: ResponsiveSize.getSize(context, 100),
+                width: ResponsiveSize.getSize(context, 100),
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(height: 10), // Reduced spacing to prevent overflow
+            Expanded(
+              // Ensures text does not overflow
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ReusableTextWidget(
+                    text: toolsName,
                     fontSize:isMobile ? 22 : 24, // Slightly reduced for better responsiveness
                     fontWeight: FontWeight.bold,
                     // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
