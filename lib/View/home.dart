@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:portfolio/Controller/Home/homeController.dart';
@@ -23,6 +24,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+
+
     ///Scroll
     ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
     ValueNotifier<bool> showThirdSegment = ValueNotifier<bool>(false);
@@ -41,6 +47,8 @@ class HomeView extends StatelessWidget {
       child: GetBuilder<HomeController>(
         builder: (controller) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
+
             // backgroundColor: Colors.white,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
