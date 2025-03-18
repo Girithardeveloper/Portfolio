@@ -32,6 +32,8 @@ class ResponsiveSize {
 
     ///Apply constraints
     scaleFactor = scaleFactor.clamp(0.75, 1.5);
+    // scaleFactor = scaleFactor.clamp(0.85, 1.8);
+
 
     ///Calculate final size with pixel ratio compensation
     return math.max((baseSize * scaleFactor) / (pixelRadio > 2 ? pixelRadio * 0.7 : 1), 8.0);

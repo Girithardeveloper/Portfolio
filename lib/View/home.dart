@@ -38,6 +38,7 @@ class HomeView extends StatelessWidget {
     bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
     return Container(
+      height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
@@ -719,6 +720,9 @@ class HomeView extends StatelessWidget {
                 ),
               );
             }),
+            bottomNavigationBar: Container(
+              height: MediaQuery.of(context).size.height*0.15,
+            ),
             floatingActionButton: Container(
               color: Colors.transparent,
               width: isTabletOrMobile ? 90 : 120,
