@@ -48,11 +48,14 @@ class HomeView extends StatelessWidget {
       child: GetBuilder<HomeController>(
         builder: (controller) {
           return Scaffold(
-
+            extendBody: true,
             // backgroundColor: Colors.white,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               elevation: 0,
+              foregroundColor: Colors.transparent,
+              shadowColor:Colors.transparent,
+              surfaceTintColor: Colors.transparent,
               toolbarHeight:isTabletOrMobile?60:100,
               // ResponsiveSize.getSize(context, screenSize.height * 0.08),
               backgroundColor: ColorConstants.primaryColor.withAlpha(0),

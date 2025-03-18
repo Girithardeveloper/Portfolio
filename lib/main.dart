@@ -6,6 +6,7 @@ import 'Controller/orientationController/orientationController.dart';
 import 'globalWidgets/responsiveSizeWidget.dart';
 
 void main() async{
+  // debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   // await dotenv.load(fileName: ".env");
   runApp(MyApp());
