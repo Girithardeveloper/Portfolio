@@ -38,7 +38,9 @@ class HomeView extends StatelessWidget {
     bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
     return Container(
-      height: MediaQuery.of(context).size.height,
+      // height:876,
+      // height: MediaQuery.of(context).size.height,
+      // width: 393,
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
@@ -48,6 +50,7 @@ class HomeView extends StatelessWidget {
       child: GetBuilder<HomeController>(
         builder: (controller) {
           return Scaffold(
+
             extendBody: true,
             // backgroundColor: Colors.white,
             backgroundColor: Colors.transparent,
@@ -221,12 +224,11 @@ class HomeView extends StatelessWidget {
               ),
             )
                 : null,
-            body: LayoutBuilder(builder: (context, constraints) {
-              // double screenWidth = constraints.maxWidth;
+            body: ListView(
+              shrinkWrap: true,
 
-              return SingleChildScrollView(
-                // padding: const EdgeInsets.all(16.0),
-                child: Column(
+              children: [
+                Column(
                   mainAxisSize: MainAxisSize.min,
 
                   // mainAxisAlignment: MainAxisAlignment.start,
@@ -442,8 +444,8 @@ class HomeView extends StatelessWidget {
                                           // ResponsiveSize.getSize(
                                           //     context, 50),
                                           height: isTabletOrMobile?60:80,
-                                            // ResponsiveSize.getSize(
-                                            //   context, 50),
+                                          // ResponsiveSize.getSize(
+                                          //   context, 50),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -457,8 +459,8 @@ class HomeView extends StatelessWidget {
                       )
                           : Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal:
-                          getHorizontalPadding(constraints.maxWidth),
+                          // horizontal:
+                          // getHorizontalPadding(constraints.maxWidth),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -691,7 +693,7 @@ class HomeView extends StatelessWidget {
                     // **Second Segment (Appears on Scroll)**
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                        // horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
                       child: _buildSecondSegment(
                           isTabletOrMobile, context, screenSize),
@@ -705,14 +707,14 @@ class HomeView extends StatelessWidget {
                     SizedBox(height: screenSize.height * 0.1),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                        // horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
                       child: _buildProjectsCarousel(isTabletOrMobile,context),
                     ),
                     SizedBox(height: screenSize.height * 0.1),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: getHorizontalPadding(constraints.maxWidth),
+                        // horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
                       child: _buildBloGGrid(isTabletOrMobile),
                     ),
@@ -721,8 +723,8 @@ class HomeView extends StatelessWidget {
                         child: _buildContact(isTabletOrMobile,screenSize,context))
                   ],
                 ),
-              );
-            }),
+              ],
+            ),
             floatingActionButton: Container(
               color: Colors.transparent,
               width: isTabletOrMobile ? 90 : 120,
@@ -1404,7 +1406,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
           builder: (context, constraints) {
             bool isWide = constraints.maxWidth > 600;
             double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
-            double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
+            // double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
             return Center(
               child: SingleChildScrollView(
                 child: Container(
@@ -1429,7 +1431,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                   key:controller.contactKey,
                   child: SizedBox(
                     width:  constraints.maxWidth * 1,
-                    height: formHeight, // Set height dynamically
+                    // height: formHeight, // Set height dynamically
                     child: Padding(
                       padding:  EdgeInsets.only(left:  padding, right: padding),
                       child: Form(
