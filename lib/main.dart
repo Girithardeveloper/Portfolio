@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ResponsiveSize.getSize(context,double.parse(screenSize.width.toString()));
-          orientationController.updateOrientation(context);
-        });
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //   ResponsiveSize.getSize(context,double.parse(screenSize.width.toString()));
+        //   orientationController.updateOrientation(context);
+        // });
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Portfolio',
