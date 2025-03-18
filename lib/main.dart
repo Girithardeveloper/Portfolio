@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/View/home.dart';
 
@@ -6,7 +7,7 @@ import 'Controller/orientationController/orientationController.dart';
 import 'globalWidgets/responsiveSizeWidget.dart';
 
 void main() async{
-  // debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   // await dotenv.load(fileName: ".env");
   runApp(MyApp());
