@@ -29356,12 +29356,12 @@ if(a.charCodeAt(s)!==47)return q
 return b+3},
 awN(a){var s=$.aHE(),r=s?B.m:B.l
 A.a4f(s?B.ms:B.G,15,B.TL,a,r,1,!0)},
-dd(a,b){var s,r=t.w,q=A.be(a,null,r).w.a.a,p=A.be(a,null,r).w.b
-if(q>1920)s=q/1920*1.1
-else if(q>1024)s=q/1024*1.15
-else{r=q/768
-s=q>768?r*1.05:r*0.95}s=B.c.dk(s,0.75,1.5)
-r=p>2?p*0.7:1
+dd(a,b){var s,r,q=t.w,p=A.be(a,null,q).w.a.a,o=A.be(a,null,q).w.b
+if(p>1920)s=p/1920*1.1
+else if(p>1024)s=p/1024*1.15
+else s=p>768?p/768*1.05:p/480*0.95
+s=B.c.dk(s,0.8,1.6)
+r=o>2?o*0.65:1
 return Math.max(b*s/r,8)},
 aNh(a){var s,r,q=A.b([],t.s)
 for(s=0;s<a.length;++s){r=a.key(s)
@@ -90836,7 +90836,7 @@ if(p)s=2
 else s=q<700?2:3
 p=p?3:2.5
 r=this.a
-return A.a5C(new A.uU(s,10,10,p,r?180:300),new A.a6x(this.b,r),7,new A.pK(null),!0)},
+return A.a5C(new A.uU(s,10,10,p,r?210:300),new A.a6x(this.b,r),7,new A.pK(null),!0)},
 $S:198}
 A.a6x.prototype={
 $2(a,b){var s,r=this.a,q=r[b].h(0,"name")
@@ -90853,7 +90853,7 @@ if(p)s=2
 else s=q<700?2:3
 p=p?3:2.5
 r=this.a
-return A.a5C(new A.uU(s,10,10,p,r?180:300),new A.a6A(this.b,r),12,new A.pK(null),!0)},
+return A.a5C(new A.uU(s,10,10,p,r?210:300),new A.a6A(this.b,r),12,new A.pK(null),!0)},
 $S:198}
 A.a6A.prototype={
 $2(a,b){var s,r=this.a,q=r[b].h(0,"name")
