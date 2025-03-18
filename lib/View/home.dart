@@ -48,6 +48,7 @@ class HomeView extends StatelessWidget {
       child: GetBuilder<HomeController>(
         builder: (controller) {
           return Scaffold(
+
             // backgroundColor: Colors.white,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -218,22 +219,245 @@ class HomeView extends StatelessWidget {
             )
                 : null,
             body: LayoutBuilder(builder: (context, constraints) {
+              // double screenWidth = constraints.maxWidth;
+
               return SingleChildScrollView(
-                physics: ScrollPhysics(),
                 // padding: const EdgeInsets.all(16.0),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-                  // constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: isTabletOrMobile ?100:160, // Keep vertical spacing consistent
+                      ),
+                      child: isTabletOrMobile
+                          ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: ColorConstants.primaryColor,
+                            radius: isTabletOrMobile ? 140 : 190,
+                            // ResponsiveSize.getSize(context, 130),
+                            child: CircleAvatar(
+                              backgroundColor: ColorConstants.whiteColor,
+                              radius: isTabletOrMobile ? 130 : 180,
+                              // ResponsiveSize.getSize(context, 120),
+                              //isMobile ? 100 : 170, // Adjust for mobile
+                              backgroundImage:
+                              AssetImage(AssetConstants.profileImage),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: AnimatedTextKit(
+                                  animatedTexts: [
+                                    TyperAnimatedText(
+                                      "Hello, I'm",
+                                      textStyle: TextStyle(
+                                          fontSize:isTabletOrMobile ? 16 : 18,
+                                          color: ColorConstants.darkGreyColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: FontConstants.fontFamily
+
+                                      ),
+                                      speed: Duration(milliseconds: 60), // Adjust typing speed
+                                    ),
+                                  ],
+                                  isRepeatingAnimation: false,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                    "GIRITHAR K",
+                                    textStyle: TextStyle(
+                                        fontSize:isTabletOrMobile ? 20 : 24,
+                                        color: ColorConstants.primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: FontConstants.fontFamily
+
+                                    ),
+                                    speed: Duration(milliseconds: 60), // Adjust typing speed
+                                  ),
+                                ],
+                                isRepeatingAnimation: false,
+                              ),
+
+                              SizedBox(
+                                height: 10,
+                              ),
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                    "Software Developer",
+                                    textStyle: TextStyle(
+                                        fontSize:isTabletOrMobile ? 20 : 24,
+                                        color: ColorConstants.darkGreyColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: FontConstants.fontFamily
+
+                                    ),
+                                    speed: Duration(milliseconds: 60), // Adjust typing speed
+                                  ),
+                                ],
+                                isRepeatingAnimation: false,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                    splashColor: Colors.transparent,
+                                    hoverColor:  Colors.transparent,
+                                    onTap: () {
+                                      homeController.resumeDriveLink();
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      decoration: BoxDecoration(
+                                          color:
+                                          ColorConstants.primaryColor,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: ColorConstants
+                                                  .lightGrey)),
+                                      child: Text(
+                                        "Download CV",
+                                        style: TextStyle(
+                                            fontSize:isTabletOrMobile ? 16 : 20,
+                                            fontFamily:
+                                            FontConstants.fontFamily,
+                                            color:
+                                            ColorConstants.whiteColor,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  InkWell(
+                                    highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                    splashColor: Colors.transparent,
+                                    hoverColor:  Colors.transparent,
+                                    onTap: () {
+                                      HomeController.openEmailApp(
+                                          toMail: "girithardev@gmail.com");
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 5,
+                                          bottom: 5),
+                                      decoration: BoxDecoration(
+                                          color:
+                                          ColorConstants.primaryColor,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: ColorConstants
+                                                  .lightGrey)),
+                                      child: Text(
+                                        "Contact Info",
+                                        style: TextStyle(
+                                            fontSize:isTabletOrMobile ? 16 : 20,
+                                            fontFamily:
+                                            FontConstants.fontFamily,
+                                            color:
+                                            ColorConstants.whiteColor,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.center,
+                                children: [
+                                  Wrap(
+                                    spacing: 0,
+                                    alignment: WrapAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          homeController.linkedInLink();
+                                        },
+                                        child: Lottie.asset(
+                                          'assets/images/lotties/linkedin.json',
+                                          width:isTabletOrMobile?60:80,
+                                          // ResponsiveSize.getSize(
+                                          //     context, 50),
+                                          height: isTabletOrMobile?60:80,
+                                          // ResponsiveSize.getSize(
+                                          //     context, 50),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      InkWell(
+                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
+                                        splashColor: Colors.transparent,
+                                        hoverColor:  Colors.transparent,
+                                        onTap: () {
+                                          homeController.gitHubLink();
+                                        },
+                                        child: Lottie.asset(
+                                          'assets/images/lotties/github.json',
+                                          width: isTabletOrMobile?60:80,
+                                          // ResponsiveSize.getSize(
+                                          //     context, 50),
+                                          height: isTabletOrMobile?60:80,
+                                            // ResponsiveSize.getSize(
+                                            //   context, 50),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                          : Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: isTabletOrMobile ?100:160, // Keep vertical spacing consistent
+                          horizontal:
+                          getHorizontalPadding(constraints.maxWidth),
                         ),
-                        child: isTabletOrMobile
-                            ? Column(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -243,7 +467,7 @@ class HomeView extends StatelessWidget {
                               // ResponsiveSize.getSize(context, 130),
                               child: CircleAvatar(
                                 backgroundColor: ColorConstants.whiteColor,
-                                radius: isTabletOrMobile ? 130 : 180,
+                                radius:isTabletOrMobile ? 130 : 180,
                                 // ResponsiveSize.getSize(context, 120),
                                 //isMobile ? 100 : 170, // Adjust for mobile
                                 backgroundImage:
@@ -251,30 +475,30 @@ class HomeView extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: screenSize.width * 0.04,
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: AnimatedTextKit(
-                                    animatedTexts: [
-                                      TyperAnimatedText(
-                                        "Hello, I'm",
-                                        textStyle: TextStyle(
-                                            fontSize:isTabletOrMobile ? 16 : 18,
-                                            color: ColorConstants.darkGreyColor,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: FontConstants.fontFamily
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child:  AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          "Hello, I'm",
+                                          textStyle: TextStyle(
+                                              fontSize:isTabletOrMobile ? 16 : 18,
+                                              color: ColorConstants.darkGreyColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: FontConstants.fontFamily
 
+                                          ),
+                                          speed: Duration(milliseconds: 60), // Adjust typing speed
                                         ),
-                                        speed: Duration(milliseconds: 60), // Adjust typing speed
-                                      ),
-                                    ],
-                                    isRepeatingAnimation: false,
-                                  ),
+                                      ],
+                                      isRepeatingAnimation: false,
+                                    )
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -315,11 +539,13 @@ class HomeView extends StatelessWidget {
                                   ],
                                   isRepeatingAnimation: false,
                                 ),
+
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
@@ -352,7 +578,8 @@ class HomeView extends StatelessWidget {
                                               FontConstants.fontFamily,
                                               color:
                                               ColorConstants.whiteColor,
-                                              fontWeight: FontWeight.normal),
+                                              fontWeight:
+                                              FontWeight.normal),
                                         ),
                                       ),
                                     ),
@@ -365,7 +592,8 @@ class HomeView extends StatelessWidget {
                                       hoverColor:  Colors.transparent,
                                       onTap: () {
                                         HomeController.openEmailApp(
-                                            toMail: "girithardev@gmail.com");
+                                            toMail:
+                                            "girithardev@gmail.com");
                                       },
                                       child: Container(
                                         padding: EdgeInsets.only(
@@ -389,7 +617,8 @@ class HomeView extends StatelessWidget {
                                               FontConstants.fontFamily,
                                               color:
                                               ColorConstants.whiteColor,
-                                              fontWeight: FontWeight.normal),
+                                              fontWeight:
+                                              FontWeight.normal),
                                         ),
                                       ),
                                     ),
@@ -399,7 +628,8 @@ class HomeView extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
                                   crossAxisAlignment:
                                   CrossAxisAlignment.center,
                                   children: [
@@ -416,7 +646,7 @@ class HomeView extends StatelessWidget {
                                           },
                                           child: Lottie.asset(
                                             'assets/images/lotties/linkedin.json',
-                                            width:isTabletOrMobile?60:80,
+                                            width: isTabletOrMobile?60:80,
                                             // ResponsiveSize.getSize(
                                             //     context, 50),
                                             height: isTabletOrMobile?60:80,
@@ -438,8 +668,8 @@ class HomeView extends StatelessWidget {
                                             // ResponsiveSize.getSize(
                                             //     context, 50),
                                             height: isTabletOrMobile?60:80,
-                                              // ResponsiveSize.getSize(
-                                              //   context, 50),
+                                            // ResponsiveSize.getSize(
+                                            //     context, 50),
                                             fit: BoxFit.fill,
                                           ),
                                         ),
@@ -450,279 +680,46 @@ class HomeView extends StatelessWidget {
                               ],
                             )
                           ],
-                        )
-                            : Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal:
-                            getHorizontalPadding(constraints.maxWidth),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: ColorConstants.primaryColor,
-                                radius: isTabletOrMobile ? 140 : 190,
-                                // ResponsiveSize.getSize(context, 130),
-                                child: CircleAvatar(
-                                  backgroundColor: ColorConstants.whiteColor,
-                                  radius:isTabletOrMobile ? 130 : 180,
-                                  // ResponsiveSize.getSize(context, 120),
-                                  //isMobile ? 100 : 170, // Adjust for mobile
-                                  backgroundImage:
-                                  AssetImage(AssetConstants.profileImage),
-                                ),
-                              ),
-                              SizedBox(
-                                width: screenSize.width * 0.04,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.only(top: 15),
-                                      child:  AnimatedTextKit(
-                                        animatedTexts: [
-                                          TyperAnimatedText(
-                                            "Hello, I'm",
-                                            textStyle: TextStyle(
-                                                fontSize:isTabletOrMobile ? 16 : 18,
-                                                color: ColorConstants.darkGreyColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontFamily: FontConstants.fontFamily
-
-                                            ),
-                                            speed: Duration(milliseconds: 60), // Adjust typing speed
-                                          ),
-                                        ],
-                                        isRepeatingAnimation: false,
-                                      )
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  AnimatedTextKit(
-                                    animatedTexts: [
-                                      TyperAnimatedText(
-                                        "GIRITHAR K",
-                                        textStyle: TextStyle(
-                                            fontSize:isTabletOrMobile ? 20 : 24,
-                                            color: ColorConstants.primaryColor,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: FontConstants.fontFamily
-
-                                        ),
-                                        speed: Duration(milliseconds: 60), // Adjust typing speed
-                                      ),
-                                    ],
-                                    isRepeatingAnimation: false,
-                                  ),
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  AnimatedTextKit(
-                                    animatedTexts: [
-                                      TyperAnimatedText(
-                                        "Software Developer",
-                                        textStyle: TextStyle(
-                                            fontSize:isTabletOrMobile ? 20 : 24,
-                                            color: ColorConstants.darkGreyColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: FontConstants.fontFamily
-
-                                        ),
-                                        speed: Duration(milliseconds: 60), // Adjust typing speed
-                                      ),
-                                    ],
-                                    isRepeatingAnimation: false,
-                                  ),
-
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
-                                        splashColor: Colors.transparent,
-                                        hoverColor:  Colors.transparent,
-                                        onTap: () {
-                                          homeController.resumeDriveLink();
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          decoration: BoxDecoration(
-                                              color:
-                                              ColorConstants.primaryColor,
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: ColorConstants
-                                                      .lightGrey)),
-                                          child: Text(
-                                            "Download CV",
-                                            style: TextStyle(
-                                                fontSize:isTabletOrMobile ? 16 : 20,
-                                                fontFamily:
-                                                FontConstants.fontFamily,
-                                                color:
-                                                ColorConstants.whiteColor,
-                                                fontWeight:
-                                                FontWeight.normal),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      InkWell(
-                                        highlightColor: Colors.transparent,  // Remove the highlight shadow
-                                        splashColor: Colors.transparent,
-                                        hoverColor:  Colors.transparent,
-                                        onTap: () {
-                                          HomeController.openEmailApp(
-                                              toMail:
-                                              "girithardev@gmail.com");
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          decoration: BoxDecoration(
-                                              color:
-                                              ColorConstants.primaryColor,
-                                              borderRadius:
-                                              BorderRadius.circular(10),
-                                              border: Border.all(
-                                                  color: ColorConstants
-                                                      .lightGrey)),
-                                          child: Text(
-                                            "Contact Info",
-                                            style: TextStyle(
-                                                fontSize:isTabletOrMobile ? 16 : 20,
-                                                fontFamily:
-                                                FontConstants.fontFamily,
-                                                color:
-                                                ColorConstants.whiteColor,
-                                                fontWeight:
-                                                FontWeight.normal),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children: [
-                                      Wrap(
-                                        spacing: 0,
-                                        alignment: WrapAlignment.center,
-                                        children: [
-                                          InkWell(
-                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
-                                            splashColor: Colors.transparent,
-                                            hoverColor:  Colors.transparent,
-                                            onTap: () {
-                                              homeController.linkedInLink();
-                                            },
-                                            child: Lottie.asset(
-                                              'assets/images/lotties/linkedin.json',
-                                              width: isTabletOrMobile?60:80,
-                                              // ResponsiveSize.getSize(
-                                              //     context, 50),
-                                              height: isTabletOrMobile?60:80,
-                                              // ResponsiveSize.getSize(
-                                              //     context, 50),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            highlightColor: Colors.transparent,  // Remove the highlight shadow
-                                            splashColor: Colors.transparent,
-                                            hoverColor:  Colors.transparent,
-                                            onTap: () {
-                                              homeController.gitHubLink();
-                                            },
-                                            child: Lottie.asset(
-                                              'assets/images/lotties/github.json',
-                                              width: isTabletOrMobile?60:80,
-                                              // ResponsiveSize.getSize(
-                                              //     context, 50),
-                                              height: isTabletOrMobile?60:80,
-                                              // ResponsiveSize.getSize(
-                                              //     context, 50),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
                         ),
                       ),
-                      SizedBox(height: screenSize.height * 0.2),
+                    ),
+                    SizedBox(height: screenSize.height * 0.2),
 
-                      // **Second Segment (Appears on Scroll)**
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: getHorizontalPadding(constraints.maxWidth),
-                        ),
-                        child: _buildSecondSegment(
-                            isTabletOrMobile, context, screenSize),
+                    // **Second Segment (Appears on Scroll)**
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
-                      SizedBox(height: screenSize.height * 0.1),
-                      _buildThirdSegment(
-                        isTabletOrMobile,
+                      child: _buildSecondSegment(
+                          isTabletOrMobile, context, screenSize),
+                    ),
+                    SizedBox(height: screenSize.height * 0.1),
+                    _buildThirdSegment(
+                      isTabletOrMobile,
+                    ),
+                    SizedBox(height: screenSize.height * 0.1),
+                    _buildToolsSegment(isTabletOrMobile),
+                    SizedBox(height: screenSize.height * 0.1),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
-                      SizedBox(height: screenSize.height * 0.1),
-                      _buildToolsSegment(isTabletOrMobile),
-                      SizedBox(height: screenSize.height * 0.1),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: getHorizontalPadding(constraints.maxWidth),
-                        ),
-                        child: _buildProjectsCarousel(isTabletOrMobile,context),
+                      child: _buildProjectsCarousel(isTabletOrMobile,context),
+                    ),
+                    SizedBox(height: screenSize.height * 0.1),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalPadding(constraints.maxWidth),
                       ),
-                      SizedBox(height: screenSize.height * 0.1),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: getHorizontalPadding(constraints.maxWidth),
-                        ),
-                        child: _buildBloGGrid(isTabletOrMobile),
-                      ),
-                      SizedBox(height: screenSize.height * 0.1),
-                      SizedBox(
-                          child: _buildContact(isTabletOrMobile,screenSize,context))
-                    ],
-                  ),
+                      child: _buildBloGGrid(isTabletOrMobile),
+                    ),
+                    SizedBox(height: screenSize.height * 0.1),
+                    SizedBox(
+                        child: _buildContact(isTabletOrMobile,screenSize,context))
+                  ],
                 ),
               );
             }),
-            bottomNavigationBar: Container(
-              height: MediaQuery.of(context).size.height*0.15,
-            ),
             floatingActionButton: Container(
               color: Colors.transparent,
               width: isTabletOrMobile ? 90 : 120,
