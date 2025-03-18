@@ -29,208 +29,206 @@ class HomeView extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     bool isTabletOrMobile = screenSize.width <= ResponsiveSize.tabletWidth;
 
-    return Column(
+    return ListView(
       children: [
-        Expanded(
-          child: Container(
-            // height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
+        Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
 
-              ),
             ),
-
-            // child: GetBuilder<HomeController>(
-            //   builder: (controller) {
-            //     return Scaffold(
-            //       extendBody: true,
-            //       // backgroundColor: Colors.white,
-            //       backgroundColor: Colors.transparent,
-            //       appBar: AppBar(
-            //         elevation: 0,
-            //         foregroundColor: Colors.transparent,
-            //         shadowColor:Colors.transparent,
-            //         surfaceTintColor: Colors.transparent,
-            //         toolbarHeight:isTabletOrMobile?60:100,
-            //         // ResponsiveSize.getSize(context, screenSize.height * 0.08),
-            //         backgroundColor: ColorConstants.primaryColor.withAlpha(0),
-            //         leading: isTabletOrMobile ? Padding(
-            //           padding: const EdgeInsets.only(top: 8,left: 16,bottom: 8),
-            //           child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
-            //         ): null,
-            //         title: isTabletOrMobile
-            //             ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
-            //         // flexibleSpace: Padding(
-            //         //   padding: EdgeInsets.only(
-            //         //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
-            //         //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
-            //         //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
-            //         //   child: Row(
-            //         //     crossAxisAlignment: CrossAxisAlignment.center,
-            //         //     children: [
-            //         //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
-            //         //     ],
-            //         //   )
-            //         //   // Text(
-            //         //   //   "Portfolio",
-            //         //   //   style: TextStyle(
-            //         //   //     fontSize: ResponsiveSize.getSize(context, 30),
-            //         //   //     fontFamily: FontConstants.fontFamily,
-            //         //   //     color: ColorConstants.whiteColor,
-            //         //   //   ),
-            //         //   // ),
-            //         // ),
-            //         actions: isTabletOrMobile
-            //             ? [
-            //           Builder(builder: (context) {
-            //             return IconButton(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               icon: const Icon(
-            //                 Icons.menu,
-            //                 color: ColorConstants.primaryColor,
-            //                 size: 40,
-            //               ),
-            //               onPressed: () {
-            //                 Scaffold.of(context).openDrawer();
-            //               },
-            //             );
-            //           }),
-            //           SizedBox(
-            //             width:
-            //             ResponsiveSize.getSize(context, screenSize.width * 0.02),
-            //           ),
-            //         ] // Hide actions in AppBar, show them in Drawer
-            //             : [
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //           hoverColor:  Colors.transparent,  // Remove the highlight shadow
-            //           onTap: () {
-            //             homeController.selectedMenuIndex = 0;
-            //             homeController.scrollToSection(controller.aboutKey);
-            //             homeController.update();
-            //           },
-            //         child: _menuItem("About", screenSize, context,0,isTabletOrMobile)),
-            //
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               onTap: () {
-            //                 homeController.selectedMenuIndex = 1;
-            //                 homeController.scrollToSection(controller.experienceKey);
-            //                 homeController.update();
-            //               },
-            //               child: _menuItem("Experience", screenSize, context,1,isTabletOrMobile)),
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               onTap: () {
-            //                 homeController.selectedMenuIndex = 2;
-            //                 homeController.scrollToSection(controller.toolsKey);
-            //                 homeController.update();
-            //               },
-            //               child: _menuItem("Tools", screenSize, context,2,isTabletOrMobile)),
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               onTap: () {
-            //                 homeController.selectedMenuIndex = 3;
-            //                 homeController.scrollToSection(controller.projectsKey);
-            //                 homeController.update();
-            //               },
-            //               child: _menuItem("Projects", screenSize, context,3,isTabletOrMobile)),
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               onTap: () {
-            //                 homeController.selectedMenuIndex = 4;
-            //                 homeController.scrollToSection(controller.blogKey);
-            //                 homeController.update();
-            //               },
-            //               child: _menuItem("Blogs", screenSize, context,4,isTabletOrMobile)),
-            //
-            //           InkWell(
-            //               highlightColor: Colors.transparent,  // Remove the highlight shadow
-            //               splashColor: Colors.transparent,
-            //               hoverColor:  Colors.transparent,
-            //               onTap: () {
-            //                 homeController.selectedMenuIndex = 5;
-            //                 homeController.scrollToSection(controller.contactKey);
-            //                 homeController.update();
-            //               },
-            //               child: _menuItem("Contact", screenSize, context,5,isTabletOrMobile)),
-            //           SizedBox(
-            //             width:
-            //             ResponsiveSize.getSize(context, screenSize.width * 0.02),
-            //           ),
-            //         ],
-            //       ),
-            //       drawer: isTabletOrMobile
-            //           ? Drawer(
-            //         backgroundColor: ColorConstants.whiteColor,
-            //         child: Padding(
-            //           padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
-            //           child: ListView(
-            //             padding: EdgeInsets.zero,
-            //             children: [
-            //               AnimatedTextKit(
-            //                 animatedTexts: [
-            //                   TyperAnimatedText(
-            //                     "GIRITHAR K",
-            //                     textStyle: TextStyle(
-            //                         fontSize:isTabletOrMobile?22:24,
-            //                         color: ColorConstants.primaryColor,
-            //                         fontWeight: FontWeight.bold,
-            //                         fontFamily: 'Airbeat'
-            //
-            //                     ),
-            //                     textAlign: TextAlign.center,
-            //                     speed: Duration(milliseconds: 60), // Adjust typing speed
-            //                   ),
-            //                 ],
-            //                 isRepeatingAnimation: false,
-            //               ),
-            //               SizedBox(
-            //                 height: 10,
-            //               ),
-            //
-            //               _drawerItem(isTabletOrMobile,"About", context, controller.aboutKey),
-            //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-            //               _drawerItem(isTabletOrMobile,"Experience", context, controller.experienceKey),
-            //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-            //               _drawerItem(isTabletOrMobile,"Tools", context, controller.toolsKey),
-            //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-            //               _drawerItem(isTabletOrMobile,"Projects", context, controller.projectsKey),
-            //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-            //               _drawerItem(isTabletOrMobile,"Blogs", context, controller.blogKey),
-            //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
-            //               _drawerItem(isTabletOrMobile,"Contact", context, controller.contactKey),
-            //             ],
-            //           ),
-            //         ),
-            //       )
-            //           : null,
-            //       body: Column(
-            //         mainAxisAlignment: MainAxisAlignment.end,
-            //         crossAxisAlignment: CrossAxisAlignment.center,
-            //         children: [
-            //           SizedBox(
-            //               child: _buildContact(isTabletOrMobile,screenSize,context))
-            //         ],
-            //       ),
-            //
-            //
-            //     );
-            //   }
-            // ),
           ),
+
+          // child: GetBuilder<HomeController>(
+          //   builder: (controller) {
+          //     return Scaffold(
+          //       extendBody: true,
+          //       // backgroundColor: Colors.white,
+          //       backgroundColor: Colors.transparent,
+          //       appBar: AppBar(
+          //         elevation: 0,
+          //         foregroundColor: Colors.transparent,
+          //         shadowColor:Colors.transparent,
+          //         surfaceTintColor: Colors.transparent,
+          //         toolbarHeight:isTabletOrMobile?60:100,
+          //         // ResponsiveSize.getSize(context, screenSize.height * 0.08),
+          //         backgroundColor: ColorConstants.primaryColor.withAlpha(0),
+          //         leading: isTabletOrMobile ? Padding(
+          //           padding: const EdgeInsets.only(top: 8,left: 16,bottom: 8),
+          //           child: Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.08),width: ResponsiveSize.getSize(context, screenSize.width * 0.04),fit: BoxFit.fill,),
+          //         ): null,
+          //         title: isTabletOrMobile
+          //             ?Container():Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),fit: isTabletOrMobile?BoxFit.contain:BoxFit.contain,),
+          //         // flexibleSpace: Padding(
+          //         //   padding: EdgeInsets.only(
+          //         //       left: ResponsiveSize.getSize(context, screenSize.width * 0.04),
+          //         //       right: ResponsiveSize.getSize(context, screenSize.width * 0.02),
+          //         //       top: ResponsiveSize.getSize(context, screenSize.height * 0.02)),
+          //         //   child: Row(
+          //         //     crossAxisAlignment: CrossAxisAlignment.center,
+          //         //     children: [
+          //         //       Image.asset(AssetConstants.GiritharDarkLogoImage,height: ResponsiveSize.getSize(context, screenSize.height * 0.06),width: ResponsiveSize.getSize(context, screenSize.width * 0.06),),
+          //         //     ],
+          //         //   )
+          //         //   // Text(
+          //         //   //   "Portfolio",
+          //         //   //   style: TextStyle(
+          //         //   //     fontSize: ResponsiveSize.getSize(context, 30),
+          //         //   //     fontFamily: FontConstants.fontFamily,
+          //         //   //     color: ColorConstants.whiteColor,
+          //         //   //   ),
+          //         //   // ),
+          //         // ),
+          //         actions: isTabletOrMobile
+          //             ? [
+          //           Builder(builder: (context) {
+          //             return IconButton(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               icon: const Icon(
+          //                 Icons.menu,
+          //                 color: ColorConstants.primaryColor,
+          //                 size: 40,
+          //               ),
+          //               onPressed: () {
+          //                 Scaffold.of(context).openDrawer();
+          //               },
+          //             );
+          //           }),
+          //           SizedBox(
+          //             width:
+          //             ResponsiveSize.getSize(context, screenSize.width * 0.02),
+          //           ),
+          //         ] // Hide actions in AppBar, show them in Drawer
+          //             : [
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //           hoverColor:  Colors.transparent,  // Remove the highlight shadow
+          //           onTap: () {
+          //             homeController.selectedMenuIndex = 0;
+          //             homeController.scrollToSection(controller.aboutKey);
+          //             homeController.update();
+          //           },
+          //         child: _menuItem("About", screenSize, context,0,isTabletOrMobile)),
+          //
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               onTap: () {
+          //                 homeController.selectedMenuIndex = 1;
+          //                 homeController.scrollToSection(controller.experienceKey);
+          //                 homeController.update();
+          //               },
+          //               child: _menuItem("Experience", screenSize, context,1,isTabletOrMobile)),
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               onTap: () {
+          //                 homeController.selectedMenuIndex = 2;
+          //                 homeController.scrollToSection(controller.toolsKey);
+          //                 homeController.update();
+          //               },
+          //               child: _menuItem("Tools", screenSize, context,2,isTabletOrMobile)),
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               onTap: () {
+          //                 homeController.selectedMenuIndex = 3;
+          //                 homeController.scrollToSection(controller.projectsKey);
+          //                 homeController.update();
+          //               },
+          //               child: _menuItem("Projects", screenSize, context,3,isTabletOrMobile)),
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               onTap: () {
+          //                 homeController.selectedMenuIndex = 4;
+          //                 homeController.scrollToSection(controller.blogKey);
+          //                 homeController.update();
+          //               },
+          //               child: _menuItem("Blogs", screenSize, context,4,isTabletOrMobile)),
+          //
+          //           InkWell(
+          //               highlightColor: Colors.transparent,  // Remove the highlight shadow
+          //               splashColor: Colors.transparent,
+          //               hoverColor:  Colors.transparent,
+          //               onTap: () {
+          //                 homeController.selectedMenuIndex = 5;
+          //                 homeController.scrollToSection(controller.contactKey);
+          //                 homeController.update();
+          //               },
+          //               child: _menuItem("Contact", screenSize, context,5,isTabletOrMobile)),
+          //           SizedBox(
+          //             width:
+          //             ResponsiveSize.getSize(context, screenSize.width * 0.02),
+          //           ),
+          //         ],
+          //       ),
+          //       drawer: isTabletOrMobile
+          //           ? Drawer(
+          //         backgroundColor: ColorConstants.whiteColor,
+          //         child: Padding(
+          //           padding:  EdgeInsets.only(top:  ResponsiveSize.getSize(context, screenSize.height * 0.08),),
+          //           child: ListView(
+          //             padding: EdgeInsets.zero,
+          //             children: [
+          //               AnimatedTextKit(
+          //                 animatedTexts: [
+          //                   TyperAnimatedText(
+          //                     "GIRITHAR K",
+          //                     textStyle: TextStyle(
+          //                         fontSize:isTabletOrMobile?22:24,
+          //                         color: ColorConstants.primaryColor,
+          //                         fontWeight: FontWeight.bold,
+          //                         fontFamily: 'Airbeat'
+          //
+          //                     ),
+          //                     textAlign: TextAlign.center,
+          //                     speed: Duration(milliseconds: 60), // Adjust typing speed
+          //                   ),
+          //                 ],
+          //                 isRepeatingAnimation: false,
+          //               ),
+          //               SizedBox(
+          //                 height: 10,
+          //               ),
+          //
+          //               _drawerItem(isTabletOrMobile,"About", context, controller.aboutKey),
+          //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+          //               _drawerItem(isTabletOrMobile,"Experience", context, controller.experienceKey),
+          //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+          //               _drawerItem(isTabletOrMobile,"Tools", context, controller.toolsKey),
+          //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+          //               _drawerItem(isTabletOrMobile,"Projects", context, controller.projectsKey),
+          //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+          //               _drawerItem(isTabletOrMobile,"Blogs", context, controller.blogKey),
+          //               Divider(color: Colors.grey[200],height: 0,thickness: 2,),
+          //               _drawerItem(isTabletOrMobile,"Contact", context, controller.contactKey),
+          //             ],
+          //           ),
+          //         ),
+          //       )
+          //           : null,
+          //       body: Column(
+          //         mainAxisAlignment: MainAxisAlignment.end,
+          //         crossAxisAlignment: CrossAxisAlignment.center,
+          //         children: [
+          //           SizedBox(
+          //               child: _buildContact(isTabletOrMobile,screenSize,context))
+          //         ],
+          //       ),
+          //
+          //
+          //     );
+          //   }
+          // ),
         ),
       ],
     );
