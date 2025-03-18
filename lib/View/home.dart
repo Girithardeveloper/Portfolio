@@ -39,6 +39,7 @@ class HomeView extends StatelessWidget {
 
     return Container(
       height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors

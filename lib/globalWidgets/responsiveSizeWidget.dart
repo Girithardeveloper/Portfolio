@@ -11,6 +11,7 @@ class ResponsiveSize {
   ///Screen factors for each device type
   static const double largeDesktopScale = 1.1;
   static const double desktopScale = 1.15;
+  // static const double desktopScale = 1.15;
   static const double tabletScale = 1.05;
   static const double mobileScale = 0.95;
 
