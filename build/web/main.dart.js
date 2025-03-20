@@ -90612,7 +90612,7 @@ q=a?16:18
 q=A.d5(o,n,q,o,5,b.c,o)
 p=A.b3(o,o,5)
 return A.azf(new A.bt(B.En,A.eA(!1,!0,A.da(A.b([k,l,s,r,q,p,A.d5(B.G,n,a?16:18,B.a6,o,"Read more....",o)],t.p),B.cL,B.T,B.a_),o,!0,o,o,B.k,B.k,o,o,o,o,o,new A.a6k(b),o,B.k,o,o),o),B.l,0,new A.cp(m,new A.b6(B.m,0.2,B.B,-1)))},
-a6r(a,b,c){return A.a5g(new A.a6s(b,a),null,null,null,t.J9)}}
+a6r(a,b,c){return A.a5g(new A.a6s(a,b),null,null,null,t.J9)}}
 A.a6Y.prototype={
 $1(a0){var s,r,q,p,o,n,m,l,k,j,i,h=this,g=null,f="assets/images/Girithar logo dark.png",e="Experience",d="Projects",c=h.b,b=c?60:100,a=A.ao(0,B.G.D()>>>16&255,B.G.D()>>>8&255,B.G.D()&255)
 if(c){s=h.c
@@ -90930,26 +90930,29 @@ case 1:return A.H(p.at(-1),r)}})
 return A.J($async$$0,r)},
 $S:19}
 A.a6s.prototype={
-$1(a){return new A.eV(new A.a6r(this.a,a,this.b),null)},
+$1(a){return new A.eV(new A.a6r(this.a,this.b,a),null)},
 $S:538}
 A.a6r.prototype={
-$2(a,b){var s,r,q,p,o,n,m,l,k,j,i,h=null,g=4289851639,f=b.b,e=f>600,d=f*(e?0.3:0.05)
-f=this.a.b
-s=A.b([A.aQ(g),A.aQ(g)],t.t_)
-r=A.b([new A.dO(0,B.cF,B.k,new A.i(0,3),5)],t.sq)
-q=this.b
-p=f*0.15
-o=A.b3(h,p,h)
-n=A.d5(B.G,h,20,B.a6,2,"Contact with me to sizzle your projects",B.dP)
-m=A.d5(B.G,h,16,h,3,"Feel free to contact me if you have any questions. I'm available for new projects or just for chatting.",B.dP)
-l=t.p
-k=q.p3
-j=q.p4
-k=e?A.i2(A.b([A.ky(A.PA(k,B.nw,B.kJ,1,A.ca(h,h,B.G,h,h,h,h,h,h,h,h,h,h,h,h,h,h,!0,h,h,h,h,h,h,h,h),new A.a6l()),1),B.Oo,A.ky(A.PA(j,B.nx,B.zB,1,A.ca(h,h,B.G,h,h,h,h,h,h,h,h,h,h,h,h,h,h,!0,h,h,h,h,h,h,h,h),new A.a6m()),1)],l),B.E,B.T,B.a_):A.da(A.b([A.PA(k,B.nw,B.kJ,1,A.ca(h,h,B.G,h,h,h,h,h,h,h,h,h,h,h,h,h,h,!0,h,h,h,h,h,h,h,h),new A.a6n()),B.za,A.PA(j,B.nx,B.zB,1,A.ca(h,h,B.G,h,h,h,h,h,h,h,h,h,h,h,h,h,h,!0,h,h,h,h,h,h,h,h),new A.a6o())],l),B.E,B.T,B.a_)
-j=A.PA(q.R8,B.Fs,B.kJ,4,A.ca(h,h,B.G,h,h,h,h,h,h,h,h,h,h,h,h,h,h,!0,h,h,h,h,h,h,h,h),new A.a6p())
-i=A.b3(new A.Kn(new A.a6q(q,a),h,h,h,A.aMb(h,h,B.G,h,h,h,h,h,h,B.G,h,h,B.El,h,h,h,h,h,h),h,h,!1,h,!0,h,A.ea("Submit",h,h,h,A.ca(h,h,B.l,h,h,h,h,h,h,h,h,h,h,h,B.a6,h,h,!0,h,h,h,h,h,h,h,h),h,h),h),h,1/0)
-p=A.da(A.b([o,n,B.Oq,m,B.zb,k,B.za,j,B.zb,i,new A.P7(h),A.d5(B.G,h,this.c?14:20,B.a6,h,"\xa9 Copyrights. All Rights Reserved.",h),A.b3(h,p,h)],l),B.E,B.bz,B.bA)
-return A.cW(h,new A.bt(new A.ab(d,0,d,0),new A.za(p,B.it,h),h),B.u,h,h,new A.cz(B.G,h,h,h,r,new A.mK(B.fa,B.il,B.b6,s,h,h),B.ak),h,f,q.fy,h,new A.ab(0,f*0.08,0,0),h,h,h)},
+$2(a0,a1){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e=null,d=4289851639,c=a1.b,b=c>600,a=c*(b?0.3:0.05)
+c=this.a
+s=c?620:652
+r=this.b
+q=r.b
+p=A.b([A.aQ(d),A.aQ(d)],t.t_)
+o=A.b([new A.dO(0,B.cF,B.k,new A.i(0,3),5)],t.sq)
+n=this.c
+m=q*0.15
+l=A.b3(e,m,e)
+k=A.d5(B.G,e,20,B.a6,2,"Contact with me to sizzle your projects",B.dP)
+j=A.d5(B.G,e,16,e,3,"Feel free to contact me if you have any questions. I'm available for new projects or just for chatting.",B.dP)
+i=t.p
+h=n.p3
+g=n.p4
+h=b?A.i2(A.b([A.ky(A.PA(h,B.nw,B.kJ,1,A.ca(e,e,B.G,e,e,e,e,e,e,e,e,e,e,e,e,e,e,!0,e,e,e,e,e,e,e,e),new A.a6l()),1),B.Oo,A.ky(A.PA(g,B.nx,B.zB,1,A.ca(e,e,B.G,e,e,e,e,e,e,e,e,e,e,e,e,e,e,!0,e,e,e,e,e,e,e,e),new A.a6m()),1)],i),B.E,B.T,B.a_):A.da(A.b([A.PA(h,B.nw,B.kJ,1,A.ca(e,e,B.G,e,e,e,e,e,e,e,e,e,e,e,e,e,e,!0,e,e,e,e,e,e,e,e),new A.a6n()),B.za,A.PA(g,B.nx,B.zB,1,A.ca(e,e,B.G,e,e,e,e,e,e,e,e,e,e,e,e,e,e,!0,e,e,e,e,e,e,e,e),new A.a6o())],i),B.E,B.T,B.a_)
+g=A.PA(n.R8,B.Fs,B.kJ,4,A.ca(e,e,B.G,e,e,e,e,e,e,e,e,e,e,e,e,e,e,!0,e,e,e,e,e,e,e,e),new A.a6p())
+f=A.b3(new A.Kn(new A.a6q(n,a0),e,e,e,A.aMb(e,e,B.G,e,e,e,e,e,e,B.G,e,e,B.El,e,e,e,e,e,e),e,e,!1,e,!0,e,A.ea("Submit",e,e,e,A.ca(e,e,B.l,e,e,e,e,e,e,e,e,e,e,e,B.a6,e,e,!0,e,e,e,e,e,e,e,e),e,e),e),e,1/0)
+m=A.da(A.b([l,k,B.Oq,j,B.zb,h,B.za,g,B.zb,f,new A.P7(e),A.d5(B.G,e,c?14:20,B.a6,e,"\xa9 Copyrights. All Rights Reserved.",e),A.b3(e,m,e)],i),B.E,B.bz,B.bA)
+return A.cW(e,new A.bt(new A.ab(a,0,a,0),new A.za(m,B.it,e),e),B.u,e,e,new A.cz(B.G,e,e,e,o,new A.mK(B.fa,B.il,B.b6,p,e,e),B.ak),e,s,n.fy,e,new A.ab(0,q*0.08,0,0),e,e,r.a)},
 $S:79}
 A.a6l.prototype={
 $1(a){if(a.length===0)return"Enter your name"

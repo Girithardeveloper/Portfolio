@@ -1408,9 +1408,9 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
             double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
             return Container(
-              height: screenSize.height,
-              // height: isMobile?620:652,
-              // width: screenSize.width,
+              // height: screenSize.height,
+              height: isMobile?620:652,
+              width: screenSize.width,
               padding: EdgeInsets.only(top: screenSize.height*0.08),
               decoration: BoxDecoration(
                 color: ColorConstants.primaryColor,
