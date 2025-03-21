@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          ResponsiveSize.getSize(context,double.parse(screenSize.width.toString()));
+          ResponsiveSize.getSize(context,double.parse(screenSize.height.toString()));
           orientationController.updateOrientation(context);
         });
         return GetMaterialApp(
