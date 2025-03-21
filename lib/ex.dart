@@ -1,144 +1,302 @@
 import 'package:flutter/material.dart';
+import 'package:hexagon/hexagon.dart';
 
-import 'globalWidgets/textWidget.dart';
 
-class ContactFormScreen extends StatelessWidget {
-  ContactFormScreen({super.key});
 
-  final _formKey = GlobalKey<FormState>();
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  MyHomePageState createState() => MyHomePageState();
+}
+
+class MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  int depth = 1;
+  List<int> depths = [0, 1, 2, 3, 4];
+  HexagonType type = HexagonType.FLAT;
+  bool hasControls = true;
+  bool showControls = true;
+
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(initialIndex: 0, length: 4, vsync: this);
+    tabController.addListener(_onTabChange);
+  }
+
+  void _onTabChange() {
+    if (tabController.index == 0) {
+      setState(() {
+        hasControls = true;
+      });
+    } else {
+      setState(() {
+        hasControls = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        color: Colors.grey,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            bool isWide = constraints.maxWidth > 600;
-            double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
-            double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
-            return Center(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width:  constraints.maxWidth * 1,
-                  height: formHeight, // Set height dynamically
-                  child: Padding(
-                    padding:  EdgeInsets.only(left:  padding, right: padding),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ReusableTextWidget(
-                            text: 'Contact with me to sizzle your project',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            maxLines: 2,
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 10),
-                          ReusableTextWidget(
-                            text: "Feel free to contact me if you have any questions. "
-                                "I'm available for new projects or just for chatting.",
-                            textAlign: TextAlign.center,
-                            fontSize: 16,
-                            maxLines: 3,
+    var size = MediaQuery.of(context).size;
 
-                          ),
-                          const SizedBox(height: 20),
-
-                          // Responsive Name & Email Fields
-                          isWide
-                              ? Row(
+    return DefaultTabController(
+      length: 4,
+      initialIndex: 0,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            controller: tabController,
+            tabs: const [
+              Tab(text: 'Grid'),
+              Tab(text: 'V-Offset'),
+              Tab(text: 'H-Offset'),
+              Tab(text: 'Other'),
+            ],
+          ),
+          title: Text(widget.title),
+          actions: hasControls
+              ? [
+            Row(children: [
+              const Text('Controls'),
+              Switch(
+                value: showControls,
+                activeColor: Colors.lightBlueAccent,
+                onChanged: (value) => setState(() {
+                  showControls = value;
+                }),
+              ),
+            ])
+          ]
+              : null,
+        ),
+        body: TabBarView(
+          controller: tabController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            Stack(
+              children: [
+                Positioned.fill(child: _buildGrid(context, type)),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Visibility(
+                    visible: showControls,
+                    child: Theme(
+                      data: ThemeData(colorScheme: const ColorScheme.dark()),
+                      child: Card(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: "Name",
-                                    border: OutlineInputBorder(),
+                              DropdownButton<HexagonType>(
+                                onChanged: (value) => setState(() {
+                                  if (value != null) {
+                                    type = value;
+                                  }
+                                }),
+                                value: type,
+                                items: const [
+                                  DropdownMenuItem<HexagonType>(
+                                    value: HexagonType.FLAT,
+                                    child: Text('Flat'),
                                   ),
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Enter your name" : null,
-                                ),
+                                  DropdownMenuItem<HexagonType>(
+                                    value: HexagonType.POINTY,
+                                    child: Text('Pointy'),
+                                  )
+                                ],
+                                selectedItemBuilder: (context) =>
+                                [
+                                  const Center(child: Text('Flat')),
+                                  const Center(child: Text('Pointy')),
+                                ],
                               ),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                child: TextFormField(
-                                  decoration: const InputDecoration(
-                                    labelText: "Email",
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Enter a valid email" : null,
-                                ),
+                              DropdownButton<int>(
+                                onChanged: (value) => setState(() {
+                                  if (value != null) {
+                                    depth = value;
+                                  }
+                                }),
+                                value: depth,
+                                items: depths
+                                    .map((e) => DropdownMenuItem<int>(
+                                  value: e,
+                                  child: Text('Depth: $e'),
+                                ))
+                                    .toList(),
+                                selectedItemBuilder: (context) {
+                                  return depths
+                                      .map((e) =>
+                                      Center(child: Text('Depth: $e')))
+                                      .toList();
+                                },
                               ),
                             ],
-                          )
-                              : Column(
-                            children: [
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: "Name",
-                                  border: OutlineInputBorder(),
-                                ),
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter your name" : null,
-                              ),
-                              const SizedBox(height: 15),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: "Email",
-                                  border: OutlineInputBorder(),
-                                ),
-                                keyboardType: TextInputType.emailAddress,
-                                validator: (value) =>
-                                value!.isEmpty ? "Enter a valid email" : null,
-                              ),
-                            ],
                           ),
-
-                          const SizedBox(height: 15),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: "Description...",
-                              border: OutlineInputBorder(),
-                            ),
-                            maxLines: 4,
-                            validator: (value) =>
-                            value!.isEmpty ? "Enter work details" : null,
-                          ),
-                          const SizedBox(height: 20),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 15),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  // Handle form submission
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Form Submitted")),
-                                  );
-                                }
-                              },
-                              child: const Text("Submit"),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              ],
+            ),
+            _buildVerticalGrid(),
+            _buildHorizontalGrid(),
+            _buildMore(size),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildGrid(BuildContext context, HexagonType type) {
+    return InteractiveViewer(
+      minScale: 0.2,
+      maxScale: 4.0,
+      child: HexagonGrid(
+        hexType: type,
+        color: Colors.pink,
+        depth: depth,
+        buildTile: (coordinates) => HexagonWidgetBuilder(
+          padding: 2.0,
+          cornerRadius: 8.0,
+          child: Text('${coordinates.q}, ${coordinates.r}'),
+          // Text('${coordinates.x}, ${coordinates.y}, ${coordinates.z}\n  ${coordinates.q}, ${coordinates.r}'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHorizontalGrid() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: HexagonOffsetGrid.oddPointy(
+        color: Colors.black54,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
+        columns: 9,
+        rows: 4,
+        buildTile: (col, row) => row.isOdd && col.isOdd
+            ? null
+            : HexagonWidgetBuilder(
+          elevation: col.toDouble(),
+          padding: 4.0,
+          cornerRadius: row.isOdd ? 24.0 : null,
+          color: col == 1 || row == 1 ? Colors.lightBlue.shade200 : null,
+          child: Text('$col, $row'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVerticalGrid() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          HexagonOffsetGrid.evenFlat(
+            color: Colors.yellow.shade100,
+            padding: const EdgeInsets.all(8.0),
+            columns: 5,
+            rows: 10,
+            buildTile: (col, row) => HexagonWidgetBuilder(
+              color: row.isEven ? Colors.yellow : Colors.orangeAccent,
+              elevation: 2.0,
+              padding: 2.0,
+            ),
+            buildChild: (col, row) => Text('$col, $row'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMore(Size size) {
+    var padding = 8.0;
+    var w = (size.width - 4 * padding) / 2;
+    var h = 150.0;
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(padding),
+                child: HexagonWidget.flat(
+                  width: w,
+                  child: AspectRatio(
+                    aspectRatio: HexagonType.FLAT.ratio,
+                    child: Image.asset(
+                      'assets/bee.jpg',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(padding),
+                child: HexagonWidget.pointy(
+                  width: w,
+                  child: AspectRatio(
+                    aspectRatio: HexagonType.POINTY.ratio,
+                    child: Image.asset(
+                      'assets/tram.jpg',
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: HexagonWidget.flat(
+                  height: h,
+                  color: Colors.orangeAccent,
+                  child: Text('flat\nheight: ${h.toStringAsFixed(2)}'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: HexagonWidget.pointy(
+                  height: h,
+                  color: Colors.red,
+                  child: Text('pointy\nheight: ${h.toStringAsFixed(2)}'),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(padding),
+            child: HexagonWidget.flat(
+              width: w,
+              color: Colors.limeAccent,
+              elevation: 0,
+              child: Text('flat\nwidth: ${w.toStringAsFixed(2)}\nelevation: 0'),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(padding),
+            child: HexagonWidget.pointy(
+              width: w,
+              color: Colors.lightBlue,
+              child: Text('pointy\nwidth: ${w.toStringAsFixed(2)}'),
+            ),
+          ),
+        ],
       ),
     );
   }

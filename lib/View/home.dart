@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hexagon/hexagon.dart';
 import 'package:lottie/lottie.dart';
 import 'package:portfolio/Controller/Home/homeController.dart';
 import 'package:portfolio/Helper/assetConstants.dart';
@@ -20,14 +21,11 @@ import '../globalWidgets/textWidget.dart';
 class HomeView extends StatelessWidget {
   HomeView({super.key});
 
-  HomeController homeController = Get.put(HomeController());
+  HomeController homeController = Get.put(HomeController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-
-
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
     ///Scroll
     ValueNotifier<bool> showSecondSegment = ValueNotifier<bool>(false);
@@ -49,6 +47,7 @@ class HomeView extends StatelessWidget {
       child: GetBuilder<HomeController>(
           builder: (controller) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               extendBody: true,
               // backgroundColor: Colors.white,
               backgroundColor: Colors.transparent,
@@ -955,7 +954,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                   fontSize: isMobile ? 24 : 26,
                   fontWeight: FontWeight.w700),
               SizedBox(
-                height: ResponsiveSize.getSize(context, 50),
+                height: ResponsiveSize.getSize(context, 40),
               ),
 
               // Responsive Row/Column Layout
@@ -1045,45 +1044,67 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
 
   /// **Tools Container**
-  Widget _buildToolsContainer(List<Map<String, String>> toolsList,
-      bool isMobile, context) {
+  Widget _buildToolsContainer(
+      List<Map<String, String>> toolsList, bool isMobile, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Column(
         children: [
           LayoutBuilder(
             builder: (context, constraints) {
-              int crossAxisCount;
               double width = constraints.maxWidth;
 
+              // Determine number of columns dynamically based on screen width
+              int crossAxisCount;
+              double hexagonWidth; // Approximate width of each hexagon
+
               if (width < 400) {
-                crossAxisCount = 2;
-              } else if (width < 700) {
-                crossAxisCount = 2;
-              } else {
                 crossAxisCount = 3;
+              } else if (width < 700) {
+                crossAxisCount = 3;
+              } else {
+                crossAxisCount = 4;
               }
 
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: width < 400 ? 3 : 2.5,
-                  mainAxisExtent: isMobile?210:300,
-                  // ResponsiveSize.getSize(context, 300),
-                ),
-                itemCount: toolsList.length,
-                itemBuilder: (context, index) {
-                  return ToolsWidget(
-                    toolsName: toolsList[index]['name'] ?? '',
-                    toolsLogo: toolsList[index]['image'] ?? '',
-                    experienceLevel: toolsList[index]['level'] ?? '',
-                    isMobile: isMobile,
-                  );
-                },
+              // Calculate hexagon width dynamically
+              hexagonWidth = width / (crossAxisCount * 1.5);
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: Get.height*0.6,
+
+                    child: Center(
+                      child: HexagonOffsetGrid.evenFlat(
+                        padding:  EdgeInsets.all(hexagonWidth * 0.06,),
+                        columns: crossAxisCount,
+                        rows: (toolsList.length / crossAxisCount).ceil(),
+                        buildTile: (col, row) => HexagonWidgetBuilder(
+                          color:
+                          // row.isEven ?
+                          ColorConstants.whiteColor,
+
+                              // : ColorConstants.secondaryColor,
+                          elevation: 2.0,
+                          padding: hexagonWidth * 0.02, // Adjust padding based on size
+                        ),
+                        buildChild: (col, row) {
+                          int index = row * crossAxisCount + col;
+                          if (index >= toolsList.length) return const SizedBox(); // Avoid out-of-range errors
+
+                          return Image.asset(
+                            toolsList[index]['image'] ?? '',
+                            height:isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2, // Scale image inside hexagon
+                            width: isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2,
+                            fit: BoxFit.contain,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
           ),
@@ -1091,6 +1112,7 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
       ),
     );
   }
+
 
   double getHorizontalPadding(double screenWidth) {
     if (screenWidth < 600) return 16; // Mobile

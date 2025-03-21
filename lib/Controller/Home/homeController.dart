@@ -241,9 +241,10 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   }
 
 
+
   void _startAutoScroll() {
     _timer = Timer.periodic(Duration(milliseconds: 2000), (timer) {
-      if (!Get.isRegistered<HomeController>()) {
+      if (!Get.isRegistered<HomeController>() || !scrollController.hasClients) {
         timer.cancel();
         return;
       }
@@ -272,15 +273,18 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
   }
 
 
+
+
   @override
   void dispose() {
     if (_timer.isActive) {
       _timer.cancel();
     }
-    // scrollController.dispose();
-    sectionController.dispose();
+    sectionController.dispose(); // No need to check for null
     super.dispose();
   }
+
+
 
   @override
   void onClose() {
