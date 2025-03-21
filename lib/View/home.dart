@@ -1407,15 +1407,16 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
             bool isWide = constraints.maxWidth > 600;
             double padding = constraints.maxWidth * (isWide ? 0.3 : 0.05);
             double formHeight = constraints.maxHeight * 0.7; // Adjust height dynamically
-            return Container(
-              // height: screenSize.height,
-              height: isMobile?620:652,
-              width: screenSize.width,
-              padding: EdgeInsets.only(top: screenSize.height*0.08),
-              decoration: BoxDecoration(
-                color: ColorConstants.primaryColor,
-                gradient: LinearGradient(
-                  colors: [Color(0XFFB1F0F7),Color(0XFFB1F0F7),], // Gradient colors
+            return Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: isMobile?620:652,
+                  // width: screenSize.width,
+                  padding: EdgeInsets.only(top: screenSize.height*0.08),
+                  decoration: BoxDecoration(
+                    color: ColorConstants.primaryColor,
+                    gradient: LinearGradient(
+                      colors: [Color(0XFFB1F0F7),Color(0XFFB1F0F7),], // Gradient colors
 
                 ),
                 boxShadow: [
@@ -1456,51 +1457,145 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                         color: ColorConstants.primaryColor,
 
 
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Responsive Name & Email Fields
-                      isWide
-                          ? Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: controller.nameController,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
-                              decoration: const InputDecoration(
-                                labelText: "Name",
-                                labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                                focusedBorder:OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:  BorderSide(
-                                    color: ColorConstants.primaryColor,
-                                  ),
-                                ),
-                                border: OutlineInputBorder(),
-                                focusColor: ColorConstants.primaryColor,
-                                hoverColor: ColorConstants.primaryColor,
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Enter your name";
-                                }
-                                return null;
-                              }
                             ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: TextFormField(
-                              controller: controller.emailController,
-                                keyboardType: TextInputType.emailAddress,
+                            const SizedBox(height: 20),
+
+                            // Responsive Name & Email Fields
+                            isWide
+                                ? Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: controller.nameController,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                    decoration: const InputDecoration(
+                                      labelText: "Name",
+                                      labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      border: OutlineInputBorder(),
+                                      focusColor: ColorConstants.primaryColor,
+                                      hoverColor: ColorConstants.primaryColor,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter your name";
+                                      }
+                                      return null;
+                                    }
+                                  ),
+                                ),
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: controller.emailController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      style: TextStyle(color: ColorConstants.primaryColor,),
+                                    decoration: const InputDecoration(
+                                      labelText: "Email",
+                                      labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                      border: OutlineInputBorder(),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:  BorderSide(
+                                          color: ColorConstants.primaryColor,
+                                        ),
+                                      ),
+                                      focusColor: ColorConstants.primaryColor,
+                                      hoverColor: ColorConstants.primaryColor,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter a valid email";
+                                      }
+                                      return null;
+                                    }
+                                  ),
+                                ),
+                              ],
+                            )
+                                : Column(
+                              children: [
+                                TextFormField(
+                                  controller: controller.nameController,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                  decoration: const InputDecoration(
+                                    labelText: "Name",
+                                    labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder:OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    focusColor: ColorConstants.primaryColor,
+                                    hoverColor: ColorConstants.primaryColor,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter your name";
+                                    }
+                                    return null;
+                                  }
+                                ),
+                                const SizedBox(height: 15),
+                                TextFormField(
+                                  controller: controller.emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    style: TextStyle(color: ColorConstants.primaryColor,),
+                                  decoration: const InputDecoration(
+                                    labelText: "Email",
+                                    labelStyle: TextStyle(color: ColorConstants.primaryColor,),
+                                    border: OutlineInputBorder(),
+                                    focusedBorder:OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:  BorderSide(
+                                        color: ColorConstants.primaryColor,
+                                      ),
+                                    ),
+                                    focusColor: ColorConstants.primaryColor,
+                                    hoverColor: ColorConstants.primaryColor,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Enter a valid email";
+                                    }
+                                    return null;
+                                  }
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 15),
+                            TextFormField(
+                              controller: controller.descriptionController,
+                                keyboardType: TextInputType.text,
                                 style: TextStyle(color: ColorConstants.primaryColor,),
                               decoration: const InputDecoration(
-                                labelText: "Email",
+                                labelText: "Description...",
                                 labelStyle: TextStyle(color: ColorConstants.primaryColor,),
                                 border: OutlineInputBorder(),
                                 focusedBorder:OutlineInputBorder(
@@ -1515,159 +1610,68 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
                                 ),
                                 focusColor: ColorConstants.primaryColor,
                                 hoverColor: ColorConstants.primaryColor,
+
                               ),
+                              maxLines: 4,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return "Enter a valid email";
+                                  return "Enter work details name";
                                 }
                                 return null;
                               }
                             ),
-                          ),
-                        ],
-                      )
-                          : Column(
-                        children: [
-                          TextFormField(
-                            controller: controller.nameController,
-                              keyboardType: TextInputType.text,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
-                            decoration: const InputDecoration(
-                              labelText: "Name",
-                              labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                              border: OutlineInputBorder(),
-                              focusedBorder:OutlineInputBorder(
-                                borderSide:  BorderSide(
-                                  color: ColorConstants.primaryColor,
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: double.infinity,
+                              // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorConstants.primaryColor,
+                                  foregroundColor: ColorConstants.primaryColor,
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
                                 ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:  BorderSide(
-                                  color: ColorConstants.primaryColor,
-                                ),
-                              ),
-                              focusColor: ColorConstants.primaryColor,
-                              hoverColor: ColorConstants.primaryColor,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Enter your name";
-                              }
-                              return null;
-                            }
-                          ),
-                          const SizedBox(height: 15),
-                          TextFormField(
-                            controller: controller.emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: ColorConstants.primaryColor,),
-                            decoration: const InputDecoration(
-                              labelText: "Email",
-                              labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                              border: OutlineInputBorder(),
-                              focusedBorder:OutlineInputBorder(
-                                borderSide:  BorderSide(
-                                  color: ColorConstants.primaryColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:  BorderSide(
-                                  color: ColorConstants.primaryColor,
-                                ),
-                              ),
-                              focusColor: ColorConstants.primaryColor,
-                              hoverColor: ColorConstants.primaryColor,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Enter a valid email";
-                              }
-                              return null;
-                            }
-                          ),
-                        ],
-                      ),
+                                onPressed: () {
+                                  // if (_formKey.currentState!.validate()) {
+                                  if (controller.nameController.text.isEmpty) {
+                                    Toast.showToast('Enter your name');
+                                  }
+                                  else if(controller.emailController.text.isEmpty){
+                                    Toast.showToast('Enter a valid email');
 
-                      const SizedBox(height: 15),
-                      TextFormField(
-                        controller: controller.descriptionController,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(color: ColorConstants.primaryColor,),
-                        decoration: const InputDecoration(
-                          labelText: "Description...",
-                          labelStyle: TextStyle(color: ColorConstants.primaryColor,),
-                          border: OutlineInputBorder(),
-                          focusedBorder:OutlineInputBorder(
-                            borderSide:  BorderSide(
+                                  }
+                                  else if(controller.descriptionController.text.isEmpty){
+                                    Toast.showToast('Enter work details name');
+
+                                  }
+                                  else{
+                                    controller.sendEmail(controller.nameController.text,controller.emailController.text,controller.descriptionController.text);
+                                    // Toast.showToast('Form Submitted');
+                                    // Handle form submission
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.whiteColor),),backgroundColor: ColorConstants.primaryColor,),
+                                    );
+                                  }
+                                },
+                                child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold,color: ColorConstants.whiteColor),),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            ReusableTextWidget(
+                              text: '© Copyrights. All Rights Reserved.',
+                              fontSize: isMobile?14:20,
+                                // ResponsiveSize.getSize(context, 15),
                               color: ColorConstants.primaryColor,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:  BorderSide(
-                              color: ColorConstants.primaryColor,
-                            ),
-                          ),
-                          focusColor: ColorConstants.primaryColor,
-                          hoverColor: ColorConstants.primaryColor,
-
-                        ),
-                        maxLines: 4,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Enter work details name";
-                          }
-                          return null;
-                        }
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        // height: ResponsiveSize.getSize(context, screenSize.height*0.05),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorConstants.primaryColor,
-                            foregroundColor: ColorConstants.primaryColor,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                          ),
-                          onPressed: () {
-                            // if (_formKey.currentState!.validate()) {
-                            if (controller.nameController.text.isEmpty) {
-                              Toast.showToast('Enter your name');
-                            }
-                            else if(controller.emailController.text.isEmpty){
-                              Toast.showToast('Enter a valid email');
-
-                            }
-                            else if(controller.descriptionController.text.isEmpty){
-                              Toast.showToast('Enter work details name');
-
-                            }
-                            else{
-                              controller.sendEmail(controller.nameController.text,controller.emailController.text,controller.descriptionController.text);
-                              // Toast.showToast('Form Submitted');
-                              // Handle form submission
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Form Submitted",style: TextStyle(color: ColorConstants.whiteColor),),backgroundColor: ColorConstants.primaryColor,),
-                              );
-                            }
-                          },
-                          child:  Text("Submit",style: TextStyle(fontWeight: FontWeight.bold,color: ColorConstants.whiteColor),),
+                            const SizedBox(height: 20),
+                          ],
                         ),
                       ),
-                      Spacer(),
-                      ReusableTextWidget(
-                        text: '© Copyrights. All Rights Reserved.',
-                        fontSize: isMobile?14:20,
-                          // ResponsiveSize.getSize(context, 15),
-                        color: ColorConstants.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                       SizedBox(height:  screenSize.height*0.15),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+
           },
         );
       }
