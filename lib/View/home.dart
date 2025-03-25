@@ -39,6 +39,7 @@ class HomeView extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
+        // color: ColorConstants.whiteColor
         gradient: RadialGradient(
           colors: [Color(0XFFF2F9FF),Color(0XFFB1F0F7),], // Gradient colors
 
@@ -701,7 +702,12 @@ class HomeView extends StatelessWidget {
                         isTabletOrMobile,
                       ),
                       SizedBox(height: screenSize.height * 0.1),
-                      _buildToolsSegment(isTabletOrMobile),
+                      Padding(
+                        padding:EdgeInsets.symmetric(
+                          horizontal: getHorizontalPadding(constraints.maxWidth),
+                        ),
+                        child: _buildToolsSegment(isTabletOrMobile),
+                      ),
                       SizedBox(height: screenSize.height * 0.1),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -946,15 +952,13 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
               ReusableTextWidget(
                 text: 'Explore My',
                 color: Colors.grey.shade600,
+                fontWeight: FontWeight.bold,
+                fontFamily: FontConstants.fontFamily,
                 fontSize: isMobile ? 22 : 24,
               ),
-              SizedBox(height: 10),
-              ReusableTextWidget(
-                  text: "Tools, IDEs, and Others",
-                  fontSize: isMobile ? 24 : 26,
-                  fontWeight: FontWeight.w700),
+
               SizedBox(
-                height: ResponsiveSize.getSize(context, 40),
+                height: ResponsiveSize.getSize(context, 20),
               ),
 
               // Responsive Row/Column Layout
@@ -1044,67 +1048,147 @@ We also follow the Model-View-Controller (MVC) pattern for our project developme
 
 
   /// **Tools Container**
-  Widget _buildToolsContainer(
-      List<Map<String, String>> toolsList, bool isMobile, BuildContext context) {
+  ///
+  // Widget _buildToolsContainer(
+  //     List<Map<String, String>> toolsList, bool isMobile, BuildContext context) {
+  //   return Column(
+  //     children: [
+  //       LayoutBuilder(
+  //         builder: (context, constraints) {
+  //           double width = constraints.maxWidth;
+  //
+  //           // Determine number of columns dynamically based on screen width
+  //           int crossAxisCount;
+  //           double hexagonWidth; // Approximate width of each hexagon
+  //
+  //           if (width < 400) {
+  //             crossAxisCount = 3;
+  //           } else if (width < 700) {
+  //             crossAxisCount = 3;
+  //           } else {
+  //             crossAxisCount = 3;
+  //           }
+  //
+  //           // Calculate hexagon width dynamically
+  //           hexagonWidth = width / (crossAxisCount * 1.5);
+  //
+  //           return Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               SizedBox(
+  //                 height: Get.height*0.7,
+  //
+  //                 child: Center(
+  //                   child: HexagonOffsetGrid.evenFlat(
+  //                     padding:  EdgeInsets.all(hexagonWidth * 0.06,),
+  //                     columns:crossAxisCount,
+  //                     rows: (toolsList.length / crossAxisCount).ceil(),
+  //                     buildTile: (col, row) => HexagonWidgetBuilder(
+  //                       color:
+  //                       // row.isEven ?
+  //                       ColorConstants.whiteColor,
+  //
+  //                           // : ColorConstants.secondaryColor,
+  //                       elevation: 2.0,
+  //                       padding: hexagonWidth * 0.02, // Adjust padding based on size
+  //                     ),
+  //                     buildChild: (col, row) {
+  //                       int index = row * crossAxisCount + col;
+  //                       if (index >= toolsList.length) return const SizedBox(); // Avoid out-of-range errors
+  //
+  //                       return Image.asset(
+  //                         toolsList[index]['image'] ?? '',
+  //                         height:isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2, // Scale image inside hexagon
+  //                         width: isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2,
+  //                         fit: BoxFit.contain,
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  /// **Tools Container**
+  Widget _buildToolsContainer(List<Map<String, String>> toolsList,
+      bool isMobile, context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           LayoutBuilder(
             builder: (context, constraints) {
+              int crossAxisCount;
               double width = constraints.maxWidth;
 
-              // Determine number of columns dynamically based on screen width
-              int crossAxisCount;
-              double hexagonWidth; // Approximate width of each hexagon
-
               if (width < 400) {
-                crossAxisCount = 3;
+                crossAxisCount = 2;
               } else if (width < 700) {
-                crossAxisCount = 3;
+                crossAxisCount = 2;
               } else {
-                crossAxisCount = 4;
+                if(width < 860) {
+                  crossAxisCount = 3;
+                }
+                else{
+                  crossAxisCount = 5;
+                }
               }
 
-              // Calculate hexagon width dynamically
-              hexagonWidth = width / (crossAxisCount * 1.5);
+              return Container(
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: Get.height*0.6,
-
-                    child: Center(
-                      child: HexagonOffsetGrid.evenFlat(
-                        padding:  EdgeInsets.all(hexagonWidth * 0.06,),
-                        columns: crossAxisCount,
-                        rows: (toolsList.length / crossAxisCount).ceil(),
-                        buildTile: (col, row) => HexagonWidgetBuilder(
-                          color:
-                          // row.isEven ?
-                          ColorConstants.whiteColor,
-
-                              // : ColorConstants.secondaryColor,
-                          elevation: 2.0,
-                          padding: hexagonWidth * 0.02, // Adjust padding based on size
-                        ),
-                        buildChild: (col, row) {
-                          int index = row * crossAxisCount + col;
-                          if (index >= toolsList.length) return const SizedBox(); // Avoid out-of-range errors
-
-                          return Image.asset(
-                            toolsList[index]['image'] ?? '',
-                            height:isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2, // Scale image inside hexagon
-                            width: isMobile?hexagonWidth * 0.7:hexagonWidth * 0.2,
-                            fit: BoxFit.contain,
-                          );
-                        },
-                      ),
+                padding: EdgeInsets.only(top: 0,left: 30,right: 30,bottom: 30),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+              colors: [ColorConstants.primaryColor,ColorConstants.primaryColor.withAlpha(100),ColorConstants.primaryColor,]), // Gradient col
+                    borderRadius: BorderRadius.circular(15)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 15,left: 20,right: 20,bottom: 15),
+                      decoration: BoxDecoration(
+                          color: ColorConstants.whiteColor,
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+              ),
+                      child:ReusableTextWidget(
+                          text: "Tools, IDEs, and Others",
+                          fontSize: isMobile ? 24 : 26,
+                          // color: ColorConstants.whiteColor,
+                          fontWeight: FontWeight.w700),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 30,),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 30,
+                        mainAxisSpacing: 30,
+                        // childAspectRatio: width < 400 ? 4 :3,
+                        mainAxisExtent: 200,
+                        // ResponsiveSize.getSize(context, 300),
+                      ),
+                      itemCount: toolsList.length,
+                      itemBuilder: (context, index) {
+                        return ToolsWidget(
+                          toolsName: toolsList[index]['name'] ?? '',
+                          toolsLogo: toolsList[index]['image'] ?? '',
+                          experienceLevel: toolsList[index]['level'] ?? '',
+                          isMobile: isMobile,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               );
             },
           ),
@@ -1786,40 +1870,37 @@ class ToolsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min, // Prevent excessive width usage
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Image.asset(
-                toolsLogo,
-                height: ResponsiveSize.getSize(context, 100),
-                width: ResponsiveSize.getSize(context, 100),
-                fit: BoxFit.contain,
+        return Container(
+          decoration: BoxDecoration(color: ColorConstants.whiteColor,borderRadius: BorderRadius.circular(15),),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisSize: MainAxisSize.min, // Prevent excessive width usage
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Image.asset(
+                  toolsLogo,
+                  height: Get.height*0.10,
+                  // width: Get.width*0.20,
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),
               ),
-            ),
-            SizedBox(height: 10), // Reduced spacing to prevent overflow
-            Expanded(
-              // Ensures text does not overflow
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ReusableTextWidget(
-                    text: toolsName,
-                    fontSize:isMobile ? 22 : 24, // Slightly reduced for better responsiveness
-                    fontWeight: FontWeight.bold,
-                    // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
-                  ),
-                  ReusableTextWidget(
-                    text: experienceLevel,
-                    fontSize: isMobile ? 20 : 22,
-                    // overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              SizedBox(height: 15), // Reduced spacing to prevent overflow
+              ReusableTextWidget(
+                text: toolsName,
+                fontSize:isMobile ? 20 : 22, // Slightly reduced for better responsiveness
+                fontWeight: FontWeight.bold,
+                // overflow: TextOverflow.ellipsis, // Prevents text from overflowing
               ),
-            ),
-          ],
+              ReusableTextWidget(
+                text: experienceLevel,
+                fontSize: isMobile ? 18 : 20,
+                // overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         );
       },
     );
