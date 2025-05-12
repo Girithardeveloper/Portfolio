@@ -113,7 +113,7 @@ class HomeController extends GetxController  with SingleGetTickerProviderMixin {
     var resumeDriveLinkUrl;
     // appInfo = await Utility.getApplicationInfo();
 
-    resumeDriveLinkUrl = 'https://drive.google.com/file/d/1Vc4XGP3znz8yfxknu0dPZk4mPr1YR8NZ/view?usp=drivesdk';
+    resumeDriveLinkUrl = 'https://drive.google.com/file/d/1SBZ7usI5IoFcqnWKBYtTPuljp0xaceCW/view?usp=drivesdk';
 
     if (await canLaunch(resumeDriveLinkUrl)) {
       await launch(resumeDriveLinkUrl);
