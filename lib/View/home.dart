@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -683,11 +684,13 @@ class _CountUpStat extends StatefulWidget {
     required this.suffix,
     required this.label,
     required this.isMobile,
+    this.accentColor,
   });
   final double numVal;
   final String suffix;
   final String label;
   final bool isMobile;
+  final Color? accentColor;
 
   @override
   State<_CountUpStat> createState() => _CountUpStatState();
@@ -739,27 +742,31 @@ class _CountUpStatState extends State<_CountUpStat>
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ShaderMask(
-                blendMode: BlendMode.srcIn,
-                shaderCallback: (b) => const LinearGradient(
-                  colors: [Color(0xFF00D4FF), Color(0xFF7C3AED)],
-                ).createShader(Rect.fromLTWH(0, 0, b.width, b.height)),
-                child: Text(
-                  '$display${widget.suffix}',
-                  style: TextStyle(
-                    fontSize: widget.isMobile ? 28 : 36,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: FontConstants.fontFamily,
-                  ),
+              Text(
+                '$display${widget.suffix}',
+                style: TextStyle(
+                  fontSize: widget.isMobile ? 32 : 48,
+                  fontWeight: FontWeight.w900,
+                  fontFamily: FontConstants.fontFamily,
+                  color: widget.accentColor ?? ColorConstants.accentCyan,
+                  shadows: [
+                    Shadow(
+                      color: (widget.accentColor ?? ColorConstants.accentCyan)
+                          .withOpacity(0.6),
+                      blurRadius: 16,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               Text(
                 widget.label,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: ColorConstants.textSecondary,
-                  fontSize: widget.isMobile ? 12 : 13,
+                  color: Colors.white.withOpacity(0.4),
+                  fontSize: widget.isMobile ? 9 : 10,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
                   fontFamily: FontConstants.fontFamily,
                 ),
               ),
@@ -831,6 +838,420 @@ class _FlipCard3DState extends State<_FlipCard3D>
           },
         ),
       ),
+    );
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  DARK SECTION CARD  (matches video card style exactly)
+// ══════════════════════════════════════════════════════════════════════
+
+Widget _darkSectionCard({
+  required String subLabel,
+  required String neonTitle,
+  required String sectionNum,
+  required Widget content,
+  bool isMobile = false,
+}) {
+  return Container(
+    width: double.infinity,
+    padding: EdgeInsets.all(isMobile ? 20 : 32),
+    decoration: BoxDecoration(
+      color: const Color(0xFF080808),
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(color: Colors.white.withOpacity(0.07), width: 1),
+    ),
+    child: Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Ghost section number — top-right of card
+        Positioned(
+          top: -10,
+          right: 0,
+          child: Text(
+            sectionNum,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.05),
+              fontSize: isMobile ? 70 : 110,
+              fontWeight: FontWeight.w900,
+              fontFamily: FontConstants.fontFamily,
+            ),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Sub-label
+            Text(
+              subLabel.toUpperCase(),
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.28),
+                fontSize: 10,
+                letterSpacing: 3,
+                fontWeight: FontWeight.w600,
+                fontFamily: FontConstants.fontFamily,
+              ),
+            ),
+            const SizedBox(height: 14),
+            // Neon heading
+            Text(
+              neonTitle,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: isMobile ? 30 : 48,
+                fontWeight: FontWeight.w900,
+                fontFamily: FontConstants.fontFamily,
+                letterSpacing: 1,
+                shadows: [
+                  Shadow(color: Colors.white.withOpacity(0.9), blurRadius: 6),
+                  Shadow(color: Colors.white.withOpacity(0.5), blurRadius: 18),
+                  Shadow(
+                      color: const Color(0xFFFFAA00).withOpacity(0.25),
+                      blurRadius: 35),
+                  Shadow(color: Colors.white.withOpacity(0.15), blurRadius: 55),
+                ],
+              ),
+            ),
+            const SizedBox(height: 28),
+            content,
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  3D PROFILE CARD  (hero right side)
+// ══════════════════════════════════════════════════════════════════════
+
+class _SelfIntroAnimation extends StatefulWidget {
+  const _SelfIntroAnimation({required this.isMobile});
+  final bool isMobile;
+  @override
+  State<_SelfIntroAnimation> createState() => _3DProfileCardState();
+}
+
+class _3DProfileCardState extends State<_SelfIntroAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController _floatCtrl;
+  late AnimationController _glowCtrl;
+  late AnimationController _ringCtrl;
+
+  double _tiltX = 0, _tiltY = 0;
+  bool _hovered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _floatCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 3200))
+      ..repeat(reverse: true);
+    _glowCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1800))
+      ..repeat(reverse: true);
+    _ringCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 6000))
+      ..repeat();
+  }
+
+  @override
+  void dispose() {
+    _floatCtrl.dispose();
+    _glowCtrl.dispose();
+    _ringCtrl.dispose();
+    super.dispose();
+  }
+
+  void _onHover(Offset local, Size size) {
+    final dx = (local.dx / size.width - 0.5) * 2;   // -1 to 1
+    final dy = (local.dy / size.height - 0.5) * 2;  // -1 to 1
+    setState(() { _tiltX = -dy * 0.18; _tiltY = dx * 0.18; });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final m = widget.isMobile;
+    final w = m ? 240.0 : 320.0;
+    final h = w * 1.25;
+
+    return AnimatedBuilder(
+      animation: Listenable.merge([_floatCtrl, _glowCtrl, _ringCtrl]),
+      builder: (_, __) {
+        final floatY = math.sin(_floatCtrl.value * math.pi) * 10.0;
+        final glowOp = 0.22 + _glowCtrl.value * 0.18;
+
+        return Transform.translate(
+          offset: Offset(0, floatY),
+          child: SizedBox(
+            width: w + 40,
+            height: h + 40,
+            child: Stack(alignment: Alignment.center, children: [
+              // ── Rotating outer ring — cyan ────────────────────
+              Transform.rotate(
+                angle: _ringCtrl.value * math.pi * 2,
+                child: Container(
+                  width: w + 36,
+                  height: h + 36,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(28),
+                    border: Border.all(
+                      color: const Color(0xFF00D4FF).withOpacity(0.18),
+                      width: 1,
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFF00D4FF).withOpacity(0.25),
+                        Colors.transparent,
+                        const Color(0xFF7C3AED).withOpacity(0.20),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // ── Counter-rotating inner ring — purple ──────────
+              Transform.rotate(
+                angle: -_ringCtrl.value * math.pi * 2 * 0.7,
+                child: Container(
+                  width: w + 18,
+                  height: h + 18,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: const Color(0xFF7C3AED).withOpacity(0.22),
+                      width: 1,
+                    ),
+                  ),
+                ),
+              ),
+
+              // ── Glow aura ─────────────────────────────────────
+              Container(
+                width: w,
+                height: h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00D4FF).withOpacity(glowOp),
+                      blurRadius: 50,
+                      spreadRadius: 4,
+                    ),
+                    BoxShadow(
+                      color: const Color(0xFF7C3AED).withOpacity(glowOp * 0.6),
+                      blurRadius: 80,
+                      spreadRadius: 8,
+                    ),
+                  ],
+                ),
+              ),
+
+              // ── 3D tilt card ──────────────────────────────────
+              MouseRegion(
+                onEnter: (_) => setState(() => _hovered = true),
+                onExit: (_) {
+                  setState(() { _hovered = false; _tiltX = 0; _tiltY = 0; });
+                },
+                child: Listener(
+                  onPointerHover: (e) {
+                    if (_hovered) _onHover(e.localPosition, Size(w, h));
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 120),
+                    width: w,
+                    height: h,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001)
+                      ..rotateX(_hovered ? _tiltX : 0)
+                      ..rotateY(_hovered ? _tiltY : 0),
+                    transformAlignment: Alignment.center,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Stack(children: [
+                        // Profile photo
+                        Positioned.fill(
+                          child: Image.asset(
+                            AssetConstants.profileImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        // Gradient overlay
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFF00D4FF).withOpacity(
+                                      _hovered ? 0.12 : 0.06),
+                                  Colors.transparent,
+                                  const Color(0xFF7C3AED).withOpacity(
+                                      _hovered ? 0.10 : 0.04),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Bottom dark fade
+                        Positioned(
+                          bottom: 0, left: 0, right: 0,
+                          height: h * 0.38,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.75),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Name tag at bottom
+                        Positioned(
+                          bottom: 18, left: 16, right: 16,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Girithar K',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: m ? 15 : 18,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: FontConstants.fontFamily,
+                                  shadows: const [
+                                    Shadow(color: Color(0xFF00D4FF), blurRadius: 10),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 3),
+                              Text(
+                                'Senior Flutter Developer',
+                                style: TextStyle(
+                                  color: const Color(0xFF00D4FF).withOpacity(0.9),
+                                  fontSize: m ? 10 : 11.5,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: FontConstants.fontFamily,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Cyan border
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: const Color(0xFF00D4FF).withOpacity(
+                                    _hovered ? 0.55 : 0.28),
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Hover shimmer line — top
+                        if (_hovered)
+                          Positioned(
+                            top: 0, left: 0, right: 0,
+                            child: Container(
+                              height: 1.5,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: [
+                                  Colors.transparent,
+                                  const Color(0xFF00D4FF).withOpacity(0.7),
+                                  Colors.transparent,
+                                ]),
+                              ),
+                            ),
+                          ),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
+
+              // ── Floating badge — top right ────────────────────
+              // Positioned(
+              //   top: 12, right: 0,
+              //   child: Container(
+              //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              //     decoration: BoxDecoration(
+              //       color: const Color(0xFF0D1117),
+              //       borderRadius: BorderRadius.circular(30),
+              //       border: Border.all(
+              //         color: const Color(0xFF10B981).withOpacity(0.5), width: 1),
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: const Color(0xFF10B981).withOpacity(0.3),
+              //           blurRadius: 12,
+              //         ),
+              //       ],
+              //     ),
+              //     child: Row(mainAxisSize: MainAxisSize.min, children: [
+              //       Container(
+              //         width: 6, height: 6,
+              //         decoration: const BoxDecoration(
+              //           shape: BoxShape.circle,
+              //           color: Color(0xFF10B981),
+              //         ),
+              //       ),
+              //       const SizedBox(width: 6),
+              //       Text(
+              //         'Open to Work',
+              //         style: TextStyle(
+              //           color: const Color(0xFF10B981),
+              //           fontSize: m ? 9 : 10,
+              //           fontWeight: FontWeight.w700,
+              //           fontFamily: FontConstants.fontFamily,
+              //           letterSpacing: 0.5,
+              //         ),
+              //       ),
+              //     ]),
+              //   ),
+              // ),
+
+              // ── Experience badge — bottom left ────────────────
+              Positioned(
+                bottom: 12, left: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0D1117),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: const Color(0xFF7C3AED).withOpacity(0.5), width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF7C3AED).withOpacity(0.3),
+                        blurRadius: 12,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    '4+ yrs experience',
+                    style: TextStyle(
+                      color: const Color(0xFF7C3AED).withOpacity(0.95),
+                      fontSize: m ? 9 : 10,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: FontConstants.fontFamily,
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+          ),
+        );
+      },
     );
   }
 }
@@ -1215,7 +1636,7 @@ class _HeroSectionState extends State<_HeroSection>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    _Dramatic3DPortrait(radius: profileR),
+                    _SelfIntroAnimation(isMobile: m),
                     const SizedBox(height: 40),
                     _heroText(m, hc),
                   ],
@@ -1226,7 +1647,7 @@ class _HeroSectionState extends State<_HeroSection>
                   children: [
                     Expanded(flex: 5, child: _heroText(m, hc)),
                     const SizedBox(width: 60),
-                    _Dramatic3DPortrait(radius: profileR),
+                    _SelfIntroAnimation(isMobile: m),
                   ],
                 ),
         ),
@@ -1288,17 +1709,17 @@ class _HeroSectionState extends State<_HeroSection>
             ),
           ),
         if (!m) const SizedBox(height: 4),
-        Text(
-          "OPEN TO WORK",
-          style: TextStyle(
-            color: ColorConstants.accentCyan,
-            fontSize: m ? 11 : 12,
-            fontFamily: FontConstants.fontFamily,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 3,
-          ),
-        ),
-        const SizedBox(height: 10),
+        // Text(
+        //   "OPEN TO WORK",
+        //   style: TextStyle(
+        //     color: ColorConstants.accentCyan,
+        //     fontSize: m ? 11 : 12,
+        //     fontFamily: FontConstants.fontFamily,
+        //     fontWeight: FontWeight.w700,
+        //     letterSpacing: 3,
+        //   ),
+        // ),
+        // const SizedBox(height: 10),
         // Name — huge bold white
         Text(
           'GIRITHAR K',
@@ -1620,54 +2041,51 @@ class _ByTheNumbersSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Stats matching the video's visual style
     final stats = [
-      {'num': 4.0,  'suffix': '+', 'label': 'Years\nExperience'},
-      {'num': 5.0,  'suffix': '+', 'label': 'Apps\nShipped'},
-      {'num': 2.0,  'suffix': '',  'label': 'Companies\nWorked'},
-      {'num': 100.0,'suffix': '%', 'label': 'Client\nSatisfaction'},
+      {'num': 4.0,  'suffix': '+',  'label': 'YEARS\nEXPERIENCE'},
+      {'num': 5.0,  'suffix': '+',  'label': 'APPS\nSHIPPED'},
+      {'num': 15.0, 'suffix': '+',  'label': 'FEATURES\nBUILT'},
+      {'num': 2.0,  'suffix': '',   'label': 'COMPANIES\nWORKED'},
     ];
 
     return _SectionReveal(
       sectionId: 'numbers',
-      child: Column(children: [
-        _sectionHeader('Achievements', 'BY THE NUMBERS', isMobile,
-            sectionNum: 'N'),
-        const SizedBox(height: 48),
-        _glassCard(
-          padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 20 : 40, vertical: 36),
-          child: LayoutBuilder(builder: (ctx, c) {
-            final cols = c.maxWidth < 500 ? 2 : 4;
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: cols,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: isMobile ? 1.3 : 1.6,
-              ),
-              itemCount: stats.length,
-              itemBuilder: (_, i) {
-                final s = stats[i];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _CountUpStat(
-                      numVal: s['num'] as double,
-                      suffix: s['suffix'] as String,
-                      label: s['label'] as String,
-                      isMobile: isMobile,
+      child: _darkSectionCard(
+        subLabel: 'About / Impact',
+        neonTitle: 'SUCCESS METRICS',
+        sectionNum: '04',
+        isMobile: isMobile,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: stats.asMap().entries.map((e) {
+            final i = e.key;
+            final s = e.value;
+            return Expanded(
+              child: Column(
+                children: [
+                  // Big animated number — white with amber accent
+                  _CountUpStat(
+                    numVal: s['num'] as double,
+                    suffix: s['suffix'] as String,
+                    label: s['label'] as String,
+                    isMobile: isMobile,
+                    accentColor: i % 2 == 0
+                        ? ColorConstants.accentGold
+                        : Colors.white,
+                  ),
+                  if (i < stats.length - 1)
+                    Container(
+                      width: 1,
+                      height: isMobile ? 30 : 40,
+                      color: Colors.white.withOpacity(0.08),
                     ),
-                    if (i < stats.length - 1 && (i + 1) % cols != 0)
-                      const SizedBox(),
-                  ],
-                );
-              },
+                ],
+              ),
             );
-          }),
+          }).toList(),
         ),
-      ]),
+      ),
     );
   }
 }
@@ -1909,155 +2327,238 @@ class _ExperienceCard extends StatelessWidget {
 // ══════════════════════════════════════════════════════════════════════
 
 class _SkillsSection extends StatelessWidget {
-  const _SkillsSection(
-      {required this.isMobile, required this.controller});
+  const _SkillsSection({required this.isMobile, required this.controller});
   final bool isMobile;
   final HomeController controller;
+
+  // Category data — [label, accentColor, icon, skills...]
+  static final _categories = [
+    {
+      'label': 'CORE',
+      'icon': Icons.code_rounded,
+      'color': const Color(0xFF00D4FF),
+      'skills': ['Flutter', 'Dart', 'GraphQL', 'SQL', 'Kotlin'],
+      'span': 2, // bento span: 2 cols wide
+    },
+    {
+      'label': 'FRAMEWORKS',
+      'icon': Icons.layers_rounded,
+      'color': const Color(0xFF7C3AED),
+      'skills': ['GetX', 'Clean Architecture', 'REST API', 'Flutter Flow', 'MVVM'],
+      'span': 1,
+    },
+    {
+      'label': 'CLOUD & TOOLS',
+      'icon': Icons.cloud_rounded,
+      'color': const Color(0xFFF59E0B),
+      'skills': ['Firebase', 'Cloudinary', 'Android Studio', 'VS Code', 'Postman', 'Figma'],
+      'span': 1,
+    },
+    {
+      'label': 'DATABASES',
+      'icon': Icons.storage_rounded,
+      'color': const Color(0xFF10B981),
+      'skills': ['Firestore', 'Hive', 'SQLite', 'Shared Prefs'],
+      'span': 1,
+    },
+    {
+      'label': 'DEVOPS & COLLAB',
+      'icon': Icons.hub_rounded,
+      'color': const Color(0xFF00D4FF),
+      'skills': ['Git', 'Bitbucket', 'Jira', 'Slack', 'SourceTree'],
+      'span': 1,
+    },
+    {
+      'label': 'PROTOCOLS',
+      'icon': Icons.wifi_rounded,
+      'color': const Color(0xFF7C3AED),
+      'skills': ['MQTT', 'SSO', 'OAuth2', 'GraphQL Subscriptions', 'WebSocket'],
+      'span': 2,
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return _SectionReveal(
       sectionId: 'skills',
-      child: Column(
+      child: SizedBox(
         key: controller.toolsKey,
-        children: [
-          _sectionHeader('03 / Skills', 'TECHNICAL SKILLS', isMobile, sectionNum: '03'),
-          const SizedBox(height: 48),
-          // ── Skills as chip tags — matches video exactly ──
-          _glassCard(
-            padding: const EdgeInsets.all(28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Languages & Frameworks
-                Text('Languages & Frameworks',
-                    style: TextStyle(
-                      color: ColorConstants.accentCyan,
-                      fontSize: isMobile ? 11 : 12,
-                      letterSpacing: 2.5,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: FontConstants.fontFamily,
-                    )),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: controller.languagesAndFrameworks.map((s) {
-                    final lc = _levelColor(s['level']!);
-                    return _SectionReveal(
-                      sectionId: 'skchip_${s['name']}',
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 9),
-                          decoration: BoxDecoration(
-                            color: lc.withOpacity(0.08),
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                                color: lc.withOpacity(0.35), width: 1),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: lc.withOpacity(0.12),
-                                  blurRadius: 8),
-                            ],
-                          ),
-                          child: Row(mainAxisSize: MainAxisSize.min, children: [
-                            Image.asset(s['image']!,
-                                width: 18, height: 18, fit: BoxFit.contain),
-                            const SizedBox(width: 8),
-                            Text(
-                              s['name']!,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: isMobile ? 12 : 13,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: FontConstants.fontFamily,
-                              ),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 28),
-                const Divider(color: ColorConstants.borderGlass),
-                const SizedBox(height: 20),
-                // Tools & IDEs chips inline
-                Text('Tools & Platforms',
-                    style: TextStyle(
-                      color: ColorConstants.accentPurple,
-                      fontSize: isMobile ? 11 : 12,
-                      letterSpacing: 2.5,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: FontConstants.fontFamily,
-                    )),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: controller.toolsAndIDEs.map((t) {
-                    return _SectionReveal(
-                      sectionId: 'tlchip_${t['name']}',
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.04),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                              color: Colors.white.withOpacity(0.12)),
-                        ),
-                        child: Row(mainAxisSize: MainAxisSize.min, children: [
-                          Image.asset(t['image']!,
-                              width: 16, height: 16, fit: BoxFit.contain),
-                          const SizedBox(width: 7),
-                          Text(
-                            t['name']!,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.75),
-                              fontSize: isMobile ? 11 : 12,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: FontConstants.fontFamily,
-                            ),
-                          ),
-                        ]),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-          ),
-        ],
+        child: _darkSectionCard(
+          subLabel: 'Stack & Tooling',
+          neonTitle: 'TECHNICAL SKILLS',
+          sectionNum: '03',
+          isMobile: isMobile,
+          content: _buildBento(),
+        ),
       ),
     );
   }
 
-  Color _levelColor(String level) {
-    switch (level.toLowerCase()) {
-      case 'advanced':
-      case 'expert':
-        return ColorConstants.accentGreen;
-      case 'experienced':
-        return ColorConstants.accentCyan;
-      case 'intermediate':
-        return ColorConstants.accentGold;
-      default:
-        return ColorConstants.textMuted;
+  Widget _buildBento() {
+    if (isMobile) {
+      // Mobile: simple 2-column wrap
+      return Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: _categories.map((cat) {
+          return SizedBox(
+            width: double.infinity,
+            child: _BentoCard(cat: cat, isMobile: true),
+          );
+        }).toList(),
+      );
     }
-  }
 
-  double _levelPercent(String level) {
-    switch (level.toLowerCase()) {
-      case 'expert':       return 0.95;
-      case 'advanced':     return 0.85;
-      case 'experienced':  return 0.72;
-      case 'intermediate': return 0.58;
-      default:             return 0.35;
-    }
+    // Desktop: asymmetric bento using spans
+    // Row 1: CORE (2) + FRAMEWORKS (1) + CLOUD (1)  → but we only have 3 cols
+    // Layout: 3-col grid, CORE spans 2, PROTOCOLS spans 2
+    return LayoutBuilder(builder: (ctx, cst) {
+      const cols = 3;
+      const colGap = 16.0;
+      final colW = (cst.maxWidth - colGap * (cols - 1)) / cols;
+
+      // Manual bento placement
+      final List<List<Map>> rows = [
+        // row 1: CORE(2-wide) + FRAMEWORKS(1)
+        [_categories[0], _categories[1]],
+        // row 2: CLOUD(1) + DATABASES(1) + DEVOPS(1)
+        [_categories[2], _categories[3], _categories[4]],
+        // row 3: PROTOCOLS(2-wide) + (filler or nothing)
+        [_categories[5]],
+      ];
+
+      return Column(
+        children: rows.asMap().entries.map((rowEntry) {
+          final row = rowEntry.value;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: row.asMap().entries.map((entry) {
+                final i = entry.key;
+                final cat = entry.value;
+                final span = cat['span'] as int;
+                final w = colW * span + colGap * (span - 1);
+                return Padding(
+                  padding: EdgeInsets.only(left: i > 0 ? colGap : 0),
+                  child: SizedBox(
+                    width: w,
+                    child: _BentoCard(cat: cat, isMobile: false),
+                  ),
+                );
+              }).toList(),
+            ),
+          );
+        }).toList(),
+      );
+    });
+  }
+}
+
+class _BentoCard extends StatefulWidget {
+  const _BentoCard({required this.cat, required this.isMobile});
+  final Map cat;
+  final bool isMobile;
+  @override
+  State<_BentoCard> createState() => _BentoCardState();
+}
+
+class _BentoCardState extends State<_BentoCard> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final color   = widget.cat['color'] as Color;
+    final label   = widget.cat['label'] as String;
+    final icon    = widget.cat['icon'] as IconData;
+    final skills  = widget.cat['skills'] as List<String>;
+    final m       = widget.isMobile;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit:  (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        padding: EdgeInsets.all(m ? 14 : 18),
+        decoration: BoxDecoration(
+          color: _hovered
+              ? color.withOpacity(0.07)
+              : const Color(0xFF0D1117),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: _hovered ? color.withOpacity(0.45) : color.withOpacity(0.14),
+            width: 1.2,
+          ),
+          boxShadow: _hovered
+              ? [BoxShadow(color: color.withOpacity(0.18), blurRadius: 24, spreadRadius: 2)]
+              : [],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header row
+            Row(children: [
+              Container(
+                width: m ? 28 : 32,
+                height: m ? 28 : 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: color.withOpacity(0.12),
+                  border: Border.all(color: color.withOpacity(0.3), width: 1),
+                ),
+                child: Icon(icon, color: color, size: m ? 14 : 16),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: m ? 9 : 10,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 2.0,
+                  fontFamily: FontConstants.fontFamily,
+                ),
+              ),
+            ]),
+            SizedBox(height: m ? 10 : 14),
+            // Skill chips
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: skills.map((s) => AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: EdgeInsets.symmetric(
+                  horizontal: m ? 8 : 10,
+                  vertical: m ? 4 : 5,
+                ),
+                decoration: BoxDecoration(
+                  color: _hovered
+                      ? color.withOpacity(0.10)
+                      : Colors.white.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: _hovered
+                        ? color.withOpacity(0.30)
+                        : Colors.white.withOpacity(0.10),
+                    width: 0.8,
+                  ),
+                ),
+                child: Text(
+                  s,
+                  style: TextStyle(
+                    color: _hovered ? Colors.white : Colors.white.withOpacity(0.75),
+                    fontSize: m ? 10 : 11,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: FontConstants.fontFamily,
+                  ),
+                ),
+              )).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
