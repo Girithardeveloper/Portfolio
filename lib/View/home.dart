@@ -1180,7 +1180,7 @@ class _3DProfileCardState extends State<_SelfIntroAnimation>
                 ),
               ),
 
-              // ── Floating badge — top right ────────────────────
+              // ── Floating badge — top right ────────────────────-
               // Positioned(
               //   top: 12, right: 0,
               //   child: Container(
@@ -1207,7 +1207,7 @@ class _3DProfileCardState extends State<_SelfIntroAnimation>
               //       ),
               //       const SizedBox(width: 6),
               //       Text(
-              //         'Open to Work',
+              //         'Open to Works',
               //         style: TextStyle(
               //           color: const Color(0xFF10B981),
               //           fontSize: m ? 9 : 10,
